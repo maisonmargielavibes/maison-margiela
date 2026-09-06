@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAISON MARGIELA | VIRTUAL ATELIER</title>
+    <style>
+        /* --- MAISON MARGIELA AESTHETIC: MINIMALIST, STARK, DECONSTRUCTED --- */
+        :root {
+            --bg: #050505;
+            --text: #e0e0e0;
+            --accent: #ffffff;
+            --grey: #333333;
+            --stitch: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--grey);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            font-weight: 300;
+            color: var(--accent);
+            position: relative;
+        }
+
+        /* The Signature Four White Stitches */
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                var(--stitch) 20%, transparent 20%, transparent 25%, 
+                var(--stitch) 25%, var(--stitch) 45%, transparent 45%, transparent 50%, 
+                var(--stitch) 50%, var(--stitch) 70%, transparent 70%, transparent 75%, 
+                var(--stitch) 75%, var(--stitch) 95%, transparent 95%);
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover { opacity: 0.5; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 200;
+            letter-spacing: 15px;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: #888;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* --- VIRTUAL ATELIER (TRY-ON) SECTION --- */
+        .vto-section {
+            min-height: 100vh;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .vto-title {
+            font-size: 0.8rem;
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            color: #666;
+        }
+
+        .vto-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 3/4;
+            background: #111;
+            border: 1px solid var(--grey);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #webcam {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* Mirror effect */
+            display: none;
+        }
+
+        .placeholder-msg {
+            position: absolute;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        /* Garment Overlay */
+        .garment-overlay {
+            position: absolute;
+            width: 300px;
+            height: auto;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+            display: none;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            mix-blend-mode: multiply; /* Blends nicely with clothing */
+        }
+
+        .garment-overlay:active { cursor: grabbing; }
+
+        /* Controls */
+        .vto-controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ctrl-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid #444;
+            color: #aaa;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ctrl-btn:hover, .ctrl-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .scale-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .scale-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #444;
+            background: transparent;
+            color: #aaa;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .scale-btn:hover { border-color: #fff; color: #fff; }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid var(--grey);
+            margin-top: 100px;
+        }
+
+        footer p {
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            nav a { margin-left: 15px; font-size: 0.6rem; }
+            .garment-overlay { width: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">MAISON MARGIELA</div>
+        <nav>
+            <a href="#vto">VIRTUAL ATELIER</a>
+            <a href="#">COLLECTION</a>
+            <a href="#">ARTISANAL</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>THE VIRTUAL<br>ATELIER</h1>
+        <p>Experience the deconstruction of form. Step into the digital mirror and explore the ARTISANAL collection through our augmented reality fitting room.</p>
+        <button class="btn-primary" onclick="document.getElementById('vto').scrollIntoView({behavior: 'smooth'})">ENTER MIRROR</button>
+    </section>
+
+    <section class="vto-section" id="vto">
+        <div class="vto-title">[ AUGMENTED REALITY FITTING ROOM ]</div>
+        
+        <div class="vto-container" id="mirror">
+            <span class="placeholder-msg" id="placeholder">ACTIVATE CAMERA TO BEGIN</span>
+            <video id="webcam" autoplay playsinline></video>
+            
+            <!-- SVG Garment 1: Tabi Boot Silhouette -->
+            <svg id="item-tabi" class="garment-overlay" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <path d="M20,100 Q30,40 80,40 L120,40 Q170,40 180,100 L180,130 L110,130 L105,110 L95,110 L90,130 L20,130 Z" fill="#111" stroke="#fff" stroke-width="2"/>
+                <line x1="100" y1="110" x2="100" y2="130" stroke="#fff" stroke-width="2"/>
+                <path d="M40,130 L160,130 L165,145 L35,145 Z" fill="#222" stroke="#fff" stroke-width="1"/>
+            </svg>
+
+            <!-- SVG Garment 2: Deconstructed Coat Silhouette -->
+            <svg id="item-coat" class="garment-overlay" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <path d="M100,50 L200,50 L250,150 L280,350 L200,380 L150,250 L100,380 L20,350 L50,150 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2" stroke-dasharray="5,5"/>
+                <path d="M150,50 L150,250" stroke="#fff" stroke-width="1" stroke-dasharray="2,4"/>
+                <circle cx="150" cy="100" r="5" fill="#fff"/>
+                <circle cx="150" cy="150" r="5" fill="#fff"/>
+                <circle cx="150" cy="200" r="5" fill="#fff"/>
+            </svg>
+
+            <!-- SVG Garment 3: Replica Sneaker Silhouette -->
+            <svg id="item-sneaker" class="garment-overlay" viewBox="0 0 250 120" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <path d="M10,80 Q20,30 80,30 L150,30 Q220,30 240,70 L240,90 L10,90 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
+                <path d="M10,90 L240,90 L235,110 L15,110 Z" fill="#ddd" stroke="#000" stroke-width="2"/>
+                <line x1="80" y1="30" x2="120" y2="70" stroke="#000" stroke-width="1"/>
+                <line x1="100" y1="30" x2="140" y2="70" stroke="#000" stroke-width="1"/>
+                <line x1="120" y1="30" x2="160" y2="70" stroke="#000" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="vto-controls">
+            <button class="ctrl-btn" id="btn-cam">ACTIVATE MIRROR</button>
+            <button class="ctrl-btn item-btn" data-target="item-tabi">TABI</button>
+            <button class="ctrl-btn item-btn" data-target="item-coat">ARTISANAL COAT</button>
+            <button class="ctrl-btn item-btn" data-target="item-sneaker">REPLICA</button>
+        </div>
+
+        <div class="scale-controls">
+            <button class="scale-btn" id="scale-down">-</button>
+            <span style="line-height: 40px; font-size: 0.7rem; letter-spacing: 2px; color: #666;">SCALE</span>
+            <button class="scale-btn" id="scale-up">+</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 MAISON MARGIELA | VIRTUAL ATELIER PROTOTYPE | ALL RIGHTS RESERVED</p>
+    </footer>
+
+    <script>
+        // --- WEBCAM LOGIC ---
+        const video = document.getElementById('webcam');
+        const btnCam = document.getElementById('btn-cam');
+        const placeholder = document.getElementById('placeholder');
+        let stream = null;
+
+        btnCam.addEventListener('click', async () => {
+            if (!stream) {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } 
+                    });
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    btnCam.textContent = 'DEACTIVATE MIRROR';
+                    btnCam.classList.add('active');
+                } catch (err) {
+                    alert('Camera access is required for the Virtual Atelier. Please allow camera permissions.');
+                }
+            } else {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                video.style.display = 'none';
+                placeholder.style.display = 'block';
+                btnCam.textContent = 'ACTIVATE MIRROR';
+                btnCam.classList.remove('active');
+                // Hide garments when camera turns off
+                document.querySelectorAll('.garment-overlay').forEach(g => g.style.display = 'none');
+            }
+        });
+
+        // --- GARMENT SELECTION LOGIC ---
+        const itemBtns = document.querySelectorAll('.item-btn');
+        const garments = document.querySelectorAll('.garment-overlay');
+
+        itemBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!stream) {
+                    alert('Please activate the mirror first.');
+                    return;
+                }
+                
+                // Update active button UI
+                itemBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Show selected garment, hide others
+                const targetId = btn.getAttribute('data-target');
+                garments.forEach(g => {
+                    g.style.display = g.id === targetId ? 'block' : 'none';
+                    // Reset position
+                    g.style.transform = `translate(0px, 0px) scale(1)`;
+                    g.dataset.x = 0;
+                    g.dataset.y = 0;
+                    g.dataset.scale = 1;
+                });
+            });
+        });
+
+        // --- DRAG & DROP / TOUCH LOGIC ---
+        garments.forEach(garment => {
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+            let currentScale = 1;
+
+            garment.dataset.x = 0;
+            garment.dataset.y = 0;
+            garment.dataset.scale = 1;
+
+            const dragStart = (e) => {
+                isDragging = true;
+                const pos = (e.type.includes('mouse')) ? e : e.touches[0];
+                startX = pos.clientX;
+                startY = pos.clientY;
+                initialX = parseFloat(garment.dataset.x);
+                initialY = parseFloat(garment.dataset.y);
+            };
+
+            const drag = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const pos = (e.type.includes('mouse')) ? e : e.touches[0];
+                const dx = pos.clientX - startX;
+                const dy = pos.clientY - startY;
+                
+                garment.dataset.x = initialX + dx;
+                garment.dataset.y = initialY + dy;
+                currentScale = parseFloat(garment.dataset.scale);
+                
+                garment.style.transform = `translate(${garment.dataset.x}px, ${garment.dataset.y}px) scale(${currentScale})`;
+            };
+
+            const dragEnd = () => {
+                isDragging = false;
+            };
+
+            garment.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+
+            garment.addEventListener('touchstart', dragStart, { passive: false });
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('touchend', dragEnd);
+        });
+
+        // --- SCALE LOGIC ---
+        document.getElementById('scale-up').addEventListener('click', () => {
+            const activeGarment = document.querySelector('.garment-overlay[style*="display: block"]');
+            if (activeGarment) {
+                let scale = parseFloat(activeGarment.dataset.scale) + 0.1;
+                activeGarment.dataset.scale = scale;
+                activeGarment.style.transform = `translate(${activeGarment.dataset.x}px, ${activeGarment.dataset.y}px) scale(${scale})`;
+            }
+        });
+
+        document.getElementById('scale-down').addEventListener('click', () => {
+            const activeGarment = document.querySelector('.garment-overlay[style*="display: block"]');
+            if (activeGarment) {
+                let scale = parseFloat(activeGarment.dataset.scale) - 0.1;
+                if (scale < 0.2) scale = 0.2;
+                activeGarment.dataset.scale = scale;
+                activeGarment.style.transform = `translate(${activeGarment.dataset.x}px, ${activeGarment.dataset.y}px) scale(${scale})`;
+            }
+        });
+    </script>
+</body>
+</html>
