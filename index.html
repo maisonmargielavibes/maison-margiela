@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAISON MARGIELA | VIRTUAL ATELIER</title>
+    <title>MAISON MARGIELA | VIRTUAL MANNEQUIN</title>
     <style>
         :root {
-            --bg: #050505;
+            --bg: #0a0a0a;
             --text: #e0e0e0;
             --accent: #ffffff;
-            --grey: #333333;
+            --grey: #2a2a2a;
             --stitch: #ffffff;
         }
 
@@ -18,13 +18,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            cursor: crosshair;
         }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         header {
@@ -36,7 +36,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(5, 5, 5, 0.8);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--grey);
         }
@@ -76,271 +76,236 @@
 
         nav a:hover { opacity: 0.5; }
 
-        .hero {
-            height: 100vh;
+        .main-container {
             display: flex;
-            flex-direction: column;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* MANNEQUIN AREA */
+        .mannequin-area {
+            flex: 1;
+            display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 8vw, 6rem);
-            font-weight: 200;
-            letter-spacing: 15px;
-            text-transform: uppercase;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: #888;
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-
-        .btn-primary {
-            padding: 15px 40px;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-size: 0.75rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent);
-            color: var(--bg);
-        }
-
-        .vto-section {
-            min-height: 100vh;
-            padding: 100px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .vto-title {
-            font-size: 0.8rem;
-            letter-spacing: 6px;
-            margin-bottom: 40px;
-            color: #666;
-        }
-
-        /* BODY TYPE SELECTOR */
-        .body-selector {
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .body-selector-label {
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            color: #666;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .body-types {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-
-        .body-type-btn {
-            width: 80px;
-            height: 120px;
-            border: 2px solid var(--grey);
-            background: transparent;
-            cursor: pointer;
+            padding: 40px;
             position: relative;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
-        .body-type-btn:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .body-type-btn.active {
-            border-color: var(--accent);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .body-type-btn svg {
-            width: 50px;
-            height: 80px;
-            fill: #444;
-            transition: fill 0.3s;
-        }
-
-        .body-type-btn:hover svg,
-        .body-type-btn.active svg {
-            fill: var(--accent);
-        }
-
-        .body-type-label {
-            margin-top: 10px;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: #666;
-            text-transform: uppercase;
-        }
-
-        .body-type-btn.active .body-type-label {
-            color: var(--accent);
-        }
-
-        .vto-container {
+        .mannequin-container {
             position: relative;
-            width: 100%;
-            max-width: 600px;
-            height: 800px;
-            background: #0a0a0a;
+            width: 400px;
+            height: 700px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
             border: 1px solid var(--grey);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-radius: 8px;
         }
 
-        #webcam {
+        .mannequin-base {
+            position: absolute;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transform: scaleX(-1);
-            display: none;
-        }
-
-        .placeholder-msg {
-            position: absolute;
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-            color: #444;
-            text-transform: uppercase;
-        }
-
-        /* BODY SKELETON/SILHOUETTE */
-        .body-skeleton {
-            position: absolute;
-            width: 300px;
-            height: 700px;
-            opacity: 0.3;
-            transition: all 0.5s ease;
             z-index: 1;
         }
 
-        .body-skeleton svg {
+        .mannequin-base svg {
             width: 100%;
             height: 100%;
-            fill: #333;
-            stroke: #555;
-            stroke-width: 1;
         }
 
-        .garment-on-body {
+        .worn-item {
             position: absolute;
-            width: 320px;
-            height: 720px;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
+            z-index: 10;
+            cursor: move;
+            transition: filter 0.2s;
         }
 
-        .garment-on-body.visible {
-            opacity: 1;
+        .worn-item:hover {
+            filter: brightness(1.2);
         }
 
-        .garment-on-body svg {
+        .worn-item svg {
             width: 100%;
             height: 100%;
         }
 
-        .vto-controls {
-            margin-top: 30px;
+        /* PRODUCT PANEL */
+        .product-panel {
+            width: 450px;
+            background: #0f0f0f;
+            border-left: 1px solid var(--grey);
+            overflow-y: auto;
+            max-height: calc(100vh - 80px);
+        }
+
+        .category-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--grey);
+            position: sticky;
+            top: 0;
+            background: #0f0f0f;
+            z-index: 50;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .product-grid {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background: #1a1a1a;
+            border: 1px solid var(--grey);
+            padding: 15px;
+            cursor: grab;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+        }
+
+        .product-card:active {
+            cursor: grabbing;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-image svg {
+            width: 80%;
+            height: 80%;
+        }
+
+        .product-name {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-collection {
+            font-size: 0.65rem;
+            color: #666;
+            letter-spacing: 1px;
+        }
+
+        .product-price {
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 10px;
+            font-weight: 300;
+        }
+
+        /* CONTROLS */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
+            z-index: 100;
+            background: rgba(10,10,10,0.9);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--grey);
+            backdrop-filter: blur(10px);
         }
 
         .ctrl-btn {
-            padding: 10px 20px;
+            padding: 10px 25px;
             background: transparent;
             border: 1px solid #444;
             color: #aaa;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.2s;
+            border-radius: 25px;
         }
 
-        .ctrl-btn:hover, .ctrl-btn.active {
+        .ctrl-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
         }
 
-        .mode-toggle {
-            margin-bottom: 30px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .mode-btn {
-            padding: 8px 25px;
-            background: transparent;
-            border: 1px solid var(--grey);
-            color: #666;
-            font-size: 0.65rem;
+        .drag-hint {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
             letter-spacing: 3px;
+            color: #444;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s;
+            pointer-events: none;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .mode-btn.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(255,255,255,0.05);
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
 
-        footer {
-            padding: 60px 20px;
-            text-align: center;
-            border-top: 1px solid var(--grey);
-            margin-top: 100px;
-        }
-
-        footer p {
-            font-size: 0.6rem;
-            letter-spacing: 3px;
-            color: #555;
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .product-panel {
+                width: 100%;
+                max-height: 500px;
+                border-left: none;
+                border-top: 1px solid var(--grey);
+            }
+            .mannequin-container {
+                width: 300px;
+                height: 525px;
+            }
         }
 
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
             nav a { margin-left: 15px; font-size: 0.6rem; }
-            .body-type-btn { width: 60px; height: 90px; }
-            .body-type-btn svg { width: 35px; height: 60px; }
-            .vto-container { height: 600px; }
-            .body-skeleton { width: 220px; height: 520px; }
-            .garment-on-body { width: 240px; height: 540px; }
+            .product-grid { grid-template-columns: 1fr; }
+            .mannequin-container { width: 250px; height: 437px; }
         }
     </style>
 </head>
@@ -349,318 +314,483 @@
     <header>
         <div class="logo">MAISON MARGIELA</div>
         <nav>
-            <a href="#vto">VIRTUAL ATELIER</a>
             <a href="#">COLLECTION</a>
             <a href="#">ARTISANAL</a>
+            <a href="#">ABOUT</a>
         </nav>
     </header>
 
-    <section class="hero">
-        <h1>THE VIRTUAL<br>ATELIER</h1>
-        <p>Experience the deconstruction of form. Select your body type and explore how our ARTISANAL collection drapes on different silhouettes.</p>
-        <button class="btn-primary" onclick="document.getElementById('vto').scrollIntoView({behavior: 'smooth'})">ENTER ATELIER</button>
-    </section>
-
-    <section class="vto-section" id="vto">
-        <div class="vto-title">[ BODY TYPE & GARMENT SELECTOR ]</div>
-        
-        <div class="mode-toggle">
-            <button class="mode-btn active" id="mode-skeleton">SKELETON VIEW</button>
-            <button class="mode-btn" id="mode-camera">CAMERA VIEW</button>
-        </div>
-
-        <div class="body-selector">
-            <div class="body-selector-label">Select Your Body Type</div>
-            <div class="body-types">
-                <button class="body-type-btn active" data-body="xs" onclick="selectBodyType('xs')">
-                    <svg viewBox="0 0 100 160">
-                        <ellipse cx="50" cy="20" rx="15" ry="18"/>
-                        <path d="M35,40 L65,40 L60,90 L40,90 Z"/>
-                        <path d="M35,45 L20,70 M65,45 L80,70"/>
-                        <path d="M40,90 L35,140 M60,90 L65,140"/>
-                    </svg>
-                    <span class="body-type-label">XS</span>
-                </button>
+    <div class="main-container">
+        <!-- MANNEQUIN DISPLAY -->
+        <div class="mannequin-area">
+            <div class="mannequin-container" id="mannequin">
+                <div class="drag-hint">DRAG ITEMS TO DRESS</div>
                 
-                <button class="body-type-btn" data-body="s" onclick="selectBodyType('s')">
-                    <svg viewBox="0 0 100 160">
-                        <ellipse cx="50" cy="20" rx="16" ry="18"/>
-                        <path d="M34,40 L66,40 L62,90 L38,90 Z"/>
-                        <path d="M34,45 L18,72 M66,45 L82,72"/>
-                        <path d="M38,90 L33,140 M62,90 L67,140"/>
+                <!-- Skeleton Mannequin Base -->
+                <div class="mannequin-base">
+                    <svg viewBox="0 0 400 700" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Head -->
+                        <ellipse cx="200" cy="70" rx="45" ry="55" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        <ellipse cx="200" cy="70" rx="35" ry="45" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+                        
+                        <!-- Neck -->
+                        <rect x="185" y="120" width="30" height="30" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Torso -->
+                        <path d="M150,150 L250,150 L240,320 L160,320 Z" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        <path d="M200,150 L200,320" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="5,5"/>
+                        
+                        <!-- Shoulders -->
+                        <ellipse cx="140" cy="160" rx="20" ry="15" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        <ellipse cx="260" cy="160" rx="20" ry="15" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Arms -->
+                        <path d="M140,175 L120,280 L115,350" stroke="#333" stroke-width="20" fill="none" stroke-linecap="round"/>
+                        <path d="M260,175 L280,280 L285,350" stroke="#333" stroke-width="20" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Hands -->
+                        <ellipse cx="115" cy="360" rx="15" ry="20" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        <ellipse cx="285" cy="360" rx="15" ry="20" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Hips -->
+                        <ellipse cx="200" cy="330" rx="50" ry="20" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Legs -->
+                        <path d="M170,340 L160,500 L155,620" stroke="#333" stroke-width="25" fill="none" stroke-linecap="round"/>
+                        <path d="M230,340 L240,500 L245,620" stroke="#333" stroke-width="25" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Feet -->
+                        <ellipse cx="155" cy="640" rx="20" ry="30" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                        <ellipse cx="245" cy="640" rx="20" ry="30" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
                     </svg>
-                    <span class="body-type-label">S</span>
-                </button>
-                
-                <button class="body-type-btn" data-body="m" onclick="selectBodyType('m')">
-                    <svg viewBox="0 0 100 160">
-                        <ellipse cx="50" cy="20" rx="17" ry="19"/>
-                        <path d="M33,40 L67,40 L64,90 L36,90 Z"/>
-                        <path d="M33,45 L16,73 M67,45 L84,73"/>
-                        <path d="M36,90 L31,140 M64,90 L69,140"/>
-                    </svg>
-                    <span class="body-type-label">M</span>
-                </button>
-                
-                <button class="body-type-btn" data-body="l" onclick="selectBodyType('l')">
-                    <svg viewBox="0 0 100 160">
-                        <ellipse cx="50" cy="20" rx="18" ry="20"/>
-                        <path d="M32,40 L68,40 L66,90 L34,90 Z"/>
-                        <path d="M32,45 L14,74 M68,45 L86,74"/>
-                        <path d="M34,90 L29,140 M66,90 L71,140"/>
-                    </svg>
-                    <span class="body-type-label">L</span>
-                </button>
-                
-                <button class="body-type-btn" data-body="xl" onclick="selectBodyType('xl')">
-                    <svg viewBox="0 0 100 160">
-                        <ellipse cx="50" cy="20" rx="20" ry="22"/>
-                        <path d="M30,40 L70,40 L68,90 L32,90 Z"/>
-                        <path d="M30,45 L12,75 M70,45 L88,75"/>
-                        <path d="M32,90 L27,140 M68,90 L73,140"/>
-                    </svg>
-                    <span class="body-type-label">XL</span>
-                </button>
-                
-                <button class="body-type-btn" data-body="xxl" onclick="selectBodyType('xxl')">
-                    <svg viewBox="0 0 100 160">
-                        <ellipse cx="50" cy="20" rx="22" ry="24"/>
-                        <path d="M28,40 L72,40 L70,90 L30,90 Z"/>
-                        <path d="M28,45 L10,76 M72,45 L90,76"/>
-                        <path d="M30,90 L25,140 M70,90 L75,140"/>
-                    </svg>
-                    <span class="body-type-label">XXL</span>
-                </button>
+                </div>
             </div>
         </div>
 
-        <div class="vto-container" id="mirror">
-            <span class="placeholder-msg" id="placeholder">SELECT A BODY TYPE TO BEGIN</span>
-            <video id="webcam" autoplay playsinline></video>
-            
-            <!-- Body Skeletons -->
-            <div class="body-skeleton" id="skeleton-container">
-                <svg id="body-xs" viewBox="0 0 300 700">
-                    <!-- Head -->
-                    <ellipse cx="150" cy="60" rx="45" ry="50" fill="#222" stroke="#444"/>
-                    <!-- Torso -->
-                    <path d="M105,120 L195,120 L185,320 L115,320 Z" fill="#222" stroke="#444"/>
-                    <!-- Arms -->
-                    <path d="M105,135 L60,250" stroke="#444" stroke-width="25" fill="none" stroke-linecap="round"/>
-                    <path d="M195,135 L240,250" stroke="#444" stroke-width="25" fill="none" stroke-linecap="round"/>
-                    <!-- Legs -->
-                    <path d="M115,320 L95,650" stroke="#444" stroke-width="30" fill="none" stroke-linecap="round"/>
-                    <path d="M185,320 L205,650" stroke="#444" stroke-width="30" fill="none" stroke-linecap="round"/>
-                </svg>
-                
-                <svg id="body-s" viewBox="0 0 300 700" style="display:none">
-                    <ellipse cx="150" cy="60" rx="47" ry="52" fill="#222" stroke="#444"/>
-                    <path d="M103,120 L197,120 L188,320 L112,320 Z" fill="#222" stroke="#444"/>
-                    <path d="M103,135 L57,250" stroke="#444" stroke-width="27" fill="none" stroke-linecap="round"/>
-                    <path d="M197,135 L243,250" stroke="#444" stroke-width="27" fill="none" stroke-linecap="round"/>
-                    <path d="M112,320 L91,650" stroke="#444" stroke-width="32" fill="none" stroke-linecap="round"/>
-                    <path d="M188,320 L209,650" stroke="#444" stroke-width="32" fill="none" stroke-linecap="round"/>
-                </svg>
-                
-                <svg id="body-m" viewBox="0 0 300 700" style="display:none">
-                    <ellipse cx="150" cy="60" rx="50" ry="55" fill="#222" stroke="#444"/>
-                    <path d="M100,120 L200,120 L192,320 L108,320 Z" fill="#222" stroke="#444"/>
-                    <path d="M100,135 L53,250" stroke="#444" stroke-width="29" fill="none" stroke-linecap="round"/>
-                    <path d="M200,135 L247,250" stroke="#444" stroke-width="29" fill="none" stroke-linecap="round"/>
-                    <path d="M108,320 L86,650" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
-                    <path d="M192,320 L214,650" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
-                </svg>
-                
-                <svg id="body-l" viewBox="0 0 300 700" style="display:none">
-                    <ellipse cx="150" cy="60" rx="53" ry="58" fill="#222" stroke="#444"/>
-                    <path d="M97,120 L203,120 L196,320 L104,320 Z" fill="#222" stroke="#444"/>
-                    <path d="M97,135 L49,250" stroke="#444" stroke-width="31" fill="none" stroke-linecap="round"/>
-                    <path d="M203,135 L251,250" stroke="#444" stroke-width="31" fill="none" stroke-linecap="round"/>
-                    <path d="M104,320 L81,650" stroke="#444" stroke-width="36" fill="none" stroke-linecap="round"/>
-                    <path d="M196,320 L219,650" stroke="#444" stroke-width="36" fill="none" stroke-linecap="round"/>
-                </svg>
-                
-                <svg id="body-xl" viewBox="0 0 300 700" style="display:none">
-                    <ellipse cx="150" cy="60" rx="57" ry="62" fill="#222" stroke="#444"/>
-                    <path d="M93,120 L207,120 L201,320 L99,320 Z" fill="#222" stroke="#444"/>
-                    <path d="M93,135 L44,250" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
-                    <path d="M207,135 L256,250" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
-                    <path d="M99,320 L75,650" stroke="#444" stroke-width="39" fill="none" stroke-linecap="round"/>
-                    <path d="M201,320 L225,650" stroke="#444" stroke-width="39" fill="none" stroke-linecap="round"/>
-                </svg>
-                
-                <svg id="body-xxl" viewBox="0 0 300 700" style="display:none">
-                    <ellipse cx="150" cy="60" rx="61" ry="66" fill="#222" stroke="#444"/>
-                    <path d="M89,120 L211,120 L206,320 L94,320 Z" fill="#222" stroke="#444"/>
-                    <path d="M89,135 L39,250" stroke="#444" stroke-width="37" fill="none" stroke-linecap="round"/>
-                    <path d="M211,135 L261,250" stroke="#444" stroke-width="37" fill="none" stroke-linecap="round"/>
-                    <path d="M94,320 L69,650" stroke="#444" stroke-width="42" fill="none" stroke-linecap="round"/>
-                    <path d="M206,320 L231,650" stroke="#444" stroke-width="42" fill="none" stroke-linecap="round"/>
-                </svg>
+        <!-- PRODUCT PANEL -->
+        <div class="product-panel">
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="clothing">CLOTHING</button>
+                <button class="tab-btn" data-category="shoes">SHOES</button>
+                <button class="tab-btn" data-category="accessories">ACCESSORIES</button>
             </div>
 
-            <!-- Garments on Body -->
-            <div class="garment-on-body" id="garment-tabi">
-                <svg viewBox="0 0 320 720">
-                    <!-- Tabi Boots on body -->
-                    <path d="M110,640 L110,690 L125,690 L125,660 Q130,655 135,660 L135,690 L150,690 L150,640 Z" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
-                    <path d="M170,640 L170,690 L185,690 L185,660 Q190,655 195,660 L195,690 L210,690 L210,640 Z" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
-                    <line x1="130" y1="660" x2="130" y2="690" stroke="#fff" stroke-width="1"/>
-                    <line x1="190" y1="660" x2="190" y2="690" stroke="#fff" stroke-width="1"/>
-                </svg>
+            <!-- CLOTHING PRODUCTS -->
+            <div class="product-grid" id="clothing-grid">
+                <div class="product-card" draggable="true" data-item="coat-artisanal" data-zone="torso">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M70,50 L130,50 L140,100 L150,200 L120,220 L100,150 L80,220 L50,200 L60,100 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2" stroke-dasharray="5,5"/>
+                            <path d="M100,50 L100,150" stroke="#fff" stroke-width="1" stroke-dasharray="3,5"/>
+                            <circle cx="100" cy="80" r="3" fill="#fff"/>
+                            <circle cx="100" cy="110" r="3" fill="#fff"/>
+                            <circle cx="100" cy="140" r="3" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">ARTISANAL COAT</div>
+                    <div class="product-collection">ARTISANAL LINE</div>
+                    <div class="product-price">€4,890</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="blazer-deconstructed" data-zone="torso">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M70,50 L130,50 L135,120 L140,180 L110,190 L100,140 L90,190 L60,180 L65,120 Z" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
+                            <path d="M100,50 L100,140" stroke="#fff" stroke-width="1"/>
+                            <path d="M70,50 L60,80" stroke="#fff" stroke-width="1"/>
+                            <path d="M130,50 L140,80" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">DECONSTRUCTED BLAZER</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€2,450</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="sweater-oversized" data-zone="torso">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M60,60 L140,60 L145,140 L140,180 L60,180 L55,140 Z" fill="#3a3a3a" stroke="#fff" stroke-width="2"/>
+                            <path d="M60,60 L40,100 L50,140" stroke="#fff" stroke-width="2" fill="none"/>
+                            <path d="M140,60 L160,100 L150,140" stroke="#fff" stroke-width="2" fill="none"/>
+                            <line x1="70" y1="80" x2="130" y2="80" stroke="#555" stroke-width="1"/>
+                            <line x1="70" y1="100" x2="130" y2="100" stroke="#555" stroke-width="1"/>
+                            <line x1="70" y1="120" x2="130" y2="120" stroke="#555" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">OVERSIZED SWEATER</div>
+                    <div class="product-collection">RECYCLED</div>
+                    <div class="product-price">€890</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="shirt-white" data-zone="torso">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M75,50 L125,50 L130,120 L130,180 L70,180 L70,120 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
+                            <path d="M100,50 L100,180" stroke="#ccc" stroke-width="1"/>
+                            <circle cx="100" cy="70" r="2" fill="#000"/>
+                            <circle cx="100" cy="90" r="2" fill="#000"/>
+                            <circle cx="100" cy="110" r="2" fill="#000"/>
+                            <circle cx="100" cy="130" r="2" fill="#000"/>
+                            <circle cx="100" cy="150" r="2" fill="#000"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">WHITE COTTON SHIRT</div>
+                    <div class="product-collection">ESSENTIALS</div>
+                    <div class="product-price">€450</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="pants-wide" data-zone="legs">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M70,50 L130,50 L135,120 L140,200 L110,200 L100,120 L90,200 L60,200 L65,120 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                            <path d="M100,50 L100,120" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">WIDE-LEG TROUSERS</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€780</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="jeans-replica" data-zone="legs">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M70,50 L130,50 L135,120 L140,200 L110,200 L100,120 L90,200 L60,200 L65,120 Z" fill="#4a5a7a" stroke="#fff" stroke-width="2"/>
+                            <path d="M100,50 L100,120" stroke="#fff" stroke-width="1"/>
+                            <path d="M75,70 L85,70 L85,90 L75,90 Z" fill="#3a4a6a" stroke="#fff" stroke-width="1"/>
+                            <path d="M115,70 L125,70 L125,90 L115,90 Z" fill="#3a4a6a" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">REPLICA JEANS</div>
+                    <div class="product-collection">REPLICA</div>
+                    <div class="product-price">€590</div>
+                </div>
             </div>
 
-            <div class="garment-on-body" id="garment-coat">
-                <svg viewBox="0 0 320 720">
-                    <!-- Deconstructed Coat -->
-                    <path d="M100,140 L220,140 L240,280 L250,450 L200,480 L160,350 L160,350 L120,480 L70,450 L80,280 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2" stroke-dasharray="5,5"/>
-                    <path d="M160,140 L160,350" stroke="#fff" stroke-width="1" stroke-dasharray="3,5"/>
-                    <circle cx="160" cy="200" r="4" fill="#fff"/>
-                    <circle cx="160" cy="250" r="4" fill="#fff"/>
-                    <circle cx="160" cy="300" r="4" fill="#fff"/>
-                    <path d="M100,140 L85,220" stroke="#fff" stroke-width="1"/>
-                    <path d="M220,140 L235,220" stroke="#fff" stroke-width="1"/>
-                </svg>
+            <!-- SHOES PRODUCTS -->
+            <div class="product-grid" id="shoes-grid" style="display:none">
+                <div class="product-card" draggable="true" data-item="tabi-boot" data-zone="feet">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 150">
+                            <path d="M50,80 Q60,30 100,30 L100,30 Q140,30 150,80 L150,110 L105,110 L100,95 L95,110 L50,110 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                            <line x1="100" y1="95" x2="100" y2="110" stroke="#fff" stroke-width="2"/>
+                            <path d="M60,110 L140,110 L145,125 L55,125 Z" fill="#2a2a2a" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">TABI ANKLE BOOT</div>
+                    <div class="product-collection">TABI</div>
+                    <div class="product-price">€1,290</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="tabi-sneaker" data-zone="feet">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 150">
+                            <path d="M40,70 Q50,30 100,30 L100,30 Q150,30 160,70 L160,90 L105,90 L100,80 L95,90 L40,90 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
+                            <line x1="100" y1="80" x2="100" y2="90" stroke="#000" stroke-width="2"/>
+                            <path d="M50,90 L150,90 L145,105 L55,105 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
+                            <line x1="70" y1="40" x2="90" y2="70" stroke="#000" stroke-width="1"/>
+                            <line x1="85" y1="40" x2="105" y2="70" stroke="#000" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">TABI SNEAKER</div>
+                    <div class="product-collection">TABI</div>
+                    <div class="product-price">€690</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="replica-sneaker" data-zone="feet">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 150">
+                            <path d="M40,70 Q50,30 100,30 L100,30 Q150,30 160,70 L160,90 L40,90 Z" fill="#f0f0f0" stroke="#000" stroke-width="2"/>
+                            <path d="M40,90 L160,90 L155,105 L45,105 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
+                            <line x1="70" y1="40" x2="90" y2="70" stroke="#000" stroke-width="1"/>
+                            <line x1="85" y1="40" x2="105" y2="70" stroke="#000" stroke-width="1"/>
+                            <line x1="100" y1="40" x2="120" y2="70" stroke="#000" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">REPLICA SNEAKER</div>
+                    <div class="product-collection">REPLICA</div>
+                    <div class="product-price">€490</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="german-trainer" data-zone="feet">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 150">
+                            <path d="M40,70 Q50,30 100,30 L100,30 Q150,30 160,70 L160,90 L40,90 Z" fill="#ffffff" stroke="#000" stroke-width="2"/>
+                            <path d="M40,90 L160,90 L155,105 L45,105 Z" fill="#f5f5f5" stroke="#000" stroke-width="1"/>
+                            <rect x="60" y="50" width="30" height="20" fill="#000" opacity="0.1"/>
+                            <rect x="110" y="50" width="30" height="20" fill="#000" opacity="0.1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">GERMAN TRAINER</div>
+                    <div class="product-collection">REPLICA</div>
+                    <div class="product-price">€450</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="loafer-paint" data-zone="feet">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 150">
+                            <path d="M50,70 Q60,40 100,40 L100,40 Q140,40 150,70 L150,90 L50,90 Z" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
+                            <path d="M50,90 L150,90 L145,105 L55,105 Z" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
+                            <ellipse cx="100" cy="60" rx="15" ry="8" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">PAINT-SPLATTER LOAFER</div>
+                    <div class="product-collection">ARTISANAL</div>
+                    <div class="product-price">€1,150</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="boot-paint" data-zone="feet">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 150">
+                            <path d="M60,50 L140,50 L145,90 L150,110 L50,110 L55,90 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                            <path d="M60,110 L140,110 L145,125 L55,125 Z" fill="#2a2a2a" stroke="#fff" stroke-width="1"/>
+                            <circle cx="80" cy="70" r="3" fill="#ff0000" opacity="0.7"/>
+                            <circle cx="120" cy="80" r="2" fill="#0000ff" opacity="0.7"/>
+                            <circle cx="100" cy="90" r="2" fill="#ffff00" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">PAINTED ANKLE BOOT</div>
+                    <div class="product-collection">ARTISANAL</div>
+                    <div class="product-price">€1,890</div>
+                </div>
             </div>
 
-            <div class="garment-on-body" id="garment-sneaker">
-                <svg viewBox="0 0 320 720">
-                    <!-- Replica Sneakers -->
-                    <g transform="translate(85,650)">
-                        <path d="M10,50 Q15,20 50,20 L90,20 Q120,20 130,45 L130,55 L10,55 Z" fill="#f0f0f0" stroke="#000" stroke-width="1"/>
-                        <path d="M10,55 L130,55 L127,68 L13,68 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
-                        <line x1="50" y1="20" x2="70" y2="45" stroke="#000" stroke-width="0.5"/>
-                        <line x1="60" y1="20" x2="80" y2="45" stroke="#000" stroke-width="0.5"/>
-                        <line x1="70" y1="20" x2="90" y2="45" stroke="#000" stroke-width="0.5"/>
-                    </g>
-                    <g transform="translate(165,650)">
-                        <path d="M10,50 Q15,20 50,20 L90,20 Q120,20 130,45 L130,55 L10,55 Z" fill="#f0f0f0" stroke="#000" stroke-width="1"/>
-                        <path d="M10,55 L130,55 L127,68 L13,68 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
-                        <line x1="50" y1="20" x2="70" y2="45" stroke="#000" stroke-width="0.5"/>
-                        <line x1="60" y1="20" x2="80" y2="45" stroke="#000" stroke-width="0.5"/>
-                        <line x1="70" y1="20" x2="90" y2="45" stroke="#000" stroke-width="0.5"/>
-                    </g>
-                </svg>
-            </div>
+            <!-- ACCESSORIES PRODUCTS -->
+            <div class="product-grid" id="accessories-grid" style="display:none">
+                <div class="product-card" draggable="true" data-item="bag-shopping" data-zone="hand">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <rect x="60" y="100" width="80" height="100" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                            <path d="M70,100 Q70,70 100,70 Q130,70 130,100" fill="none" stroke="#fff" stroke-width="2"/>
+                            <rect x="70" y="110" width="60" height="5" fill="#2a2a2a"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">SHOPPING BAG</div>
+                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-price">€1,450</div>
+                </div>
 
+                <div class="product-card" draggable="true" data-item="bag-clutch" data-zone="hand">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <rect x="50" y="110" width="100" height="60" rx="5" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
+                            <circle cx="100" cy="140" r="8" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">CLUTCH BAG</div>
+                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-price">€890</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="belt-leather" data-zone="waist">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <rect x="40" y="115" width="120" height="20" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                            <rect x="90" y="110" width="20" height="30" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
+                            <circle cx="100" cy="125" r="3" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">LEATHER BELT</div>
+                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-price">€350</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="scarf-silk" data-zone="neck">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M70,100 Q100,80 130,100 L140,150 Q100,170 60,150 Z" fill="#3a3a3a" stroke="#fff" stroke-width="2"/>
+                            <path d="M70,100 L60,150" stroke="#fff" stroke-width="1" stroke-dasharray="3,3"/>
+                            <path d="M130,100 L140,150" stroke="#fff" stroke-width="1" stroke-dasharray="3,3"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">SILK SCARF</div>
+                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-price">€290</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="gloves-leather" data-zone="hands">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <path d="M70,100 L70,160 L75,170 L80,160 L80,170 L85,160 L85,170 L90,160 L90,100 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                            <path d="M110,100 L110,160 L115,170 L120,160 L120,170 L125,160 L125,170 L130,160 L130,100 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">LEATHER GLOVES</div>
+                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-price">€420</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="hat-wool" data-zone="head">
+                    <div class="product-image">
+                        <svg viewBox="0 0 200 250">
+                            <ellipse cx="100" cy="130" rx="50" ry="15" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
+                            <path d="M50,130 Q50,90 100,90 Q150,90 150,130" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
+                            <rect x="60" y="125" width="80" height="10" fill="#1a1a1a"/>
+                        </svg>
+                    </div>
+                    <div class="product-name">WOOL FEDORA</div>
+                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-price">€580</div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="vto-controls">
-            <button class="ctrl-btn item-btn active" data-garment="garment-coat" onclick="selectGarment('garment-coat')">ARTISANAL COAT</button>
-            <button class="ctrl-btn item-btn" data-garment="garment-tabi" onclick="selectGarment('garment-tabi')">TABI BOOTS</button>
-            <button class="ctrl-btn item-btn" data-garment="garment-sneaker" onclick="selectGarment('garment-sneaker')">REPLICA SNEAKERS</button>
-        </div>
-
-    </section>
-
-    <footer>
-        <p>© 2026 MAISON MARGIELA | VIRTUAL ATELIER | INCLUSIVE SIZING XS-XXL</p>
-    </footer>
+    <!-- CONTROLS -->
+    <div class="controls">
+        <button class="ctrl-btn" id="clear-all">CLEAR ALL</button>
+        <button class="ctrl-btn" id="save-look">SAVE LOOK</button>
+    </div>
 
     <script>
-        let currentBodyType = 'xs';
-        let currentGarment = 'garment-coat';
-        let currentMode = 'skeleton'; // 'skeleton' or 'camera'
-        let stream = null;
-
-        function selectBodyType(bodyType) {
-            currentBodyType = bodyType;
-            
-            // Update button states
-            document.querySelectorAll('.body-type-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if(btn.dataset.body === bodyType) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // Update skeleton visibility
-            document.querySelectorAll('.body-skeleton svg').forEach(svg => {
-                svg.style.display = 'none';
-            });
-            document.getElementById(`body-${bodyType}`).style.display = 'block';
-            
-            // Update placeholder
-            document.getElementById('placeholder').textContent = 'SELECT A GARMENT TO VIEW';
-            
-            // Show current garment on selected body
-            updateGarmentDisplay();
-        }
-
-        function selectGarment(garmentId) {
-            currentGarment = garmentId;
-            
-            // Update button states
-            document.querySelectorAll('.item-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if(btn.dataset.garment === garmentId) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            updateGarmentDisplay();
-        }
-
-        function updateGarmentDisplay() {
-            // Hide all garments
-            document.querySelectorAll('.garment-on-body').forEach(g => {
-                g.classList.remove('visible');
-            });
-            
-            // Show selected garment if body type is selected
-            if(currentBodyType) {
-                document.getElementById('placeholder').textContent = '';
-                document.getElementById(currentGarment).classList.add('visible');
-            }
-        }
-
-        // Mode toggle
-        document.getElementById('mode-skeleton').addEventListener('click', function() {
-            currentMode = 'skeleton';
-            document.getElementById('mode-skeleton').classList.add('active');
-            document.getElementById('mode-camera').classList.remove('active');
-            
-            if(stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            document.getElementById('webcam').style.display = 'none';
-            document.querySelector('.body-skeleton').style.display = 'block';
-            document.getElementById('placeholder').style.display = 'none';
-            updateGarmentDisplay();
-        });
-
-        document.getElementById('mode-camera').addEventListener('click', async function() {
-            currentMode = 'camera';
-            document.getElementById('mode-camera').classList.add('active');
-            document.getElementById('mode-skeleton').classList.remove('active');
-            
-            if(!stream) {
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia({ 
-                        video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } 
-                    });
-                    document.getElementById('webcam').srcObject = stream;
-                    document.getElementById('webcam').style.display = 'block';
-                    document.querySelector('.body-skeleton').style.display = 'none';
-                    document.querySelectorAll('.garment-on-body').forEach(g => {
-                        g.classList.remove('visible');
-                    });
-                } catch (err) {
-                    alert('Camera access required. Please allow camera permissions.');
-                    document.getElementById('mode-skeleton').click();
-                }
-            } else {
-                document.getElementById('webcam').style.display = 'block';
-                document.querySelector('.body-skeleton').style.display = 'none';
-                document.querySelectorAll('.garment-on-body').forEach(g => {
-                    g.classList.remove('visible');
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                // Update active tab
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show/hide grids
+                document.querySelectorAll('.product-grid').forEach(grid => {
+                    grid.style.display = 'none';
                 });
-            }
+                document.getElementById(`${category}-grid`).style.display = 'grid';
+            });
         });
 
-        // Initialize
-        selectBodyType('xs');
+        // Drag and drop functionality
+        let draggedItem = null;
+        let offsetX, offsetY;
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                draggedItem = this;
+                e.dataTransfer.effectAllowed = 'move';
+            });
+        });
+
+        const mannequin = document.getElementById('mannequin');
+
+        mannequin.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        });
+
+        mannequin.addEventListener('drop', function(e) {
+            e.preventDefault();
+            
+            if (!draggedItem) return;
+
+            const rect = mannequin.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Create worn item
+            const wornDiv = document.createElement('div');
+            wornDiv.className = 'worn-item';
+            wornDiv.innerHTML = draggedItem.querySelector('.product-image').innerHTML;
+            
+            // Position based on zone
+            const zone = draggedItem.dataset.zone;
+            let width = 150;
+            let height = 150;
+
+            if (zone === 'torso') {
+                width = 200;
+                height = 250;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'legs') {
+                width = 160;
+                height = 280;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/3) + 'px';
+            } else if (zone === 'feet') {
+                width = 120;
+                height = 90;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'hand') {
+                width = 100;
+                height = 130;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'waist') {
+                width = 180;
+                height = 40;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'neck') {
+                width = 140;
+                height = 100;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'hands') {
+                width = 160;
+                height = 100;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'head') {
+                width = 140;
+                height = 80;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            }
+
+            wornDiv.style.width = width + 'px';
+            wornDiv.style.height = height + 'px';
+
+            // Make it draggable
+            makeDraggable(wornDiv);
+            
+            mannequin.appendChild(wornDiv);
+            draggedItem = null;
+        });
+
+        function makeDraggable(element) {
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            element.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = element.offsetLeft;
+                initialY = element.offsetTop;
+                element.style.zIndex = 100;
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                
+                element.style.left = (initialX + dx) + 'px';
+                element.style.top = (initialY + dy) + 'px';
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                element.style.zIndex = 10;
+            });
+
+            // Double-click to remove
+            element.addEventListener('dblclick', function() {
+                element.remove();
+            });
+        }
+
+        // Clear all items
+        document.getElementById('clear-all').addEventListener('click', function() {
+            document.querySelectorAll('.worn-item').forEach(item => item.remove());
+        });
+
+        // Save look (placeholder)
+        document.getElementById('save-look').addEventListener('click', function() {
+            alert('Look saved! (In a real implementation, this would save to your account)');
+        });
     </script>
 </body>
 </html>
