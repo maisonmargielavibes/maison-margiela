@@ -3,72 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAISON MARGIELA | VIRTUAL FITTING ROOM</title>
+    <title>MAISON MARGIELA | 3D VIRTUAL ATELIER</title>
     <style>
-        :root {
-            --bg: #0a0a0a;
-            --text: #e0e0e0;
-            --accent: #ffffff;
-            --grey: #2a2a2a;
-            --stitch: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            min-height: 100vh;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #f5f0eb;
+            color: #1a1a1a;
+            overflow: hidden;
+            height: 100vh;
         }
 
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 40px;
+            padding: 25px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(245, 240, 235, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--grey);
+            border-bottom: 1px solid #e0d8d0;
         }
 
         .logo {
-            font-size: 1.2rem;
-            letter-spacing: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 10px;
             font-weight: 300;
-            color: var(--accent);
+            color: #1a1a1a;
             position: relative;
         }
 
         .logo::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 40px;
+            width: 50px;
             height: 2px;
             background: linear-gradient(90deg, 
-                var(--stitch) 20%, transparent 20%, transparent 25%, 
-                var(--stitch) 25%, var(--stitch) 45%, transparent 45%, transparent 50%, 
-                var(--stitch) 50%, var(--stitch) 70%, transparent 70%, transparent 75%, 
-                var(--stitch) 75%, var(--stitch) 95%, transparent 95%);
+                #fff 20%, transparent 20%, transparent 25%, 
+                #fff 25%, #fff 45%, transparent 45%, transparent 50%, 
+                #fff 50%, #fff 70%, transparent 70%, transparent 75%, 
+                #fff 75%, #fff 95%, transparent 95%);
         }
 
         nav a {
-            color: var(--text);
+            color: #1a1a1a;
             text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.75rem;
+            margin-left: 35px;
+            font-size: 0.7rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             transition: opacity 0.3s;
@@ -78,149 +66,114 @@
 
         .main-container {
             display: flex;
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
+            height: 100vh;
+            padding-top: 80px;
         }
 
-        /* MANNEQUIN AREA */
-        .mannequin-area {
+        #canvas-container {
             flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
             position: relative;
-            background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+            background: linear-gradient(180deg, #f5f0eb 0%, #ebe4dc 100%);
         }
 
-        .mannequin-container {
-            position: relative;
-            width: 500px;
-            height: 850px;
-            background: radial-gradient(circle at center, #1f1f1f 0%, #0a0a0a 100%);
-            border: 1px solid var(--grey);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .mannequin-base {
+        .canvas-hint {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Realistic Mannequin Silhouette */
-        .mannequin-figure {
-            width: 350px;
-            height: 800px;
-            position: relative;
-        }
-
-        .mannequin-figure svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
-        }
-
-        .worn-item {
-            position: absolute;
-            z-index: 10;
-            cursor: move;
-            transition: filter 0.2s, transform 0.2s;
-            background: transparent;
-        }
-
-        .worn-item:hover {
-            filter: brightness(1.1) drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-            z-index: 20;
-        }
-
-        .worn-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: #888;
+            text-transform: uppercase;
             pointer-events: none;
+            background: rgba(245, 240, 235, 0.8);
+            padding: 10px 20px;
+            border-radius: 20px;
         }
 
-        /* PRODUCT PANEL */
         .product-panel {
-            width: 500px;
-            background: #0f0f0f;
-            border-left: 1px solid var(--grey);
+            width: 420px;
+            background: #faf7f4;
+            border-left: 1px solid #e0d8d0;
             overflow-y: auto;
             max-height: calc(100vh - 80px);
         }
 
         .category-tabs {
             display: flex;
-            border-bottom: 1px solid var(--grey);
+            border-bottom: 1px solid #e0d8d0;
             position: sticky;
             top: 0;
-            background: #0f0f0f;
+            background: #faf7f4;
             z-index: 50;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 20px;
+            padding: 22px 10px;
             background: transparent;
             border: none;
-            color: #666;
-            font-size: 0.7rem;
+            color: #999;
+            font-size: 0.65rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s;
             border-bottom: 2px solid transparent;
+            font-family: inherit;
         }
 
-        .tab-btn:hover {
-            color: var(--text);
-        }
+        .tab-btn:hover { color: #1a1a1a; }
 
         .tab-btn.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
+            color: #1a1a1a;
+            border-bottom-color: #1a1a1a;
         }
 
         .product-grid {
-            padding: 30px;
+            padding: 25px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
+            gap: 20px;
         }
 
         .product-card {
-            background: #1a1a1a;
-            border: 1px solid var(--grey);
-            padding: 15px;
-            cursor: grab;
+            background: #fff;
+            border: 1px solid #e8e0d8;
+            padding: 12px;
+            cursor: pointer;
             transition: all 0.3s;
             position: relative;
         }
 
         .product-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255,255,255,0.1);
+            border-color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
-        .product-card:active {
-            cursor: grabbing;
+        .product-card.active {
+            border-color: #1a1a1a;
+            background: #f0ebe6;
+        }
+
+        .product-card.active::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: #1a1a1a;
         }
 
         .product-image {
             width: 100%;
-            height: 220px;
-            background: #0a0a0a;
+            height: 180px;
+            background: #f5f0eb;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             overflow: hidden;
         }
 
@@ -231,131 +184,88 @@
         }
 
         .product-name {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            color: var(--text);
-            margin-bottom: 8px;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            color: #1a1a1a;
+            margin-bottom: 6px;
             text-transform: uppercase;
+            font-weight: 500;
         }
 
         .product-collection {
-            font-size: 0.65rem;
-            color: #666;
+            font-size: 0.6rem;
+            color: #888;
             letter-spacing: 1px;
         }
 
         .product-price {
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #1a1a1a;
+            margin-top: 8px;
             font-weight: 300;
         }
 
-        /* CONTROLS */
         .controls {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 12px;
             z-index: 100;
-            background: rgba(10,10,10,0.95);
-            padding: 15px 30px;
-            border-radius: 50px;
-            border: 1px solid var(--grey);
+            background: rgba(250, 247, 244, 0.95);
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: 1px solid #e0d8d0;
             backdrop-filter: blur(10px);
         }
 
         .ctrl-btn {
-            padding: 12px 30px;
+            padding: 10px 22px;
             background: transparent;
-            border: 1px solid #444;
-            color: #aaa;
-            font-size: 0.7rem;
+            border: 1px solid #d0c8c0;
+            color: #1a1a1a;
+            font-size: 0.65rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.2s;
-            border-radius: 25px;
+            border-radius: 20px;
+            font-family: inherit;
         }
 
         .ctrl-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+            background: #1a1a1a;
+            color: #f5f0eb;
+            border-color: #1a1a1a;
         }
 
-        .drag-hint {
+        .loading-overlay {
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f5f0eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            transition: opacity 0.5s;
+        }
+
+        .loading-text {
             font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: #444;
+            letter-spacing: 5px;
+            color: #888;
             text-transform: uppercase;
-            pointer-events: none;
-            animation: pulse 2s ease-in-out infinite;
-            z-index: 5;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-
-        .remove-hint {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: #444;
-            text-transform: uppercase;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .main-container {
-                flex-direction: column;
-            }
-            .product-panel {
-                width: 100%;
-                max-height: 500px;
-                border-left: none;
-                border-top: 1px solid var(--grey);
-            }
-            .mannequin-container {
-                width: 350px;
-                height: 600px;
-            }
-            .mannequin-figure {
-                width: 250px;
-                height: 570px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header { padding: 15px 20px; }
+        @media (max-width: 1024px) {
+            .main-container { flex-direction: column; }
+            .product-panel { width: 100%; max-height: 40vh; border-left: none; border-top: 1px solid #e0d8d0; }
+            header { padding: 20px 25px; }
             nav a { margin-left: 15px; font-size: 0.6rem; }
-            .product-grid { grid-template-columns: 1fr; }
-            .mannequin-container { width: 280px; height: 480px; }
-            .mannequin-figure { width: 200px; height: 456px; }
-        }
-
-        /* Loading state */
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: #444;
-            text-transform: uppercase;
         }
     </style>
 </head>
@@ -366,232 +276,191 @@
         <nav>
             <a href="#">COLLECTION</a>
             <a href="#">ARTISANAL</a>
-            <a href="#">ABOUT</a>
+            <a href="#">REPLICA</a>
         </nav>
     </header>
 
     <div class="main-container">
-        <!-- MANNEQUIN DISPLAY -->
-        <div class="mannequin-area">
-            <div class="mannequin-container" id="mannequin">
-                <div class="drag-hint">DRAG ITEMS TO DRESS THE MANNEQUIN</div>
-                
-                <!-- Realistic Mannequin Base -->
-                <div class="mannequin-base">
-                    <div class="mannequin-figure">
-                        <svg viewBox="0 0 350 800" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Head -->
-                            <ellipse cx="175" cy="80" rx="50" ry="60" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            
-                            <!-- Neck -->
-                            <rect x="160" y="135" width="30" height="35" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            
-                            <!-- Torso -->
-                            <path d="M125,170 L225,170 L215,380 L135,380 Z" fill="#252525" stroke="#3a3a3a" stroke-width="2"/>
-                            
-                            <!-- Shoulders -->
-                            <ellipse cx="115" cy="180" rx="25" ry="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            <ellipse cx="235" cy="180" rx="25" ry="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            
-                            <!-- Arms -->
-                            <path d="M110,195 L85,320 L80,420" stroke="#3a3a3a" stroke-width="28" fill="none" stroke-linecap="round"/>
-                            <path d="M240,195 L265,320 L270,420" stroke="#3a3a3a" stroke-width="28" fill="none" stroke-linecap="round"/>
-                            
-                            <!-- Hands -->
-                            <ellipse cx="80" cy="435" rx="18" ry="25" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            <ellipse cx="270" cy="435" rx="18" ry="25" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            
-                            <!-- Hips -->
-                            <ellipse cx="175" cy="390" rx="55" ry="25" fill="#252525" stroke="#3a3a3a" stroke-width="2"/>
-                            
-                            <!-- Legs -->
-                            <path d="M145,405 L135,580 L130,720" stroke="#3a3a3a" stroke-width="32" fill="none" stroke-linecap="round"/>
-                            <path d="M205,405 L215,580 L220,720" stroke="#3a3a3a" stroke-width="32" fill="none" stroke-linecap="round"/>
-                            
-                            <!-- Feet -->
-                            <ellipse cx="130" cy="740" rx="25" ry="35" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                            <ellipse cx="220" cy="740" rx="25" ry="35" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="remove-hint">DOUBLE-CLICK ITEM TO REMOVE</div>
+        <div id="canvas-container">
+            <div class="loading-overlay" id="loading">
+                <div class="loading-text">LOADING ATELIER...</div>
             </div>
+            <div class="canvas-hint">DRAG TO ROTATE · SCROLL TO ZOOM · CLICK ITEMS TO DRESS</div>
         </div>
 
-        <!-- PRODUCT PANEL -->
         <div class="product-panel">
             <div class="category-tabs">
-                <button class="tab-btn active" data-category="clothing">CLOTHING</button>
+                <button class="tab-btn active" data-category="tops">TOPS</button>
+                <button class="tab-btn" data-category="bottoms">BOTTOMS</button>
                 <button class="tab-btn" data-category="shoes">SHOES</button>
                 <button class="tab-btn" data-category="accessories">ACCESSORIES</button>
             </div>
 
-            <!-- CLOTHING PRODUCTS -->
-            <div class="product-grid" id="clothing-grid">
-                <div class="product-card" draggable="true" data-item="deconstructed-blazer" data-zone="torso">
+            <div class="product-grid" id="tops-grid">
+                <div class="product-card" data-item="deconstructed-blazer" data-zone="torso" data-color="#1a1a1a">
                     <div class="product-image">
-                        <img src="https://i.pinimg.com/736x/8f/2e/1c/8f2e1c5d5e5f5a5b5c5d5e5f5a5b5c5d.jpg" alt="Deconstructed Blazer" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=400&fit=crop" alt="Deconstructed Blazer">
                     </div>
                     <div class="product-name">DECONSTRUCTED BLAZER</div>
-                    <div class="product-collection">ARTISANAL LINE</div>
+                    <div class="product-collection">ARTISANAL</div>
                     <div class="product-price">€2,890</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="oversized-coat" data-zone="torso">
+                <div class="product-card" data-item="oversized-coat" data-zone="torso" data-color="#d4c5b0">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400&h=500&fit=crop" alt="Oversized Coat" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=300&h=400&fit=crop" alt="Oversized Coat">
                     </div>
                     <div class="product-name">OVERSIZED COAT</div>
                     <div class="product-collection">COLLECTION</div>
                     <div class="product-price">€4,290</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="white-shirt" data-zone="torso">
+                <div class="product-card" data-item="white-shirt" data-zone="torso" data-color="#f5f0eb">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop" alt="White Shirt" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop" alt="White Shirt">
                     </div>
                     <div class="product-name">WHITE COTTON SHIRT</div>
                     <div class="product-collection">ESSENTIALS</div>
                     <div class="product-price">€450</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="black-trousers" data-zone="legs">
+                <div class="product-card" data-item="black-sweater" data-zone="torso" data-color="#2a2a2a">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop" alt="Black Trousers" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">WIDE-LEG TROUSERS</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€780</div>
-                </div>
-
-                <div class="product-card" draggable="true" data-item="black-sweater" data-zone="torso">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=500&fit=crop" alt="Black Sweater" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=400&fit=crop" alt="Black Sweater">
                     </div>
                     <div class="product-name">OVERSIZED SWEATER</div>
                     <div class="product-collection">RECYCLED</div>
                     <div class="product-price">€890</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="puffer-coat" data-zone="torso">
+                <div class="product-card" data-item="puffer-coat" data-zone="torso" data-color="#1a1a1a">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&h=500&fit=crop" alt="Puffer Coat" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=300&h=400&fit=crop" alt="Puffer Coat">
                     </div>
-                    <div class="product-name">QUILTED PUFFER COAT</div>
+                    <div class="product-name">QUILTED PUFFER</div>
                     <div class="product-collection">COLLECTION</div>
                     <div class="product-price">€3,450</div>
                 </div>
+
+                <div class="product-card" data-item="knit-vest" data-zone="torso" data-color="#8b7355">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300&h=400&fit=crop" alt="Knit Vest">
+                    </div>
+                    <div class="product-name">KNIT VEST</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€690</div>
+                </div>
             </div>
 
-            <!-- SHOES PRODUCTS -->
+            <div class="product-grid" id="bottoms-grid" style="display:none">
+                <div class="product-card" data-item="black-trousers" data-zone="legs" data-color="#1a1a1a">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop" alt="Black Trousers">
+                    </div>
+                    <div class="product-name">WIDE-LEG TROUSERS</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€780</div>
+                </div>
+
+                <div class="product-card" data-item="cargo-pants" data-zone="legs" data-color="#3a3a3a">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&h=400&fit=crop" alt="Cargo Pants">
+                    </div>
+                    <div class="product-name">CARGO PANTS</div>
+                    <div class="product-collection">REPLICA</div>
+                    <div class="product-price">€890</div>
+                </div>
+
+                <div class="product-card" data-item="beige-shorts" data-zone="legs" data-color="#c4b5a0">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&h=400&fit=crop" alt="Beige Shorts">
+                    </div>
+                    <div class="product-name">TAILORED SHORTS</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€590</div>
+                </div>
+
+                <div class="product-card" data-item="denim-jeans" data-zone="legs" data-color="#4a5a7a">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300&h=400&fit=crop" alt="Denim Jeans">
+                    </div>
+                    <div class="product-name">REPLICA JEANS</div>
+                    <div class="product-collection">REPLICA</div>
+                    <div class="product-price">€590</div>
+                </div>
+            </div>
+
             <div class="product-grid" id="shoes-grid" style="display:none">
-                <div class="product-card" draggable="true" data-item="tabi-boot-black" data-zone="feet">
+                <div class="product-card" data-item="tabi-boot-black" data-zone="feet" data-color="#1a1a1a">
                     <div class="product-image">
-                        <img src="https://cdn.shopify.com/s/files/1/0550/0985/3599/files/1_101b5d8b-8b0e-4f0e-9b0e-8b0e8b0e8b0e.jpg" alt="Tabi Boot Black" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=300&h=300&fit=crop" alt="Tabi Boot">
                     </div>
                     <div class="product-name">TABI ANKLE BOOT</div>
-                    <div class="product-collection">TABI - BLACK</div>
+                    <div class="product-collection">TABI</div>
                     <div class="product-price">€1,290</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="tabi-boot-brown" data-zone="feet">
+                <div class="product-card" data-item="replica-sneaker" data-zone="feet" data-color="#f5f0eb">
                     <div class="product-image">
-                        <img src="https://cdn.shopify.com/s/files/1/0550/0985/3599/files/1_101b5d8b-8b0e-4f0e-9b0e-8b0e8b0e8b0e.jpg" alt="Tabi Boot Brown" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">TABI ANKLE BOOT</div>
-                    <div class="product-collection">TABI - BROWN</div>
-                    <div class="product-price">€1,290</div>
-                </div>
-
-                <div class="product-card" draggable="true" data-item="replica-sneaker" data-zone="feet">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop" alt="Replica Sneaker" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=300&fit=crop" alt="Replica Sneaker">
                     </div>
                     <div class="product-name">REPLICA SNEAKER</div>
-                    <div class="product-collection">REPLICA - BEIGE</div>
+                    <div class="product-collection">REPLICA</div>
                     <div class="product-price">€490</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="tabi-silver" data-zone="feet">
+                <div class="product-card" data-item="tabi-flat" data-zone="feet" data-color="#2a2a2a">
                     <div class="product-image">
-                        <img src="https://f.hubspotusercontent30.net/hubfs/5348486/2e0a0b0b-0b0b-0b0b-0b0b-0b0b0b0b0b0b.jpg" alt="Tabi Silver" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&h=300&fit=crop" alt="Tabi Flat">
                     </div>
-                    <div class="product-name">TABI MIRROR BOOT</div>
-                    <div class="product-collection">TABI - SILVER</div>
-                    <div class="product-price">€1,590</div>
+                    <div class="product-name">TABI FLAT SHOE</div>
+                    <div class="product-collection">TABI</div>
+                    <div class="product-price">€790</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="replica-white" data-zone="feet">
+                <div class="product-card" data-item="german-trainer" data-zone="feet" data-color="#e8e0d8">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=300&fit=crop" alt="Replica White" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=300&h=300&fit=crop" alt="German Trainer">
                     </div>
-                    <div class="product-name">REPLICA SNEAKER</div>
-                    <div class="product-collection">REPLICA - WHITE</div>
-                    <div class="product-price">€490</div>
-                </div>
-
-                <div class="product-card" draggable="true" data-item="tabi-platform" data-zone="feet">
-                    <div class="product-image">
-                        <img src="https://cdn.shopify.com/s/files/1/0550/0985/3599/files/1_101b5d8b-8b0e-4f0e-9b0e-8b0e8b0e8b0e.jpg" alt="Tabi Platform" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">TABI PLATFORM BOOT</div>
-                    <div class="product-collection">TABI - BLACK</div>
-                    <div class="product-price">€1,490</div>
+                    <div class="product-name">GERMAN TRAINER</div>
+                    <div class="product-collection">REPLICA</div>
+                    <div class="product-price">€450</div>
                 </div>
             </div>
 
-            <!-- ACCESSORIES PRODUCTS -->
             <div class="product-grid" id="accessories-grid" style="display:none">
-                <div class="product-card" draggable="true" data-item="japanese-bag" data-zone="hand">
+                <div class="product-card" data-item="5ac-bag" data-zone="hand" data-color="#1a1a1a">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=500&fit=crop" alt="Japanese Bag" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">JAPANESE BAG</div>
-                    <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€1,450</div>
-                </div>
-
-                <div class="product-card" draggable="true" data-item="glam-slam" data-zone="hand">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=500&fit=crop" alt="Glam Slam Bag" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">GLAM SLAM BAG</div>
-                    <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€1,890</div>
-                </div>
-
-                <div class="product-card" draggable="true" data-item="5ac-bag" data-zone="hand">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1591561954557-4c36b3e3f695?w=400&h=500&fit=crop" alt="5AC Bag" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=400&fit=crop" alt="5AC Bag">
                     </div>
                     <div class="product-name">5AC BAG</div>
                     <div class="product-collection">ACCESSORIES</div>
                     <div class="product-price">€2,150</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="tote-bag" data-zone="hand">
+                <div class="product-card" data-item="glam-slam" data-zone="hand" data-color="#f5f0eb">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=500&fit=crop" alt="Tote Bag" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=400&fit=crop" alt="Glam Slam">
                     </div>
-                    <div class="product-name">VERTICAL TOTE</div>
+                    <div class="product-name">GLAM SLAM BAG</div>
                     <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€1,250</div>
+                    <div class="product-price">€1,890</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="leather-gloves" data-zone="hands">
+                <div class="product-card" data-item="leather-gloves" data-zone="hands" data-color="#1a1a1a">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1606012823644-9f6f1a9c5d0e?w=400&h=300&fit=crop" alt="Leather Gloves" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1606012823644-9f6f1a9c5d0e?w=300&h=300&fit=crop" alt="Leather Gloves">
                     </div>
                     <div class="product-name">LEATHER GLOVES</div>
                     <div class="product-collection">ACCESSORIES</div>
                     <div class="product-price">€420</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="numeric-bracelet" data-zone="hand">
+                <div class="product-card" data-item="numeric-belt" data-zone="waist" data-color="#2a2a2a">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop" alt="Numeric Bracelet" onerror="this.style.display='none'">
+                        <img src="https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=300&h=300&fit=crop" alt="Numeric Belt">
                     </div>
-                    <div class="product-name">NUMERIC BRACELET</div>
+                    <div class="product-name">NUMERIC BELT</div>
                     <div class="product-collection">ACCESSORIES</div>
                     <div class="product-price">€350</div>
                 </div>
@@ -599,269 +468,389 @@
         </div>
     </div>
 
-    <!-- CONTROLS -->
     <div class="controls">
         <button class="ctrl-btn" id="clear-all">CLEAR ALL</button>
+        <button class="ctrl-btn" id="rotate-btn">AUTO ROTATE</button>
         <button class="ctrl-btn" id="save-look">SAVE LOOK</button>
-        <button class="ctrl-btn" id="random-look">RANDOM LOOK</button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script>
+        // Three.js Setup
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf5f0eb);
+        scene.fog = new THREE.Fog(0xf5f0eb, 10, 50);
+
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 1.5, 6);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        // Controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.target.set(0, 1, 0);
+        controls.minDistance = 3;
+        controls.maxDistance = 10;
+        controls.maxPolarAngle = Math.PI / 1.8;
+
+        // Lighting - soft studio lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        mainLight.position.set(5, 10, 5);
+        mainLight.castShadow = true;
+        mainLight.shadow.mapSize.width = 2048;
+        mainLight.shadow.mapSize.height = 2048;
+        scene.add(mainLight);
+
+        const fillLight = new THREE.DirectionalLight(0xf5f0eb, 0.4);
+        fillLight.position.set(-5, 5, -5);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.3);
+        rimLight.position.set(0, 5, -10);
+        scene.add(rimLight);
+
+        // Floor
+        const floorGeometry = new THREE.CircleGeometry(8, 64);
+        const floorMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xe8e0d8, 
+            roughness: 0.8,
+            metalness: 0.1
+        });
+        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        floor.rotation.x = -Math.PI / 2;
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        // Mannequin Group
+        const mannequin = new THREE.Group();
+        scene.add(mannequin);
+
+        const skinMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xe8e0d8,
+            roughness: 0.7,
+            metalness: 0.1
+        });
+
+        // Head
+        const headGeo = new THREE.SphereGeometry(0.28, 32, 32);
+        const head = new THREE.Mesh(headGeo, skinMaterial);
+        head.position.y = 2.1;
+        head.castShadow = true;
+        mannequin.add(head);
+
+        // Neck
+        const neckGeo = new THREE.CylinderGeometry(0.12, 0.14, 0.2, 32);
+        const neck = new THREE.Mesh(neckGeo, skinMaterial);
+        neck.position.y = 1.8;
+        neck.castShadow = true;
+        mannequin.add(neck);
+
+        // Torso
+        const torsoGeo = new THREE.CylinderGeometry(0.35, 0.3, 0.9, 32);
+        const torso = new THREE.Mesh(torsoGeo, skinMaterial);
+        torso.position.y = 1.25;
+        torso.castShadow = true;
+        mannequin.add(torso);
+
+        // Shoulders
+        const shoulderGeo = new THREE.SphereGeometry(0.15, 32, 32);
+        const leftShoulder = new THREE.Mesh(shoulderGeo, skinMaterial);
+        leftShoulder.position.set(-0.45, 1.65, 0);
+        leftShoulder.castShadow = true;
+        mannequin.add(leftShoulder);
+
+        const rightShoulder = new THREE.Mesh(shoulderGeo, skinMaterial);
+        rightShoulder.position.set(0.45, 1.65, 0);
+        rightShoulder.castShadow = true;
+        mannequin.add(rightShoulder);
+
+        // Arms
+        const armGeo = new THREE.CylinderGeometry(0.08, 0.07, 0.7, 32);
+        const leftArm = new THREE.Mesh(armGeo, skinMaterial);
+        leftArm.position.set(-0.48, 1.2, 0);
+        leftArm.castShadow = true;
+        mannequin.add(leftArm);
+
+        const rightArm = new THREE.Mesh(armGeo, skinMaterial);
+        rightArm.position.set(0.48, 1.2, 0);
+        rightArm.castShadow = true;
+        mannequin.add(rightArm);
+
+        // Forearms
+        const forearmGeo = new THREE.CylinderGeometry(0.07, 0.06, 0.6, 32);
+        const leftForearm = new THREE.Mesh(forearmGeo, skinMaterial);
+        leftForearm.position.set(-0.5, 0.6, 0.1);
+        leftForearm.rotation.z = 0.1;
+        leftForearm.castShadow = true;
+        mannequin.add(leftForearm);
+
+        const rightForearm = new THREE.Mesh(forearmGeo, skinMaterial);
+        rightForearm.position.set(0.5, 0.6, 0.1);
+        rightForearm.rotation.z = -0.1;
+        rightForearm.castShadow = true;
+        mannequin.add(rightForearm);
+
+        // Hands
+        const handGeo = new THREE.SphereGeometry(0.08, 32, 32);
+        const leftHand = new THREE.Mesh(handGeo, skinMaterial);
+        leftHand.position.set(-0.52, 0.28, 0.15);
+        leftHand.castShadow = true;
+        mannequin.add(leftHand);
+
+        const rightHand = new THREE.Mesh(handGeo, skinMaterial);
+        rightHand.position.set(0.52, 0.28, 0.15);
+        rightHand.castShadow = true;
+        mannequin.add(rightHand);
+
+        // Hips
+        const hipGeo = new THREE.CylinderGeometry(0.32, 0.28, 0.3, 32);
+        const hips = new THREE.Mesh(hipGeo, skinMaterial);
+        hips.position.y = 0.75;
+        hips.castShadow = true;
+        mannequin.add(hips);
+
+        // Legs
+        const legGeo = new THREE.CylinderGeometry(0.12, 0.1, 0.8, 32);
+        const leftLeg = new THREE.Mesh(legGeo, skinMaterial);
+        leftLeg.position.set(-0.18, 0.35, 0);
+        leftLeg.castShadow = true;
+        mannequin.add(leftLeg);
+
+        const rightLeg = new THREE.Mesh(legGeo, skinMaterial);
+        rightLeg.position.set(0.18, 0.35, 0);
+        rightLeg.castShadow = true;
+        mannequin.add(rightLeg);
+
+        // Lower legs
+        const lowerLegGeo = new THREE.CylinderGeometry(0.1, 0.08, 0.7, 32);
+        const leftLowerLeg = new THREE.Mesh(lowerLegGeo, skinMaterial);
+        leftLowerLeg.position.set(-0.18, -0.35, 0);
+        leftLowerLeg.castShadow = true;
+        mannequin.add(leftLowerLeg);
+
+        const rightLowerLeg = new THREE.Mesh(lowerLegGeo, skinMaterial);
+        rightLowerLeg.position.set(0.18, -0.35, 0);
+        rightLowerLeg.castShadow = true;
+        mannequin.add(rightLowerLeg);
+
+        // Feet
+        const footGeo = new THREE.BoxGeometry(0.15, 0.08, 0.25);
+        const leftFoot = new THREE.Mesh(footGeo, skinMaterial);
+        leftFoot.position.set(-0.18, -0.74, 0.05);
+        leftFoot.castShadow = true;
+        mannequin.add(leftFoot);
+
+        const rightFoot = new THREE.Mesh(footGeo, skinMaterial);
+        rightFoot.position.set(0.18, -0.74, 0.05);
+        rightFoot.castShadow = true;
+        mannequin.add(rightFoot);
+
+        // Clothing system
+        const clothingGroup = new THREE.Group();
+        mannequin.add(clothingGroup);
+        const wornItems = {};
+
+        function createClothingMesh(zone, color, itemId) {
+            let geometry, material, mesh;
+            const clothMaterial = new THREE.MeshStandardMaterial({ 
+                color: new THREE.Color(color),
+                roughness: 0.6,
+                metalness: 0.1,
+                side: THREE.DoubleSide
+            });
+
+            switch(zone) {
+                case 'torso':
+                    geometry = new THREE.CylinderGeometry(0.42, 0.36, 1.0, 32);
+                    mesh = new THREE.Mesh(geometry, clothMaterial);
+                    mesh.position.y = 1.25;
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+                    break;
+                case 'legs':
+                    geometry = new THREE.CylinderGeometry(0.34, 0.3, 0.35, 32);
+                    mesh = new THREE.Mesh(geometry, clothMaterial);
+                    mesh.position.y = 0.75;
+                    mesh.castShadow = true;
+                    
+                    const leftLegCloth = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.14, 0.12, 1.5, 32),
+                        clothMaterial
+                    );
+                    leftLegCloth.position.set(-0.18, 0.0, 0);
+                    leftLegCloth.castShadow = true;
+                    mesh.add(leftLegCloth);
+                    
+                    const rightLegCloth = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.14, 0.12, 1.5, 32),
+                        clothMaterial
+                    );
+                    rightLegCloth.position.set(0.18, 0.0, 0);
+                    rightLegCloth.castShadow = true;
+                    mesh.add(rightLegCloth);
+                    break;
+                case 'feet':
+                    const leftShoe = new THREE.Mesh(
+                        new THREE.BoxGeometry(0.18, 0.1, 0.28),
+                        clothMaterial
+                    );
+                    leftShoe.position.set(-0.18, -0.72, 0.05);
+                    leftShoe.castShadow = true;
+                    
+                    const rightShoe = new THREE.Mesh(
+                        new THREE.BoxGeometry(0.18, 0.1, 0.28),
+                        clothMaterial
+                    );
+                    rightShoe.position.set(0.18, -0.72, 0.05);
+                    rightShoe.castShadow = true;
+                    
+                    mesh = new THREE.Group();
+                    mesh.add(leftShoe);
+                    mesh.add(rightShoe);
+                    break;
+                case 'hand':
+                    geometry = new THREE.BoxGeometry(0.25, 0.3, 0.15);
+                    mesh = new THREE.Mesh(geometry, clothMaterial);
+                    mesh.position.set(-0.55, 0.3, 0.2);
+                    mesh.rotation.z = 0.3;
+                    mesh.castShadow = true;
+                    break;
+                case 'hands':
+                    const leftGlove = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1, 32, 32),
+                        clothMaterial
+                    );
+                    leftGlove.position.set(-0.52, 0.28, 0.15);
+                    leftGlove.castShadow = true;
+                    
+                    const rightGlove = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1, 32, 32),
+                        clothMaterial
+                    );
+                    rightGlove.position.set(0.52, 0.28, 0.15);
+                    rightGlove.castShadow = true;
+                    
+                    mesh = new THREE.Group();
+                    mesh.add(leftGlove);
+                    mesh.add(rightGlove);
+                    break;
+                case 'waist':
+                    geometry = new THREE.TorusGeometry(0.32, 0.04, 16, 32);
+                    mesh = new THREE.Mesh(geometry, clothMaterial);
+                    mesh.position.y = 0.75;
+                    mesh.rotation.x = Math.PI / 2;
+                    mesh.castShadow = true;
+                    break;
+                default:
+                    geometry = new THREE.SphereGeometry(0.3, 32, 32);
+                    mesh = new THREE.Mesh(geometry, clothMaterial);
+            }
+
+            mesh.userData.itemId = itemId;
+            return mesh;
+        }
+
+        function toggleItem(card) {
+            const itemId = card.dataset.item;
+            const zone = card.dataset.zone;
+            const color = card.dataset.color;
+
+            if (wornItems[itemId]) {
+                clothingGroup.remove(wornItems[itemId]);
+                delete wornItems[itemId];
+                card.classList.remove('active');
+            } else {
+                // Remove existing item in same zone
+                Object.keys(wornItems).forEach(key => {
+                    if (wornItems[key].userData.zone === zone) {
+                        clothingGroup.remove(wornItems[key]);
+                        delete wornItems[key];
+                        document.querySelector(`[data-item="${key}"]`)?.classList.remove('active');
+                    }
+                });
+
+                const mesh = createClothingMesh(zone, color, itemId);
+                mesh.userData.zone = zone;
+                clothingGroup.add(mesh);
+                wornItems[itemId] = mesh;
+                card.classList.add('active');
+            }
+        }
+
         // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const category = this.dataset.category;
-                
-                // Update active tab
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                
-                // Show/hide grids
-                document.querySelectorAll('.product-grid').forEach(grid => {
-                    grid.style.display = 'none';
-                });
+                document.querySelectorAll('.product-grid').forEach(grid => grid.style.display = 'none');
                 document.getElementById(`${category}-grid`).style.display = 'grid';
             });
         });
 
-        // Drag and drop functionality
-        let draggedItem = null;
-
+        // Product card click
         document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('dragstart', function(e) {
-                draggedItem = this;
-                e.dataTransfer.effectAllowed = 'move';
-            });
+            card.addEventListener('click', () => toggleItem(card));
         });
 
-        const mannequin = document.getElementById('mannequin');
-
-        mannequin.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
+        // Controls
+        document.getElementById('clear-all').addEventListener('click', () => {
+            Object.keys(wornItems).forEach(key => {
+                clothingGroup.remove(wornItems[key]);
+                delete wornItems[key];
+            });
+            document.querySelectorAll('.product-card').forEach(c => c.classList.remove('active'));
         });
 
-        mannequin.addEventListener('drop', function(e) {
-            e.preventDefault();
-            
-            if (!draggedItem) return;
-
-            const rect = mannequin.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            // Create worn item
-            const wornDiv = document.createElement('div');
-            wornDiv.className = 'worn-item';
-            
-            const img = draggedItem.querySelector('img').cloneNode();
-            img.onerror = function() { this.style.display = 'none'; };
-            wornDiv.appendChild(img);
-            
-            // Position based on zone
-            const zone = draggedItem.dataset.zone;
-            let width = 150;
-            let height = 150;
-
-            if (zone === 'torso') {
-                width = 280;
-                height = 350;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'legs') {
-                width = 220;
-                height = 380;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/3) + 'px';
-            } else if (zone === 'feet') {
-                width = 160;
-                height = 120;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'hand') {
-                width = 140;
-                height = 180;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'hands') {
-                width = 180;
-                height = 120;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            }
-
-            wornDiv.style.width = width + 'px';
-            wornDiv.style.height = height + 'px';
-
-            // Make it draggable
-            makeDraggable(wornDiv);
-            
-            mannequin.appendChild(wornDiv);
-            draggedItem = null;
+        let autoRotate = false;
+        document.getElementById('rotate-btn').addEventListener('click', function() {
+            autoRotate = !autoRotate;
+            controls.autoRotate = autoRotate;
+            this.textContent = autoRotate ? 'STOP ROTATION' : 'AUTO ROTATE';
         });
 
-        function makeDraggable(element) {
-            let isDragging = false;
-            let startX, startY, initialX, initialY;
-
-            element.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                initialX = element.offsetLeft;
-                initialY = element.offsetTop;
-                element.style.zIndex = 100;
-            });
-
-            document.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                
-                const dx = e.clientX - startX;
-                const dy = e.clientY - startY;
-                
-                element.style.left = (initialX + dx) + 'px';
-                element.style.top = (initialY + dy) + 'px';
-            });
-
-            document.addEventListener('mouseup', function() {
-                isDragging = false;
-                element.style.zIndex = 10;
-            });
-
-            // Double-click to remove
-            element.addEventListener('dblclick', function(e) {
-                e.stopPropagation();
-                element.remove();
-            });
-        }
-
-        // Clear all items
-        document.getElementById('clear-all').addEventListener('click', function() {
-            document.querySelectorAll('.worn-item').forEach(item => item.remove());
-        });
-
-        // Save look
-        document.getElementById('save-look').addEventListener('click', function() {
-            const items = document.querySelectorAll('.worn-item').length;
-            if (items === 0) {
-                alert('Add items to the mannequin first!');
+        document.getElementById('save-look').addEventListener('click', () => {
+            const count = Object.keys(wornItems).length;
+            if (count === 0) {
+                alert('Dress the mannequin first!');
                 return;
             }
-            alert(`Look saved with ${items} item(s)! (In a real implementation, this would save to your account)`);
+            alert(`Look saved with ${count} item(s)!`);
         });
 
-        // Random look
-        document.getElementById('random-look').addEventListener('click', function() {
-            const allCards = document.querySelectorAll('.product-card');
-            const randomItems = Array.from(allCards).sort(() => 0.5 - Math.random()).slice(0, 4);
-            
-            randomItems.forEach((card, index) => {
-                setTimeout(() => {
-                    const zone = card.dataset.zone;
-                    const wornDiv = document.createElement('div');
-                    wornDiv.className = 'worn-item';
-                    
-                    const img = card.querySelector('img').cloneNode();
-                    img.onerror = function() { this.style.display = 'none'; };
-                    wornDiv.appendChild(img);
-                    
-                    let width = 150;
-                    let height = 150;
-                    let left, top;
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
 
-                    if (zone === 'torso') {
-                        width = 280;
-                        height = 350;
-                        left = 110 + Math.random() * 50;
-                        top = 150 + Math.random() * 50;
-                    } else if (zone === 'legs') {
-                        width = 220;
-                        height = 380;
-                        left = 115 + Math.random() * 30;
-                        top = 380;
-                    } else if (zone === 'feet') {
-                        width = 160;
-                        height = 120;
-                        left = 120 + Math.random() * 80;
-                        top = 680;
-                    } else if (zone === 'hand') {
-                        width = 140;
-                        height = 180;
-                        left = 80 + Math.random() * 100;
-                        top = 350 + Math.random() * 100;
-                    } else {
-                        left = 100 + Math.random() * 150;
-                        top = 200 + Math.random() * 200;
-                    }
-
-                    wornDiv.style.width = width + 'px';
-                    wornDiv.style.height = height + 'px';
-                    wornDiv.style.left = left + 'px';
-                    wornDiv.style.top = top + 'px';
-                    
-                    makeDraggable(wornDiv);
-                    mannequin.appendChild(wornDiv);
-                }, index * 200);
-            });
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // Touch support for mobile
-        let touchItem = null;
+        // Hide loading
+        setTimeout(() => {
+            document.getElementById('loading').style.opacity = '0';
+            setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
+        }, 1000);
 
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('touchstart', function(e) {
-                touchItem = this;
-            }, {passive: true});
-        });
-
-        mannequin.addEventListener('touchend', function(e) {
-            if (!touchItem) return;
-            
-            const touch = e.changedTouches[0];
-            const rect = mannequin.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-
-            const wornDiv = document.createElement('div');
-            wornDiv.className = 'worn-item';
-            
-            const img = touchItem.querySelector('img').cloneNode();
-            img.onerror = function() { this.style.display = 'none'; };
-            wornDiv.appendChild(img);
-            
-            const zone = touchItem.dataset.zone;
-            let width = 150;
-            let height = 150;
-
-            if (zone === 'torso') {
-                width = 280;
-                height = 350;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'legs') {
-                width = 220;
-                height = 380;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/3) + 'px';
-            } else if (zone === 'feet') {
-                width = 160;
-                height = 120;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'hand') {
-                width = 140;
-                height = 180;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            }
-
-            wornDiv.style.width = width + 'px';
-            wornDiv.style.height = height + 'px';
-            
-            makeDraggable(wornDiv);
-            mannequin.appendChild(wornDiv);
-            touchItem = null;
-        });
+        animate();
     </script>
 </body>
 </html>
