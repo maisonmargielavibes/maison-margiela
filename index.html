@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAISON MARGIELA | VIRTUAL ATELIER</title>
     <style>
-        /* --- MAISON MARGIELA AESTHETIC: MINIMALIST, STARK, DECONSTRUCTED --- */
         :root {
             --bg: #050505;
             --text: #e0e0e0;
@@ -28,7 +27,6 @@
             overflow-x: hidden;
         }
 
-        /* --- NAVIGATION --- */
         header {
             position: fixed;
             top: 0;
@@ -51,7 +49,6 @@
             position: relative;
         }
 
-        /* The Signature Four White Stitches */
         .logo::after {
             content: '';
             position: absolute;
@@ -79,7 +76,6 @@
 
         nav a:hover { opacity: 0.5; }
 
-        /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
             display: flex;
@@ -124,7 +120,6 @@
             color: var(--bg);
         }
 
-        /* --- VIRTUAL ATELIER (TRY-ON) SECTION --- */
         .vto-section {
             min-height: 100vh;
             padding: 100px 20px;
@@ -140,12 +135,82 @@
             color: #666;
         }
 
+        /* BODY TYPE SELECTOR */
+        .body-selector {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .body-selector-label {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: #666;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .body-types {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .body-type-btn {
+            width: 80px;
+            height: 120px;
+            border: 2px solid var(--grey);
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .body-type-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .body-type-btn.active {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .body-type-btn svg {
+            width: 50px;
+            height: 80px;
+            fill: #444;
+            transition: fill 0.3s;
+        }
+
+        .body-type-btn:hover svg,
+        .body-type-btn.active svg {
+            fill: var(--accent);
+        }
+
+        .body-type-label {
+            margin-top: 10px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .body-type-btn.active .body-type-label {
+            color: var(--accent);
+        }
+
         .vto-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            aspect-ratio: 3/4;
-            background: #111;
+            max-width: 600px;
+            height: 800px;
+            background: #0a0a0a;
             border: 1px solid var(--grey);
             overflow: hidden;
             display: flex;
@@ -157,7 +222,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scaleX(-1); /* Mirror effect */
+            transform: scaleX(-1);
             display: none;
         }
 
@@ -169,22 +234,43 @@
             text-transform: uppercase;
         }
 
-        /* Garment Overlay */
-        .garment-overlay {
+        /* BODY SKELETON/SILHOUETTE */
+        .body-skeleton {
             position: absolute;
             width: 300px;
-            height: auto;
-            cursor: grab;
-            user-select: none;
-            touch-action: none;
-            display: none;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-            mix-blend-mode: multiply; /* Blends nicely with clothing */
+            height: 700px;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+            z-index: 1;
         }
 
-        .garment-overlay:active { cursor: grabbing; }
+        .body-skeleton svg {
+            width: 100%;
+            height: 100%;
+            fill: #333;
+            stroke: #555;
+            stroke-width: 1;
+        }
 
-        /* Controls */
+        .garment-on-body {
+            position: absolute;
+            width: 320px;
+            height: 720px;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .garment-on-body.visible {
+            opacity: 1;
+        }
+
+        .garment-on-body svg {
+            width: 100%;
+            height: 100%;
+        }
+
         .vto-controls {
             margin-top: 30px;
             display: flex;
@@ -210,28 +296,30 @@
             color: var(--accent);
         }
 
-        .scale-controls {
-            margin-top: 20px;
+        .mode-toggle {
+            margin-bottom: 30px;
             display: flex;
-            gap: 20px;
+            gap: 10px;
         }
 
-        .scale-btn {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #444;
+        .mode-btn {
+            padding: 8px 25px;
             background: transparent;
-            color: #aaa;
-            font-size: 1.2rem;
+            border: 1px solid var(--grey);
+            color: #666;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: all 0.3s;
         }
-        
-        .scale-btn:hover { border-color: #fff; color: #fff; }
 
-        /* --- FOOTER --- */
+        .mode-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
         footer {
             padding: 60px 20px;
             text-align: center;
@@ -245,11 +333,14 @@
             color: #555;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
             nav a { margin-left: 15px; font-size: 0.6rem; }
-            .garment-overlay { width: 200px; }
+            .body-type-btn { width: 60px; height: 90px; }
+            .body-type-btn svg { width: 35px; height: 60px; }
+            .vto-container { height: 600px; }
+            .body-skeleton { width: 220px; height: 520px; }
+            .garment-on-body { width: 240px; height: 540px; }
         }
     </style>
 </head>
@@ -266,187 +357,310 @@
 
     <section class="hero">
         <h1>THE VIRTUAL<br>ATELIER</h1>
-        <p>Experience the deconstruction of form. Step into the digital mirror and explore the ARTISANAL collection through our augmented reality fitting room.</p>
-        <button class="btn-primary" onclick="document.getElementById('vto').scrollIntoView({behavior: 'smooth'})">ENTER MIRROR</button>
+        <p>Experience the deconstruction of form. Select your body type and explore how our ARTISANAL collection drapes on different silhouettes.</p>
+        <button class="btn-primary" onclick="document.getElementById('vto').scrollIntoView({behavior: 'smooth'})">ENTER ATELIER</button>
     </section>
 
     <section class="vto-section" id="vto">
-        <div class="vto-title">[ AUGMENTED REALITY FITTING ROOM ]</div>
+        <div class="vto-title">[ BODY TYPE & GARMENT SELECTOR ]</div>
         
+        <div class="mode-toggle">
+            <button class="mode-btn active" id="mode-skeleton">SKELETON VIEW</button>
+            <button class="mode-btn" id="mode-camera">CAMERA VIEW</button>
+        </div>
+
+        <div class="body-selector">
+            <div class="body-selector-label">Select Your Body Type</div>
+            <div class="body-types">
+                <button class="body-type-btn active" data-body="xs" onclick="selectBodyType('xs')">
+                    <svg viewBox="0 0 100 160">
+                        <ellipse cx="50" cy="20" rx="15" ry="18"/>
+                        <path d="M35,40 L65,40 L60,90 L40,90 Z"/>
+                        <path d="M35,45 L20,70 M65,45 L80,70"/>
+                        <path d="M40,90 L35,140 M60,90 L65,140"/>
+                    </svg>
+                    <span class="body-type-label">XS</span>
+                </button>
+                
+                <button class="body-type-btn" data-body="s" onclick="selectBodyType('s')">
+                    <svg viewBox="0 0 100 160">
+                        <ellipse cx="50" cy="20" rx="16" ry="18"/>
+                        <path d="M34,40 L66,40 L62,90 L38,90 Z"/>
+                        <path d="M34,45 L18,72 M66,45 L82,72"/>
+                        <path d="M38,90 L33,140 M62,90 L67,140"/>
+                    </svg>
+                    <span class="body-type-label">S</span>
+                </button>
+                
+                <button class="body-type-btn" data-body="m" onclick="selectBodyType('m')">
+                    <svg viewBox="0 0 100 160">
+                        <ellipse cx="50" cy="20" rx="17" ry="19"/>
+                        <path d="M33,40 L67,40 L64,90 L36,90 Z"/>
+                        <path d="M33,45 L16,73 M67,45 L84,73"/>
+                        <path d="M36,90 L31,140 M64,90 L69,140"/>
+                    </svg>
+                    <span class="body-type-label">M</span>
+                </button>
+                
+                <button class="body-type-btn" data-body="l" onclick="selectBodyType('l')">
+                    <svg viewBox="0 0 100 160">
+                        <ellipse cx="50" cy="20" rx="18" ry="20"/>
+                        <path d="M32,40 L68,40 L66,90 L34,90 Z"/>
+                        <path d="M32,45 L14,74 M68,45 L86,74"/>
+                        <path d="M34,90 L29,140 M66,90 L71,140"/>
+                    </svg>
+                    <span class="body-type-label">L</span>
+                </button>
+                
+                <button class="body-type-btn" data-body="xl" onclick="selectBodyType('xl')">
+                    <svg viewBox="0 0 100 160">
+                        <ellipse cx="50" cy="20" rx="20" ry="22"/>
+                        <path d="M30,40 L70,40 L68,90 L32,90 Z"/>
+                        <path d="M30,45 L12,75 M70,45 L88,75"/>
+                        <path d="M32,90 L27,140 M68,90 L73,140"/>
+                    </svg>
+                    <span class="body-type-label">XL</span>
+                </button>
+                
+                <button class="body-type-btn" data-body="xxl" onclick="selectBodyType('xxl')">
+                    <svg viewBox="0 0 100 160">
+                        <ellipse cx="50" cy="20" rx="22" ry="24"/>
+                        <path d="M28,40 L72,40 L70,90 L30,90 Z"/>
+                        <path d="M28,45 L10,76 M72,45 L90,76"/>
+                        <path d="M30,90 L25,140 M70,90 L75,140"/>
+                    </svg>
+                    <span class="body-type-label">XXL</span>
+                </button>
+            </div>
+        </div>
+
         <div class="vto-container" id="mirror">
-            <span class="placeholder-msg" id="placeholder">ACTIVATE CAMERA TO BEGIN</span>
+            <span class="placeholder-msg" id="placeholder">SELECT A BODY TYPE TO BEGIN</span>
             <video id="webcam" autoplay playsinline></video>
             
-            <!-- SVG Garment 1: Tabi Boot Silhouette -->
-            <svg id="item-tabi" class="garment-overlay" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <path d="M20,100 Q30,40 80,40 L120,40 Q170,40 180,100 L180,130 L110,130 L105,110 L95,110 L90,130 L20,130 Z" fill="#111" stroke="#fff" stroke-width="2"/>
-                <line x1="100" y1="110" x2="100" y2="130" stroke="#fff" stroke-width="2"/>
-                <path d="M40,130 L160,130 L165,145 L35,145 Z" fill="#222" stroke="#fff" stroke-width="1"/>
-            </svg>
+            <!-- Body Skeletons -->
+            <div class="body-skeleton" id="skeleton-container">
+                <svg id="body-xs" viewBox="0 0 300 700">
+                    <!-- Head -->
+                    <ellipse cx="150" cy="60" rx="45" ry="50" fill="#222" stroke="#444"/>
+                    <!-- Torso -->
+                    <path d="M105,120 L195,120 L185,320 L115,320 Z" fill="#222" stroke="#444"/>
+                    <!-- Arms -->
+                    <path d="M105,135 L60,250" stroke="#444" stroke-width="25" fill="none" stroke-linecap="round"/>
+                    <path d="M195,135 L240,250" stroke="#444" stroke-width="25" fill="none" stroke-linecap="round"/>
+                    <!-- Legs -->
+                    <path d="M115,320 L95,650" stroke="#444" stroke-width="30" fill="none" stroke-linecap="round"/>
+                    <path d="M185,320 L205,650" stroke="#444" stroke-width="30" fill="none" stroke-linecap="round"/>
+                </svg>
+                
+                <svg id="body-s" viewBox="0 0 300 700" style="display:none">
+                    <ellipse cx="150" cy="60" rx="47" ry="52" fill="#222" stroke="#444"/>
+                    <path d="M103,120 L197,120 L188,320 L112,320 Z" fill="#222" stroke="#444"/>
+                    <path d="M103,135 L57,250" stroke="#444" stroke-width="27" fill="none" stroke-linecap="round"/>
+                    <path d="M197,135 L243,250" stroke="#444" stroke-width="27" fill="none" stroke-linecap="round"/>
+                    <path d="M112,320 L91,650" stroke="#444" stroke-width="32" fill="none" stroke-linecap="round"/>
+                    <path d="M188,320 L209,650" stroke="#444" stroke-width="32" fill="none" stroke-linecap="round"/>
+                </svg>
+                
+                <svg id="body-m" viewBox="0 0 300 700" style="display:none">
+                    <ellipse cx="150" cy="60" rx="50" ry="55" fill="#222" stroke="#444"/>
+                    <path d="M100,120 L200,120 L192,320 L108,320 Z" fill="#222" stroke="#444"/>
+                    <path d="M100,135 L53,250" stroke="#444" stroke-width="29" fill="none" stroke-linecap="round"/>
+                    <path d="M200,135 L247,250" stroke="#444" stroke-width="29" fill="none" stroke-linecap="round"/>
+                    <path d="M108,320 L86,650" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
+                    <path d="M192,320 L214,650" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
+                </svg>
+                
+                <svg id="body-l" viewBox="0 0 300 700" style="display:none">
+                    <ellipse cx="150" cy="60" rx="53" ry="58" fill="#222" stroke="#444"/>
+                    <path d="M97,120 L203,120 L196,320 L104,320 Z" fill="#222" stroke="#444"/>
+                    <path d="M97,135 L49,250" stroke="#444" stroke-width="31" fill="none" stroke-linecap="round"/>
+                    <path d="M203,135 L251,250" stroke="#444" stroke-width="31" fill="none" stroke-linecap="round"/>
+                    <path d="M104,320 L81,650" stroke="#444" stroke-width="36" fill="none" stroke-linecap="round"/>
+                    <path d="M196,320 L219,650" stroke="#444" stroke-width="36" fill="none" stroke-linecap="round"/>
+                </svg>
+                
+                <svg id="body-xl" viewBox="0 0 300 700" style="display:none">
+                    <ellipse cx="150" cy="60" rx="57" ry="62" fill="#222" stroke="#444"/>
+                    <path d="M93,120 L207,120 L201,320 L99,320 Z" fill="#222" stroke="#444"/>
+                    <path d="M93,135 L44,250" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
+                    <path d="M207,135 L256,250" stroke="#444" stroke-width="34" fill="none" stroke-linecap="round"/>
+                    <path d="M99,320 L75,650" stroke="#444" stroke-width="39" fill="none" stroke-linecap="round"/>
+                    <path d="M201,320 L225,650" stroke="#444" stroke-width="39" fill="none" stroke-linecap="round"/>
+                </svg>
+                
+                <svg id="body-xxl" viewBox="0 0 300 700" style="display:none">
+                    <ellipse cx="150" cy="60" rx="61" ry="66" fill="#222" stroke="#444"/>
+                    <path d="M89,120 L211,120 L206,320 L94,320 Z" fill="#222" stroke="#444"/>
+                    <path d="M89,135 L39,250" stroke="#444" stroke-width="37" fill="none" stroke-linecap="round"/>
+                    <path d="M211,135 L261,250" stroke="#444" stroke-width="37" fill="none" stroke-linecap="round"/>
+                    <path d="M94,320 L69,650" stroke="#444" stroke-width="42" fill="none" stroke-linecap="round"/>
+                    <path d="M206,320 L231,650" stroke="#444" stroke-width="42" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
 
-            <!-- SVG Garment 2: Deconstructed Coat Silhouette -->
-            <svg id="item-coat" class="garment-overlay" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <path d="M100,50 L200,50 L250,150 L280,350 L200,380 L150,250 L100,380 L20,350 L50,150 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2" stroke-dasharray="5,5"/>
-                <path d="M150,50 L150,250" stroke="#fff" stroke-width="1" stroke-dasharray="2,4"/>
-                <circle cx="150" cy="100" r="5" fill="#fff"/>
-                <circle cx="150" cy="150" r="5" fill="#fff"/>
-                <circle cx="150" cy="200" r="5" fill="#fff"/>
-            </svg>
+            <!-- Garments on Body -->
+            <div class="garment-on-body" id="garment-tabi">
+                <svg viewBox="0 0 320 720">
+                    <!-- Tabi Boots on body -->
+                    <path d="M110,640 L110,690 L125,690 L125,660 Q130,655 135,660 L135,690 L150,690 L150,640 Z" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
+                    <path d="M170,640 L170,690 L185,690 L185,660 Q190,655 195,660 L195,690 L210,690 L210,640 Z" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
+                    <line x1="130" y1="660" x2="130" y2="690" stroke="#fff" stroke-width="1"/>
+                    <line x1="190" y1="660" x2="190" y2="690" stroke="#fff" stroke-width="1"/>
+                </svg>
+            </div>
 
-            <!-- SVG Garment 3: Replica Sneaker Silhouette -->
-            <svg id="item-sneaker" class="garment-overlay" viewBox="0 0 250 120" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <path d="M10,80 Q20,30 80,30 L150,30 Q220,30 240,70 L240,90 L10,90 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
-                <path d="M10,90 L240,90 L235,110 L15,110 Z" fill="#ddd" stroke="#000" stroke-width="2"/>
-                <line x1="80" y1="30" x2="120" y2="70" stroke="#000" stroke-width="1"/>
-                <line x1="100" y1="30" x2="140" y2="70" stroke="#000" stroke-width="1"/>
-                <line x1="120" y1="30" x2="160" y2="70" stroke="#000" stroke-width="1"/>
-            </svg>
+            <div class="garment-on-body" id="garment-coat">
+                <svg viewBox="0 0 320 720">
+                    <!-- Deconstructed Coat -->
+                    <path d="M100,140 L220,140 L240,280 L250,450 L200,480 L160,350 L160,350 L120,480 L70,450 L80,280 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2" stroke-dasharray="5,5"/>
+                    <path d="M160,140 L160,350" stroke="#fff" stroke-width="1" stroke-dasharray="3,5"/>
+                    <circle cx="160" cy="200" r="4" fill="#fff"/>
+                    <circle cx="160" cy="250" r="4" fill="#fff"/>
+                    <circle cx="160" cy="300" r="4" fill="#fff"/>
+                    <path d="M100,140 L85,220" stroke="#fff" stroke-width="1"/>
+                    <path d="M220,140 L235,220" stroke="#fff" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <div class="garment-on-body" id="garment-sneaker">
+                <svg viewBox="0 0 320 720">
+                    <!-- Replica Sneakers -->
+                    <g transform="translate(85,650)">
+                        <path d="M10,50 Q15,20 50,20 L90,20 Q120,20 130,45 L130,55 L10,55 Z" fill="#f0f0f0" stroke="#000" stroke-width="1"/>
+                        <path d="M10,55 L130,55 L127,68 L13,68 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
+                        <line x1="50" y1="20" x2="70" y2="45" stroke="#000" stroke-width="0.5"/>
+                        <line x1="60" y1="20" x2="80" y2="45" stroke="#000" stroke-width="0.5"/>
+                        <line x1="70" y1="20" x2="90" y2="45" stroke="#000" stroke-width="0.5"/>
+                    </g>
+                    <g transform="translate(165,650)">
+                        <path d="M10,50 Q15,20 50,20 L90,20 Q120,20 130,45 L130,55 L10,55 Z" fill="#f0f0f0" stroke="#000" stroke-width="1"/>
+                        <path d="M10,55 L130,55 L127,68 L13,68 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
+                        <line x1="50" y1="20" x2="70" y2="45" stroke="#000" stroke-width="0.5"/>
+                        <line x1="60" y1="20" x2="80" y2="45" stroke="#000" stroke-width="0.5"/>
+                        <line x1="70" y1="20" x2="90" y2="45" stroke="#000" stroke-width="0.5"/>
+                    </g>
+                </svg>
+            </div>
+
         </div>
 
         <div class="vto-controls">
-            <button class="ctrl-btn" id="btn-cam">ACTIVATE MIRROR</button>
-            <button class="ctrl-btn item-btn" data-target="item-tabi">TABI</button>
-            <button class="ctrl-btn item-btn" data-target="item-coat">ARTISANAL COAT</button>
-            <button class="ctrl-btn item-btn" data-target="item-sneaker">REPLICA</button>
+            <button class="ctrl-btn item-btn active" data-garment="garment-coat" onclick="selectGarment('garment-coat')">ARTISANAL COAT</button>
+            <button class="ctrl-btn item-btn" data-garment="garment-tabi" onclick="selectGarment('garment-tabi')">TABI BOOTS</button>
+            <button class="ctrl-btn item-btn" data-garment="garment-sneaker" onclick="selectGarment('garment-sneaker')">REPLICA SNEAKERS</button>
         </div>
 
-        <div class="scale-controls">
-            <button class="scale-btn" id="scale-down">-</button>
-            <span style="line-height: 40px; font-size: 0.7rem; letter-spacing: 2px; color: #666;">SCALE</span>
-            <button class="scale-btn" id="scale-up">+</button>
-        </div>
     </section>
 
     <footer>
-        <p>© 2026 MAISON MARGIELA | VIRTUAL ATELIER PROTOTYPE | ALL RIGHTS RESERVED</p>
+        <p>© 2026 MAISON MARGIELA | VIRTUAL ATELIER | INCLUSIVE SIZING XS-XXL</p>
     </footer>
 
     <script>
-        // --- WEBCAM LOGIC ---
-        const video = document.getElementById('webcam');
-        const btnCam = document.getElementById('btn-cam');
-        const placeholder = document.getElementById('placeholder');
+        let currentBodyType = 'xs';
+        let currentGarment = 'garment-coat';
+        let currentMode = 'skeleton'; // 'skeleton' or 'camera'
         let stream = null;
 
-        btnCam.addEventListener('click', async () => {
-            if (!stream) {
+        function selectBodyType(bodyType) {
+            currentBodyType = bodyType;
+            
+            // Update button states
+            document.querySelectorAll('.body-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.dataset.body === bodyType) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update skeleton visibility
+            document.querySelectorAll('.body-skeleton svg').forEach(svg => {
+                svg.style.display = 'none';
+            });
+            document.getElementById(`body-${bodyType}`).style.display = 'block';
+            
+            // Update placeholder
+            document.getElementById('placeholder').textContent = 'SELECT A GARMENT TO VIEW';
+            
+            // Show current garment on selected body
+            updateGarmentDisplay();
+        }
+
+        function selectGarment(garmentId) {
+            currentGarment = garmentId;
+            
+            // Update button states
+            document.querySelectorAll('.item-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.dataset.garment === garmentId) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            updateGarmentDisplay();
+        }
+
+        function updateGarmentDisplay() {
+            // Hide all garments
+            document.querySelectorAll('.garment-on-body').forEach(g => {
+                g.classList.remove('visible');
+            });
+            
+            // Show selected garment if body type is selected
+            if(currentBodyType) {
+                document.getElementById('placeholder').textContent = '';
+                document.getElementById(currentGarment).classList.add('visible');
+            }
+        }
+
+        // Mode toggle
+        document.getElementById('mode-skeleton').addEventListener('click', function() {
+            currentMode = 'skeleton';
+            document.getElementById('mode-skeleton').classList.add('active');
+            document.getElementById('mode-camera').classList.remove('active');
+            
+            if(stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            document.getElementById('webcam').style.display = 'none';
+            document.querySelector('.body-skeleton').style.display = 'block';
+            document.getElementById('placeholder').style.display = 'none';
+            updateGarmentDisplay();
+        });
+
+        document.getElementById('mode-camera').addEventListener('click', async function() {
+            currentMode = 'camera';
+            document.getElementById('mode-camera').classList.add('active');
+            document.getElementById('mode-skeleton').classList.remove('active');
+            
+            if(!stream) {
                 try {
                     stream = await navigator.mediaDevices.getUserMedia({ 
                         video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } 
                     });
-                    video.srcObject = stream;
-                    video.style.display = 'block';
-                    placeholder.style.display = 'none';
-                    btnCam.textContent = 'DEACTIVATE MIRROR';
-                    btnCam.classList.add('active');
+                    document.getElementById('webcam').srcObject = stream;
+                    document.getElementById('webcam').style.display = 'block';
+                    document.querySelector('.body-skeleton').style.display = 'none';
+                    document.querySelectorAll('.garment-on-body').forEach(g => {
+                        g.classList.remove('visible');
+                    });
                 } catch (err) {
-                    alert('Camera access is required for the Virtual Atelier. Please allow camera permissions.');
+                    alert('Camera access required. Please allow camera permissions.');
+                    document.getElementById('mode-skeleton').click();
                 }
             } else {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-                video.style.display = 'none';
-                placeholder.style.display = 'block';
-                btnCam.textContent = 'ACTIVATE MIRROR';
-                btnCam.classList.remove('active');
-                // Hide garments when camera turns off
-                document.querySelectorAll('.garment-overlay').forEach(g => g.style.display = 'none');
-            }
-        });
-
-        // --- GARMENT SELECTION LOGIC ---
-        const itemBtns = document.querySelectorAll('.item-btn');
-        const garments = document.querySelectorAll('.garment-overlay');
-
-        itemBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (!stream) {
-                    alert('Please activate the mirror first.');
-                    return;
-                }
-                
-                // Update active button UI
-                itemBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                // Show selected garment, hide others
-                const targetId = btn.getAttribute('data-target');
-                garments.forEach(g => {
-                    g.style.display = g.id === targetId ? 'block' : 'none';
-                    // Reset position
-                    g.style.transform = `translate(0px, 0px) scale(1)`;
-                    g.dataset.x = 0;
-                    g.dataset.y = 0;
-                    g.dataset.scale = 1;
+                document.getElementById('webcam').style.display = 'block';
+                document.querySelector('.body-skeleton').style.display = 'none';
+                document.querySelectorAll('.garment-on-body').forEach(g => {
+                    g.classList.remove('visible');
                 });
-            });
-        });
-
-        // --- DRAG & DROP / TOUCH LOGIC ---
-        garments.forEach(garment => {
-            let isDragging = false;
-            let startX, startY, initialX, initialY;
-            let currentScale = 1;
-
-            garment.dataset.x = 0;
-            garment.dataset.y = 0;
-            garment.dataset.scale = 1;
-
-            const dragStart = (e) => {
-                isDragging = true;
-                const pos = (e.type.includes('mouse')) ? e : e.touches[0];
-                startX = pos.clientX;
-                startY = pos.clientY;
-                initialX = parseFloat(garment.dataset.x);
-                initialY = parseFloat(garment.dataset.y);
-            };
-
-            const drag = (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const pos = (e.type.includes('mouse')) ? e : e.touches[0];
-                const dx = pos.clientX - startX;
-                const dy = pos.clientY - startY;
-                
-                garment.dataset.x = initialX + dx;
-                garment.dataset.y = initialY + dy;
-                currentScale = parseFloat(garment.dataset.scale);
-                
-                garment.style.transform = `translate(${garment.dataset.x}px, ${garment.dataset.y}px) scale(${currentScale})`;
-            };
-
-            const dragEnd = () => {
-                isDragging = false;
-            };
-
-            garment.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-
-            garment.addEventListener('touchstart', dragStart, { passive: false });
-            document.addEventListener('touchmove', drag, { passive: false });
-            document.addEventListener('touchend', dragEnd);
-        });
-
-        // --- SCALE LOGIC ---
-        document.getElementById('scale-up').addEventListener('click', () => {
-            const activeGarment = document.querySelector('.garment-overlay[style*="display: block"]');
-            if (activeGarment) {
-                let scale = parseFloat(activeGarment.dataset.scale) + 0.1;
-                activeGarment.dataset.scale = scale;
-                activeGarment.style.transform = `translate(${activeGarment.dataset.x}px, ${activeGarment.dataset.y}px) scale(${scale})`;
             }
         });
 
-        document.getElementById('scale-down').addEventListener('click', () => {
-            const activeGarment = document.querySelector('.garment-overlay[style*="display: block"]');
-            if (activeGarment) {
-                let scale = parseFloat(activeGarment.dataset.scale) - 0.1;
-                if (scale < 0.2) scale = 0.2;
-                activeGarment.dataset.scale = scale;
-                activeGarment.style.transform = `translate(${activeGarment.dataset.x}px, ${activeGarment.dataset.y}px) scale(${scale})`;
-            }
-        });
+        // Initialize
+        selectBodyType('xs');
     </script>
 </body>
 </html>
