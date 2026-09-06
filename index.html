@@ -9,7 +9,7 @@
         
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: #f5f0eb;
+            background: #f8f5f2;
             color: #1a1a1a;
             overflow: hidden;
             height: 100vh;
@@ -24,9 +24,9 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(245, 240, 235, 0.95);
+            background: rgba(248, 245, 242, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid #e0d8d0;
+            border-bottom: 1px solid #e8e0d8;
         }
 
         .logo {
@@ -46,10 +46,10 @@
             width: 50px;
             height: 2px;
             background: linear-gradient(90deg, 
-                #fff 20%, transparent 20%, transparent 25%, 
-                #fff 25%, #fff 45%, transparent 45%, transparent 50%, 
-                #fff 50%, #fff 70%, transparent 70%, transparent 75%, 
-                #fff 75%, #fff 95%, transparent 95%);
+                transparent 20%, #fff 20%, #fff 25%, 
+                transparent 25%, transparent 45%, #fff 45%, #fff 50%, 
+                transparent 50%, transparent 70%, #fff 70%, #fff 75%, 
+                transparent 75%, transparent 95%, #fff 95%, #fff 100%);
         }
 
         nav a {
@@ -73,7 +73,7 @@
         #canvas-container {
             flex: 1;
             position: relative;
-            background: linear-gradient(180deg, #f5f0eb 0%, #ebe4dc 100%);
+            background: linear-gradient(180deg, #f8f5f2 0%, #f0ebe6 100%);
         }
 
         .canvas-hint {
@@ -83,28 +83,29 @@
             transform: translateX(-50%);
             font-size: 0.65rem;
             letter-spacing: 3px;
-            color: #888;
+            color: #999;
             text-transform: uppercase;
             pointer-events: none;
-            background: rgba(245, 240, 235, 0.8);
-            padding: 10px 20px;
+            background: rgba(248, 245, 242, 0.9);
+            padding: 10px 25px;
             border-radius: 20px;
+            border: 1px solid #e8e0d8;
         }
 
         .product-panel {
-            width: 420px;
-            background: #faf7f4;
-            border-left: 1px solid #e0d8d0;
+            width: 450px;
+            background: #faf8f5;
+            border-left: 1px solid #e8e0d8;
             overflow-y: auto;
             max-height: calc(100vh - 80px);
         }
 
         .category-tabs {
             display: flex;
-            border-bottom: 1px solid #e0d8d0;
+            border-bottom: 1px solid #e8e0d8;
             position: sticky;
             top: 0;
-            background: #faf7f4;
+            background: #faf8f5;
             z-index: 50;
         }
 
@@ -139,7 +140,7 @@
 
         .product-card {
             background: #fff;
-            border: 1px solid #e8e0d8;
+            border: 1px solid #f0ebe6;
             padding: 12px;
             cursor: pointer;
             transition: all 0.3s;
@@ -149,12 +150,12 @@
         .product-card:hover {
             border-color: #1a1a1a;
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .product-card.active {
             border-color: #1a1a1a;
-            background: #f0ebe6;
+            background: #f5f0eb;
         }
 
         .product-card.active::after {
@@ -168,13 +169,14 @@
 
         .product-image {
             width: 100%;
-            height: 180px;
-            background: #f5f0eb;
+            height: 200px;
+            background: #f8f5f2;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 12px;
             overflow: hidden;
+            border: 1px solid #f0ebe6;
         }
 
         .product-image img {
@@ -196,12 +198,12 @@
             font-size: 0.6rem;
             color: #888;
             letter-spacing: 1px;
+            margin-bottom: 8px;
         }
 
         .product-price {
             font-size: 0.75rem;
             color: #1a1a1a;
-            margin-top: 8px;
             font-weight: 300;
         }
 
@@ -213,17 +215,17 @@
             display: flex;
             gap: 12px;
             z-index: 100;
-            background: rgba(250, 247, 244, 0.95);
+            background: rgba(250, 248, 245, 0.95);
             padding: 12px 25px;
             border-radius: 30px;
-            border: 1px solid #e0d8d0;
+            border: 1px solid #e8e0d8;
             backdrop-filter: blur(10px);
         }
 
         .ctrl-btn {
             padding: 10px 22px;
             background: transparent;
-            border: 1px solid #d0c8c0;
+            border: 1px solid #d8d0c8;
             color: #1a1a1a;
             font-size: 0.65rem;
             letter-spacing: 2px;
@@ -236,7 +238,7 @@
 
         .ctrl-btn:hover {
             background: #1a1a1a;
-            color: #f5f0eb;
+            color: #f8f5f2;
             border-color: #1a1a1a;
         }
 
@@ -246,7 +248,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f5f0eb;
+            background: #f8f5f2;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -257,13 +259,13 @@
         .loading-text {
             font-size: 0.7rem;
             letter-spacing: 5px;
-            color: #888;
+            color: #999;
             text-transform: uppercase;
         }
 
         @media (max-width: 1024px) {
             .main-container { flex-direction: column; }
-            .product-panel { width: 100%; max-height: 40vh; border-left: none; border-top: 1px solid #e0d8d0; }
+            .product-panel { width: 100%; max-height: 40vh; border-left: none; border-top: 1px solid #e8e0d8; }
             header { padding: 20px 25px; }
             nav a { margin-left: 15px; font-size: 0.6rem; }
         }
@@ -274,9 +276,9 @@
     <header>
         <div class="logo">MAISON MARGIELA</div>
         <nav>
-            <a href="#">COLLECTION</a>
+            <a href="#">WOMEN</a>
+            <a href="#">MEN</a>
             <a href="#">ARTISANAL</a>
-            <a href="#">REPLICA</a>
         </nav>
     </header>
 
@@ -285,184 +287,145 @@
             <div class="loading-overlay" id="loading">
                 <div class="loading-text">LOADING ATELIER...</div>
             </div>
-            <div class="canvas-hint">DRAG TO ROTATE · SCROLL TO ZOOM · CLICK ITEMS TO DRESS</div>
+            <div class="canvas-hint">DRAG TO ROTATE · SCROLL TO ZOOM · CLICK PRODUCTS TO DRESS</div>
         </div>
 
         <div class="product-panel">
             <div class="category-tabs">
-                <button class="tab-btn active" data-category="tops">TOPS</button>
-                <button class="tab-btn" data-category="bottoms">BOTTOMS</button>
-                <button class="tab-btn" data-category="shoes">SHOES</button>
-                <button class="tab-btn" data-category="accessories">ACCESSORIES</button>
+                <button class="tab-btn active" data-category="shoes">SHOES</button>
+                <button class="tab-btn" data-category="outerwear">OUTERWEAR</button>
+                <button class="tab-btn" data-category="bags">BAGS</button>
             </div>
 
-            <div class="product-grid" id="tops-grid">
-                <div class="product-card" data-item="deconstructed-blazer" data-zone="torso" data-color="#1a1a1a">
+            <div class="product-grid" id="shoes-grid">
+                <div class="product-card" data-item="tabi-boot-black" data-zone="feet" data-color="#0a0a0a" data-type="boot">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=400&fit=crop" alt="Deconstructed Blazer">
-                    </div>
-                    <div class="product-name">DECONSTRUCTED BLAZER</div>
-                    <div class="product-collection">ARTISANAL</div>
-                    <div class="product-price">€2,890</div>
-                </div>
-
-                <div class="product-card" data-item="oversized-coat" data-zone="torso" data-color="#d4c5b0">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=300&h=400&fit=crop" alt="Oversized Coat">
-                    </div>
-                    <div class="product-name">OVERSIZED COAT</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€4,290</div>
-                </div>
-
-                <div class="product-card" data-item="white-shirt" data-zone="torso" data-color="#f5f0eb">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop" alt="White Shirt">
-                    </div>
-                    <div class="product-name">WHITE COTTON SHIRT</div>
-                    <div class="product-collection">ESSENTIALS</div>
-                    <div class="product-price">€450</div>
-                </div>
-
-                <div class="product-card" data-item="black-sweater" data-zone="torso" data-color="#2a2a2a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&h=400&fit=crop" alt="Black Sweater">
-                    </div>
-                    <div class="product-name">OVERSIZED SWEATER</div>
-                    <div class="product-collection">RECYCLED</div>
-                    <div class="product-price">€890</div>
-                </div>
-
-                <div class="product-card" data-item="puffer-coat" data-zone="torso" data-color="#1a1a1a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=300&h=400&fit=crop" alt="Puffer Coat">
-                    </div>
-                    <div class="product-name">QUILTED PUFFER</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€3,450</div>
-                </div>
-
-                <div class="product-card" data-item="knit-vest" data-zone="torso" data-color="#8b7355">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300&h=400&fit=crop" alt="Knit Vest">
-                    </div>
-                    <div class="product-name">KNIT VEST</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€690</div>
-                </div>
-            </div>
-
-            <div class="product-grid" id="bottoms-grid" style="display:none">
-                <div class="product-card" data-item="black-trousers" data-zone="legs" data-color="#1a1a1a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop" alt="Black Trousers">
-                    </div>
-                    <div class="product-name">WIDE-LEG TROUSERS</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€780</div>
-                </div>
-
-                <div class="product-card" data-item="cargo-pants" data-zone="legs" data-color="#3a3a3a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&h=400&fit=crop" alt="Cargo Pants">
-                    </div>
-                    <div class="product-name">CARGO PANTS</div>
-                    <div class="product-collection">REPLICA</div>
-                    <div class="product-price">€890</div>
-                </div>
-
-                <div class="product-card" data-item="beige-shorts" data-zone="legs" data-color="#c4b5a0">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&h=400&fit=crop" alt="Beige Shorts">
-                    </div>
-                    <div class="product-name">TAILORED SHORTS</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€590</div>
-                </div>
-
-                <div class="product-card" data-item="denim-jeans" data-zone="legs" data-color="#4a5a7a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300&h=400&fit=crop" alt="Denim Jeans">
-                    </div>
-                    <div class="product-name">REPLICA JEANS</div>
-                    <div class="product-collection">REPLICA</div>
-                    <div class="product-price">€590</div>
-                </div>
-            </div>
-
-            <div class="product-grid" id="shoes-grid" style="display:none">
-                <div class="product-card" data-item="tabi-boot-black" data-zone="feet" data-color="#1a1a1a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=300&h=300&fit=crop" alt="Tabi Boot">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/1bc7c7e1f-823a-4211-8e2e-d1ca20fd39997457.png" alt="Tabi Ankle Boot Black" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">TABI ANKLE BOOT</div>
-                    <div class="product-collection">TABI</div>
+                    <div class="product-collection">TABI - BLACK LEATHER</div>
                     <div class="product-price">€1,290</div>
                 </div>
 
-                <div class="product-card" data-item="replica-sneaker" data-zone="feet" data-color="#f5f0eb">
+                <div class="product-card" data-item="tabi-boot-patent" data-zone="feet" data-color="#1a1a1a" data-type="boot">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=300&fit=crop" alt="Replica Sneaker">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/0bc7c7e1f-823a-4211-8e2e-d1ca20fd39995482.png" alt="Tabi Patent Boot" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">REPLICA SNEAKER</div>
-                    <div class="product-collection">REPLICA</div>
-                    <div class="product-price">€490</div>
+                    <div class="product-name">TABI PATENT BOOT</div>
+                    <div class="product-collection">TABI - BLACK PATENT</div>
+                    <div class="product-price">€1,390</div>
                 </div>
 
-                <div class="product-card" data-item="tabi-flat" data-zone="feet" data-color="#2a2a2a">
+                <div class="product-card" data-item="replica-white" data-zone="feet" data-color="#f5f0eb" data-type="sneaker">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&h=300&fit=crop" alt="Tabi Flat">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/9bc7c7e1f-823a-4211-8e2e-d1ca20fd39999152.png" alt="Replica Sneaker White" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">REPLICA SNEAKER</div>
+                    <div class="product-collection">REPLICA - WHITE/BEIGE</div>
+                    <div class="product-price">€850</div>
+                </div>
+
+                <div class="product-card" data-item="replica-painter" data-zone="feet" data-color="#e8e0d8" data-type="sneaker">
+                    <div class="product-image">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/6bc7c7e1f-823a-4211-8e2e-d1ca20fd39996412.png" alt="Replica Painter" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">REPLICA PAINTER</div>
+                    <div class="product-collection">REPLICA - WHITE/PINK</div>
+                    <div class="product-price">€950</div>
+                </div>
+
+                <div class="product-card" data-item="tabi-flat" data-zone="feet" data-color="#2a2a2a" data-type="flat">
+                    <div class="product-image">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/2bc7c7e1f-823a-4211-8e2e-d1ca20fd39993431.png" alt="Tabi Flat" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">TABI FLAT SHOE</div>
-                    <div class="product-collection">TABI</div>
+                    <div class="product-collection">TABI - BLACK</div>
                     <div class="product-price">€790</div>
                 </div>
 
-                <div class="product-card" data-item="german-trainer" data-zone="feet" data-color="#e8e0d8">
+                <div class="product-card" data-item="german-trainer" data-zone="feet" data-color="#d4c5b0" data-type="sneaker">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=300&h=300&fit=crop" alt="German Trainer">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/7bc7c7e1f-823a-4211-8e2e-d1ca20fd39992481.png" alt="German Trainer" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">GERMAN TRAINER</div>
-                    <div class="product-collection">REPLICA</div>
+                    <div class="product-collection">REPLICA - GREY/WHITE</div>
                     <div class="product-price">€450</div>
                 </div>
             </div>
 
-            <div class="product-grid" id="accessories-grid" style="display:none">
-                <div class="product-card" data-item="5ac-bag" data-zone="hand" data-color="#1a1a1a">
+            <div class="product-grid" id="outerwear-grid" style="display:none">
+                <div class="product-card" data-item="deconstructed-blazer-black" data-zone="torso" data-color="#1a1a1a" data-type="blazer">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=400&fit=crop" alt="5AC Bag">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/6bc7c7e1f-823a-4211-8e2e-d1ca20fd39997963.png" alt="Deconstructed Blazer" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">5AC BAG</div>
-                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-name">DECONSTRUCTED BLAZER</div>
+                    <div class="product-collection">ARTISANAL - BLACK</div>
+                    <div class="product-price">€2,890</div>
+                </div>
+
+                <div class="product-card" data-item="deconstructed-coat-beige" data-zone="torso" data-color="#c4b5a0" data-type="coat">
+                    <div class="product-image">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/0bc7c7e1f-823a-4211-8e2e-d1ca20fd39997951.png" alt="Deconstructed Coat" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">DECONSTRUCTED COAT</div>
+                    <div class="product-collection">ARTISANAL - BEIGE</div>
+                    <div class="product-price">€4,290</div>
+                </div>
+
+                <div class="product-card" data-item="oversized-blazer" data-zone="torso" data-color="#8b2346" data-type="blazer">
+                    <div class="product-image">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/2bc7c7e1f-823a-4211-8e2e-d1ca20fd39997797.png" alt="Oversized Blazer" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">OVERSIZED BLAZER</div>
+                    <div class="product-collection">COLLECTION - BURGUNDY</div>
+                    <div class="product-price">€2,450</div>
+                </div>
+
+                <div class="product-card" data-item="classic-coat" data-zone="torso" data-color="#1a1a1a" data-type="coat">
+                    <div class="product-image">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/5bc7c7e1f-823a-4211-8e2e-d1ca20fd39998737.png" alt="Classic Coat" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">CLASSIC COAT</div>
+                    <div class="product-collection">COLLECTION - BLACK</div>
+                    <div class="product-price">€3,890</div>
+                </div>
+            </div>
+
+            <div class="product-grid" id="bags-grid" style="display:none">
+                <div class="product-card" data-item="5ac-black" data-zone="hand" data-color="#0a0a0a" data-type="bag">
+                    <div class="product-image">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/5bc7c7e1f-823a-4211-8e2e-d1ca20fd39994221.png" alt="5AC Bag Black" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">5AC CLASSIQUE</div>
+                    <div class="product-collection">5AC - BLACK LEATHER</div>
                     <div class="product-price">€2,150</div>
                 </div>
 
-                <div class="product-card" data-item="glam-slam" data-zone="hand" data-color="#f5f0eb">
+                <div class="product-card" data-item="5ac-suede" data-zone="hand" data-color="#2a1f1a" data-type="bag">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=400&fit=crop" alt="Glam Slam">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/4bc7c7e1f-823a-4211-8e2e-d1ca20fd39998685.png" alt="5AC Suede" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">GLAM SLAM BAG</div>
-                    <div class="product-collection">ACCESSORIES</div>
+                    <div class="product-name">5AC SOFT</div>
+                    <div class="product-collection">5AC - BLACK SUEDE</div>
+                    <div class="product-price">€2,350</div>
+                </div>
+
+                <div class="product-card" data-item="glamslam-black" data-zone="hand" data-color="#1a1a1a" data-type="bag">
+                    <div class="product-image">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw123456789/images/large/SB1WG0019P4300T8013_1.jpg" alt="Glam Slam Black" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=400&fit=crop'">
+                    </div>
+                    <div class="product-name">GLAM SLAM</div>
+                    <div class="product-collection">GLAM SLAM - BLACK</div>
                     <div class="product-price">€1,890</div>
                 </div>
 
-                <div class="product-card" data-item="leather-gloves" data-zone="hands" data-color="#1a1a1a">
+                <div class="product-card" data-item="5ac-lilac" data-zone="hand" data-color="#d4c5d0" data-type="bag">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1606012823644-9f6f1a9c5d0e?w=300&h=300&fit=crop" alt="Leather Gloves">
+                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/3bc7c7e1f-823a-4211-8e2e-d1ca20fd39993278.png" alt="5AC Lilac" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">LEATHER GLOVES</div>
-                    <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€420</div>
-                </div>
-
-                <div class="product-card" data-item="numeric-belt" data-zone="waist" data-color="#2a2a2a">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=300&h=300&fit=crop" alt="Numeric Belt">
-                    </div>
-                    <div class="product-name">NUMERIC BELT</div>
-                    <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€350</div>
+                    <div class="product-name">5AC CLASSIQUE BABY</div>
+                    <div class="product-collection">5AC - LILAC</div>
+                    <div class="product-price">€1,650</div>
                 </div>
             </div>
         </div>
@@ -480,285 +443,463 @@
         // Three.js Setup
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf5f0eb);
-        scene.fog = new THREE.Fog(0xf5f0eb, 10, 50);
+        scene.background = new THREE.Color(0xf8f5f2);
+        scene.fog = new THREE.Fog(0xf8f5f2, 8, 40);
 
         const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 1.5, 6);
+        camera.position.set(0, 1.6, 5.5);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
         container.appendChild(renderer.domElement);
 
         // Controls
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
-        controls.target.set(0, 1, 0);
+        controls.target.set(0, 0.9, 0);
         controls.minDistance = 3;
-        controls.maxDistance = 10;
-        controls.maxPolarAngle = Math.PI / 1.8;
+        controls.maxDistance = 9;
+        controls.maxPolarAngle = Math.PI / 2.2;
 
-        // Lighting - soft studio lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        // Professional Studio Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
 
-        const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        mainLight.position.set(5, 10, 5);
+        const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        mainLight.position.set(5, 8, 5);
         mainLight.castShadow = true;
         mainLight.shadow.mapSize.width = 2048;
         mainLight.shadow.mapSize.height = 2048;
+        mainLight.shadow.camera.near = 0.5;
+        mainLight.shadow.camera.far = 20;
+        mainLight.shadow.camera.left = -3;
+        mainLight.shadow.camera.right = 3;
+        mainLight.shadow.camera.top = 3;
+        mainLight.shadow.camera.bottom = -3;
         scene.add(mainLight);
 
-        const fillLight = new THREE.DirectionalLight(0xf5f0eb, 0.4);
+        const fillLight = new THREE.DirectionalLight(0xf5f0eb, 0.6);
         fillLight.position.set(-5, 5, -5);
         scene.add(fillLight);
 
-        const rimLight = new THREE.DirectionalLight(0xffffff, 0.3);
-        rimLight.position.set(0, 5, -10);
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.4);
+        rimLight.position.set(0, 6, -8);
         scene.add(rimLight);
 
-        // Floor
-        const floorGeometry = new THREE.CircleGeometry(8, 64);
+        const topLight = new THREE.DirectionalLight(0xffffff, 0.3);
+        topLight.position.set(0, 10, 0);
+        scene.add(topLight);
+
+        // Floor with subtle gradient
+        const floorGeometry = new THREE.CircleGeometry(6, 64);
         const floorMaterial = new THREE.MeshStandardMaterial({ 
             color: 0xe8e0d8, 
-            roughness: 0.8,
-            metalness: 0.1
+            roughness: 0.9,
+            metalness: 0.05
         });
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
         scene.add(floor);
 
-        // Mannequin Group
+        // Realistic Human Body Mannequin
         const mannequin = new THREE.Group();
         scene.add(mannequin);
 
+        // Skin material - milky white/pale tone
         const skinMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0xe8e0d8,
-            roughness: 0.7,
-            metalness: 0.1
+            color: 0xf0ebe6,
+            roughness: 0.6,
+            metalness: 0.0,
+            flatShading: false
         });
 
-        // Head
-        const headGeo = new THREE.SphereGeometry(0.28, 32, 32);
-        const head = new THREE.Mesh(headGeo, skinMaterial);
-        head.position.y = 2.1;
-        head.castShadow = true;
-        mannequin.add(head);
+        // Create detailed body parts with proper proportions
+        function createBodyPart(geometry, x, y, z, castShadow = true) {
+            const mesh = new THREE.Mesh(geometry, skinMaterial);
+            mesh.position.set(x, y, z);
+            if (castShadow) mesh.castShadow = true;
+            return mesh;
+        }
 
+        // Head (more realistic shape)
+        const headGroup = new THREE.Group();
+        const headGeo = new THREE.SphereGeometry(0.13, 32, 32);
+        const head = createBodyPart(headGeo, 0, 1.68, 0);
+        head.scale.set(1, 1.15, 1);
+        headGroup.add(head);
+        
         // Neck
-        const neckGeo = new THREE.CylinderGeometry(0.12, 0.14, 0.2, 32);
-        const neck = new THREE.Mesh(neckGeo, skinMaterial);
-        neck.position.y = 1.8;
-        neck.castShadow = true;
-        mannequin.add(neck);
+        const neckGeo = new THREE.CylinderGeometry(0.065, 0.075, 0.12, 32);
+        const neck = createBodyPart(neckGeo, 0, 1.56, 0);
+        headGroup.add(neck);
+        mannequin.add(headGroup);
 
-        // Torso
-        const torsoGeo = new THREE.CylinderGeometry(0.35, 0.3, 0.9, 32);
-        const torso = new THREE.Mesh(torsoGeo, skinMaterial);
-        torso.position.y = 1.25;
-        torso.castShadow = true;
-        mannequin.add(torso);
-
-        // Shoulders
-        const shoulderGeo = new THREE.SphereGeometry(0.15, 32, 32);
-        const leftShoulder = new THREE.Mesh(shoulderGeo, skinMaterial);
-        leftShoulder.position.set(-0.45, 1.65, 0);
-        leftShoulder.castShadow = true;
-        mannequin.add(leftShoulder);
-
-        const rightShoulder = new THREE.Mesh(shoulderGeo, skinMaterial);
-        rightShoulder.position.set(0.45, 1.65, 0);
-        rightShoulder.castShadow = true;
-        mannequin.add(rightShoulder);
+        // Torso (more anatomical)
+        const torsoGroup = new THREE.Group();
+        
+        // Upper torso/chest
+        const chestGeo = new THREE.CylinderGeometry(0.22, 0.20, 0.35, 32);
+        const chest = createBodyPart(chestGeo, 0, 1.35, 0.02);
+        chest.scale.set(1, 1, 0.85);
+        torsoGroup.add(chest);
+        
+        // Waist
+        const waistGeo = new THREE.CylinderGeometry(0.18, 0.20, 0.20, 32);
+        const waist = createBodyPart(waistGeo, 0, 1.08, 0);
+        waist.scale.set(0.9, 1, 0.85);
+        torsoGroup.add(waist);
+        
+        // Hips
+        const hipGeo = new THREE.CylinderGeometry(0.21, 0.19, 0.18, 32);
+        const hips = createBodyPart(hipGeo, 0, 0.90, 0);
+        hip.scale.set(1.1, 1, 0.95);
+        torsoGroup.add(hips);
+        
+        mannequin.add(torsoGroup);
 
         // Arms
-        const armGeo = new THREE.CylinderGeometry(0.08, 0.07, 0.7, 32);
-        const leftArm = new THREE.Mesh(armGeo, skinMaterial);
-        leftArm.position.set(-0.48, 1.2, 0);
-        leftArm.castShadow = true;
-        mannequin.add(leftArm);
+        function createArm(side) {
+            const armGroup = new THREE.Group();
+            const multiplier = side === 'left' ? -1 : 1;
+            
+            // Shoulder
+            const shoulderGeo = new THREE.SphereGeometry(0.09, 32, 32);
+            const shoulder = createBodyPart(shoulderGeo, multiplier * 0.26, 1.48, 0);
+            armGroup.add(shoulder);
+            
+            // Upper arm
+            const upperArmGeo = new THREE.CylinderGeometry(0.065, 0.06, 0.32, 32);
+            const upperArm = createBodyPart(upperArmGeo, multiplier * 0.27, 1.28, 0);
+            upperArm.rotation.z = multiplier * -0.1;
+            armGroup.add(upperArm);
+            
+            // Elbow
+            const elbowGeo = new THREE.SphereGeometry(0.055, 32, 32);
+            const elbow = createBodyPart(elbowGeo, multiplier * 0.28, 1.10, 0.02);
+            armGroup.add(elbow);
+            
+            // Forearm
+            const forearmGeo = new THREE.CylinderGeometry(0.055, 0.05, 0.32, 32);
+            const forearm = createBodyPart(forearmGeo, multiplier * 0.29, 0.90, 0.03);
+            forearm.rotation.z = multiplier * -0.08;
+            armGroup.add(forearm);
+            
+            // Wrist
+            const wristGeo = new THREE.SphereGeometry(0.05, 32, 32);
+            const wrist = createBodyPart(wristGeo, multiplier * 0.30, 0.72, 0.04);
+            armGroup.add(wrist);
+            
+            // Hand
+            const handGeo = new THREE.BoxGeometry(0.08, 0.12, 0.04);
+            const hand = createBodyPart(handGeo, multiplier * 0.31, 0.62, 0.04);
+            hand.scale.set(1, 1, 0.7);
+            armGroup.add(hand);
+            
+            return armGroup;
+        }
 
-        const rightArm = new THREE.Mesh(armGeo, skinMaterial);
-        rightArm.position.set(0.48, 1.2, 0);
-        rightArm.castShadow = true;
+        const leftArm = createArm('left');
+        const rightArm = createArm('right');
+        mannequin.add(leftArm);
         mannequin.add(rightArm);
 
-        // Forearms
-        const forearmGeo = new THREE.CylinderGeometry(0.07, 0.06, 0.6, 32);
-        const leftForearm = new THREE.Mesh(forearmGeo, skinMaterial);
-        leftForearm.position.set(-0.5, 0.6, 0.1);
-        leftForearm.rotation.z = 0.1;
-        leftForearm.castShadow = true;
-        mannequin.add(leftForearm);
-
-        const rightForearm = new THREE.Mesh(forearmGeo, skinMaterial);
-        rightForearm.position.set(0.5, 0.6, 0.1);
-        rightForearm.rotation.z = -0.1;
-        rightForearm.castShadow = true;
-        mannequin.add(rightForearm);
-
-        // Hands
-        const handGeo = new THREE.SphereGeometry(0.08, 32, 32);
-        const leftHand = new THREE.Mesh(handGeo, skinMaterial);
-        leftHand.position.set(-0.52, 0.28, 0.15);
-        leftHand.castShadow = true;
-        mannequin.add(leftHand);
-
-        const rightHand = new THREE.Mesh(handGeo, skinMaterial);
-        rightHand.position.set(0.52, 0.28, 0.15);
-        rightHand.castShadow = true;
-        mannequin.add(rightHand);
-
-        // Hips
-        const hipGeo = new THREE.CylinderGeometry(0.32, 0.28, 0.3, 32);
-        const hips = new THREE.Mesh(hipGeo, skinMaterial);
-        hips.position.y = 0.75;
-        hips.castShadow = true;
-        mannequin.add(hips);
-
         // Legs
-        const legGeo = new THREE.CylinderGeometry(0.12, 0.1, 0.8, 32);
-        const leftLeg = new THREE.Mesh(legGeo, skinMaterial);
-        leftLeg.position.set(-0.18, 0.35, 0);
-        leftLeg.castShadow = true;
-        mannequin.add(leftLeg);
+        function createLeg(side) {
+            const legGroup = new THREE.Group();
+            const multiplier = side === 'left' ? -1 : 1;
+            const xPos = multiplier * 0.11;
+            
+            // Upper leg/thigh
+            const thighGeo = new THREE.CylinderGeometry(0.11, 0.095, 0.42, 32);
+            const thigh = createBodyPart(thighGeo, xPos, 0.68, 0);
+            legGroup.add(thigh);
+            
+            // Knee
+            const kneeGeo = new THREE.SphereGeometry(0.085, 32, 32);
+            const knee = createBodyPart(kneeGeo, xPos, 0.46, 0);
+            legGroup.add(knee);
+            
+            // Lower leg/calf
+            const calfGeo = new THREE.CylinderGeometry(0.085, 0.07, 0.42, 32);
+            const calf = createBodyPart(calfGeo, xPos, 0.24, 0);
+            legGroup.add(calf);
+            
+            // Ankle
+            const ankleGeo = new THREE.SphereGeometry(0.065, 32, 32);
+            const ankle = createBodyPart(ankleGeo, xPos, 0.03, 0.02);
+            legGroup.add(ankle);
+            
+            // Foot
+            const footGeo = new THREE.BoxGeometry(0.09, 0.05, 0.22);
+            const foot = createBodyPart(footGeo, xPos, -0.01, 0.08);
+            legGroup.add(foot);
+            
+            return legGroup;
+        }
 
-        const rightLeg = new THREE.Mesh(legGeo, skinMaterial);
-        rightLeg.position.set(0.18, 0.35, 0);
-        rightLeg.castShadow = true;
+        const leftLeg = createLeg('left');
+        const rightLeg = createLeg('right');
+        mannequin.add(leftLeg);
         mannequin.add(rightLeg);
 
-        // Lower legs
-        const lowerLegGeo = new THREE.CylinderGeometry(0.1, 0.08, 0.7, 32);
-        const leftLowerLeg = new THREE.Mesh(lowerLegGeo, skinMaterial);
-        leftLowerLeg.position.set(-0.18, -0.35, 0);
-        leftLowerLeg.castShadow = true;
-        mannequin.add(leftLowerLeg);
-
-        const rightLowerLeg = new THREE.Mesh(lowerLegGeo, skinMaterial);
-        rightLowerLeg.position.set(0.18, -0.35, 0);
-        rightLowerLeg.castShadow = true;
-        mannequin.add(rightLowerLeg);
-
-        // Feet
-        const footGeo = new THREE.BoxGeometry(0.15, 0.08, 0.25);
-        const leftFoot = new THREE.Mesh(footGeo, skinMaterial);
-        leftFoot.position.set(-0.18, -0.74, 0.05);
-        leftFoot.castShadow = true;
-        mannequin.add(leftFoot);
-
-        const rightFoot = new THREE.Mesh(footGeo, skinMaterial);
-        rightFoot.position.set(0.18, -0.74, 0.05);
-        rightFoot.castShadow = true;
-        mannequin.add(rightFoot);
-
-        // Clothing system
+        // Clothing system with realistic meshes
         const clothingGroup = new THREE.Group();
         mannequin.add(clothingGroup);
         const wornItems = {};
 
-        function createClothingMesh(zone, color, itemId) {
-            let geometry, material, mesh;
-            const clothMaterial = new THREE.MeshStandardMaterial({ 
+        // Create realistic clothing meshes
+        function createClothingMesh(itemData) {
+            const { zone, color, type, itemId } = itemData;
+            const material = new THREE.MeshStandardMaterial({ 
                 color: new THREE.Color(color),
-                roughness: 0.6,
-                metalness: 0.1,
+                roughness: type === 'sneaker' || type === 'boot' ? 0.4 : 0.7,
+                metalness: type === 'patent' ? 0.6 : 0.1,
                 side: THREE.DoubleSide
             });
 
+            let mesh;
+
             switch(zone) {
                 case 'torso':
-                    geometry = new THREE.CylinderGeometry(0.42, 0.36, 1.0, 32);
-                    mesh = new THREE.Mesh(geometry, clothMaterial);
-                    mesh.position.y = 1.25;
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
+                    if (type === 'blazer') {
+                        // Deconstructed blazer with visible seams
+                        const blazerGroup = new THREE.Group();
+                        
+                        // Main body
+                        const blazerBody = new THREE.Mesh(
+                            new THREE.CylinderGeometry(0.28, 0.25, 0.75, 32),
+                            material
+                        );
+                        blazerBody.position.y = 1.25;
+                        blazerBody.castShadow = true;
+                        blazerGroup.add(blazerBody);
+                        
+                        // Lapels (deconstructed look)
+                        const lapelGeo = new THREE.BoxGeometry(0.08, 0.35, 0.03);
+                        const leftLapel = new THREE.Mesh(lapelGeo, material);
+                        leftLapel.position.set(-0.08, 1.35, 0.22);
+                        leftLapel.rotation.y = 0.3;
+                        leftLapel.castShadow = true;
+                        blazerGroup.add(leftLapel);
+                        
+                        const rightLapel = new THREE.Mesh(lapelGeo, material);
+                        rightLapel.position.set(0.08, 1.35, 0.22);
+                        rightLapel.rotation.y = -0.3;
+                        rightLapel.castShadow = true;
+                        blazerGroup.add(rightLapel);
+                        
+                        // Sleeves
+                        const sleeveGeo = new THREE.CylinderGeometry(0.09, 0.07, 0.55, 32);
+                        const leftSleeve = new THREE.Mesh(sleeveGeo, material);
+                        leftSleeve.position.set(-0.32, 1.25, 0);
+                        leftSleeve.rotation.z = 0.15;
+                        leftSleeve.castShadow = true;
+                        blazerGroup.add(leftSleeve);
+                        
+                        const rightSleeve = new THREE.Mesh(sleeveGeo, material);
+                        rightSleeve.position.set(0.32, 1.25, 0);
+                        rightSleeve.rotation.z = -0.15;
+                        rightSleeve.castShadow = true;
+                        blazerGroup.add(rightSleeve);
+                        
+                        // Visible stitching (Margiela signature)
+                        const stitchMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                        const stitchGeo = new THREE.TorusGeometry(0.26, 0.005, 8, 50);
+                        const stitch1 = new THREE.Mesh(stitchGeo, stitchMaterial);
+                        stitch1.position.y = 1.45;
+                        stitch1.rotation.x = Math.PI / 2;
+                        blazerGroup.add(stitch1);
+                        
+                        mesh = blazerGroup;
+                    } else if (type === 'coat') {
+                        // Oversized coat
+                        const coatGroup = new THREE.Group();
+                        
+                        const coatBody = new THREE.Mesh(
+                            new THREE.CylinderGeometry(0.35, 0.32, 1.1, 32),
+                            material
+                        );
+                        coatBody.position.y = 1.20;
+                        coatBody.castShadow = true;
+                        coatGroup.add(coatBody);
+                        
+                        // Wide sleeves
+                        const coatSleeveGeo = new THREE.CylinderGeometry(0.12, 0.10, 0.65, 32);
+                        const leftCoatSleeve = new THREE.Mesh(coatSleeveGeo, material);
+                        leftCoatSleeve.position.set(-0.38, 1.20, 0);
+                        leftCoatSleeve.rotation.z = 0.2;
+                        leftCoatSleeve.castShadow = true;
+                        coatGroup.add(leftCoatSleeve);
+                        
+                        const rightCoatSleeve = new THREE.Mesh(coatSleeveGeo, material);
+                        rightCoatSleeve.position.set(0.38, 1.20, 0);
+                        rightCoatSleeve.rotation.z = -0.2;
+                        rightCoatSleeve.castShadow = true;
+                        coatGroup.add(rightCoatSleeve);
+                        
+                        // Collar
+                        const collarGeo = new THREE.BoxGeometry(0.25, 0.12, 0.08);
+                        const collar = new THREE.Mesh(collarGeo, material);
+                        collar.position.set(0, 1.65, 0.18);
+                        collar.castShadow = true;
+                        coatGroup.add(collar);
+                        
+                        mesh = coatGroup;
+                    }
                     break;
-                case 'legs':
-                    geometry = new THREE.CylinderGeometry(0.34, 0.3, 0.35, 32);
-                    mesh = new THREE.Mesh(geometry, clothMaterial);
-                    mesh.position.y = 0.75;
-                    mesh.castShadow = true;
                     
-                    const leftLegCloth = new THREE.Mesh(
-                        new THREE.CylinderGeometry(0.14, 0.12, 1.5, 32),
-                        clothMaterial
-                    );
-                    leftLegCloth.position.set(-0.18, 0.0, 0);
-                    leftLegCloth.castShadow = true;
-                    mesh.add(leftLegCloth);
-                    
-                    const rightLegCloth = new THREE.Mesh(
-                        new THREE.CylinderGeometry(0.14, 0.12, 1.5, 32),
-                        clothMaterial
-                    );
-                    rightLegCloth.position.set(0.18, 0.0, 0);
-                    rightLegCloth.castShadow = true;
-                    mesh.add(rightLegCloth);
-                    break;
                 case 'feet':
-                    const leftShoe = new THREE.Mesh(
-                        new THREE.BoxGeometry(0.18, 0.1, 0.28),
-                        clothMaterial
-                    );
-                    leftShoe.position.set(-0.18, -0.72, 0.05);
-                    leftShoe.castShadow = true;
+                    const shoeGroup = new THREE.Group();
                     
-                    const rightShoe = new THREE.Mesh(
-                        new THREE.BoxGeometry(0.18, 0.1, 0.28),
-                        clothMaterial
-                    );
-                    rightShoe.position.set(0.18, -0.72, 0.05);
-                    rightShoe.castShadow = true;
+                    if (type === 'boot' || type === 'flat') {
+                        // Tabi boot/flat with split toe
+                        function createTabiShoe(xPos, yPos) {
+                            const tabiGroup = new THREE.Group();
+                            
+                            // Main boot body
+                            const bootBody = new THREE.Mesh(
+                                new THREE.CylinderGeometry(0.075, 0.08, type === 'boot' ? 0.18 : 0.08, 32),
+                                material
+                            );
+                            bootBody.position.y = type === 'boot' ? 0.09 : 0.04;
+                            bootBody.castShadow = true;
+                            tabiGroup.add(bootBody);
+                            
+                            // Split toe - big toe
+                            const bigToe = new THREE.Mesh(
+                                new THREE.SphereGeometry(0.045, 32, 32),
+                                material
+                            );
+                            bigToe.position.set(xPos > 0 ? 0.025 : -0.025, 0.02, 0.08);
+                            bigToe.scale.set(1, 0.7, 1.3);
+                            bigToe.castShadow = true;
+                            tabiGroup.add(bigToe);
+                            
+                            // Split toe - other toes
+                            const otherToes = new THREE.Mesh(
+                                new THREE.SphereGeometry(0.05, 32, 32),
+                                material
+                            );
+                            otherToes.position.set(xPos > 0 ? -0.025 : 0.025, 0.02, 0.07);
+                            otherToes.scale.set(1.2, 0.65, 1.1);
+                            otherToes.castShadow = true;
+                            tabiGroup.add(otherToes);
+                            
+                            // Heel
+                            if (type === 'boot') {
+                                const heel = new THREE.Mesh(
+                                    new THREE.CylinderGeometry(0.05, 0.055, 0.08, 16),
+                                    material
+                                );
+                                heel.position.y = -0.06;
+                                heel.castShadow = true;
+                                tabiGroup.add(heel);
+                            }
+                            
+                            tabiGroup.position.set(xPos, yPos, 0.08);
+                            return tabiGroup;
+                        }
+                        
+                        shoeGroup.add(createTabiShoe(-0.11, -0.01));
+                        shoeGroup.add(createTabiShoe(0.11, -0.01));
+                    } else if (type === 'sneaker') {
+                        // Replica sneaker
+                        function createSneaker(xPos, yPos) {
+                            const sneakerGroup = new THREE.Group();
+                            
+                            // Main body
+                            const sneakerBody = new THREE.Mesh(
+                                new THREE.BoxGeometry(0.11, 0.06, 0.22),
+                                material
+                            );
+                            sneakerBody.position.y = 0.03;
+                            sneakerBody.castShadow = true;
+                            sneakerGroup.add(sneakerBody);
+                            
+                            // Sole (gum color)
+                            const soleMaterial = new THREE.MeshStandardMaterial({ 
+                                color: 0xc4a574,
+                                roughness: 0.8
+                            });
+                            const sole = new THREE.Mesh(
+                                new THREE.BoxGeometry(0.12, 0.025, 0.23),
+                                soleMaterial
+                            );
+                            sole.position.y = -0.015;
+                            sole.castShadow = true;
+                            sneakerGroup.add(sole);
+                            
+                            // Toe cap
+                            const toeCap = new THREE.Mesh(
+                                new THREE.BoxGeometry(0.11, 0.04, 0.05),
+                                material
+                            );
+                            toeCap.position.set(0, 0.04, 0.09);
+                            toeCap.castShadow = true;
+                            sneakerGroup.add(toeCap);
+                            
+                            sneakerGroup.position.set(xPos, yPos, 0.08);
+                            return sneakerGroup;
+                        }
+                        
+                        shoeGroup.add(createSneaker(-0.11, -0.01));
+                        shoeGroup.add(createSneaker(0.11, -0.01));
+                    }
                     
-                    mesh = new THREE.Group();
-                    mesh.add(leftShoe);
-                    mesh.add(rightShoe);
+                    mesh = shoeGroup;
                     break;
+                    
                 case 'hand':
-                    geometry = new THREE.BoxGeometry(0.25, 0.3, 0.15);
-                    mesh = new THREE.Mesh(geometry, clothMaterial);
-                    mesh.position.set(-0.55, 0.3, 0.2);
-                    mesh.rotation.z = 0.3;
-                    mesh.castShadow = true;
+                    // Bag
+                    if (type === 'bag') {
+                        const bagGroup = new THREE.Group();
+                        
+                        // Main bag body (5AC style)
+                        const bagBody = new THREE.Mesh(
+                            new THREE.BoxGeometry(0.22, 0.18, 0.10),
+                            material
+                        );
+                        bagBody.position.set(-0.38, 0.65, 0.12);
+                        bagBody.rotation.z = 0.2;
+                        bagBody.castShadow = true;
+                        bagGroup.add(bagBody);
+                        
+                        // Handles
+                        const handleGeo = new THREE.TorusGeometry(0.05, 0.01, 8, 32);
+                        const leftHandle = new THREE.Mesh(handleGeo, material);
+                        leftHandle.position.set(-0.32, 0.78, 0.12);
+                        leftHandle.rotation.x = Math.PI / 2;
+                        bagGroup.add(leftHandle);
+                        
+                        const rightHandle = new THREE.Mesh(handleGeo, material);
+                        rightHandle.position.set(-0.22, 0.78, 0.12);
+                        rightHandle.rotation.x = Math.PI / 2;
+                        bagGroup.add(rightHandle);
+                        
+                        // Numeric label (Margiela signature)
+                        const labelGeo = new THREE.BoxGeometry(0.06, 0.03, 0.005);
+                        const labelMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                        const label = new THREE.Mesh(labelGeo, labelMaterial);
+                        label.position.set(-0.27, 0.75, 0.17);
+                        bagGroup.add(label);
+                        
+                        mesh = bagGroup;
+                    }
                     break;
-                case 'hands':
-                    const leftGlove = new THREE.Mesh(
-                        new THREE.SphereGeometry(0.1, 32, 32),
-                        clothMaterial
-                    );
-                    leftGlove.position.set(-0.52, 0.28, 0.15);
-                    leftGlove.castShadow = true;
-                    
-                    const rightGlove = new THREE.Mesh(
-                        new THREE.SphereGeometry(0.1, 32, 32),
-                        clothMaterial
-                    );
-                    rightGlove.position.set(0.52, 0.28, 0.15);
-                    rightGlove.castShadow = true;
-                    
-                    mesh = new THREE.Group();
-                    mesh.add(leftGlove);
-                    mesh.add(rightGlove);
-                    break;
-                case 'waist':
-                    geometry = new THREE.TorusGeometry(0.32, 0.04, 16, 32);
-                    mesh = new THREE.Mesh(geometry, clothMaterial);
-                    mesh.position.y = 0.75;
-                    mesh.rotation.x = Math.PI / 2;
-                    mesh.castShadow = true;
-                    break;
-                default:
-                    geometry = new THREE.SphereGeometry(0.3, 32, 32);
-                    mesh = new THREE.Mesh(geometry, clothMaterial);
             }
 
-            mesh.userData.itemId = itemId;
+            if (mesh) {
+                mesh.userData.itemId = itemId;
+                mesh.userData.zone = zone;
+            }
+            
             return mesh;
         }
 
@@ -766,6 +907,7 @@
             const itemId = card.dataset.item;
             const zone = card.dataset.zone;
             const color = card.dataset.color;
+            const type = card.dataset.type;
 
             if (wornItems[itemId]) {
                 clothingGroup.remove(wornItems[itemId]);
@@ -777,15 +919,17 @@
                     if (wornItems[key].userData.zone === zone) {
                         clothingGroup.remove(wornItems[key]);
                         delete wornItems[key];
-                        document.querySelector(`[data-item="${key}"]`)?.classList.remove('active');
+                        const existingCard = document.querySelector(`[data-item="${key}"]`);
+                        if (existingCard) existingCard.classList.remove('active');
                     }
                 });
 
-                const mesh = createClothingMesh(zone, color, itemId);
-                mesh.userData.zone = zone;
-                clothingGroup.add(mesh);
-                wornItems[itemId] = mesh;
-                card.classList.add('active');
+                const mesh = createClothingMesh({ zone, color, type, itemId });
+                if (mesh) {
+                    clothingGroup.add(mesh);
+                    wornItems[itemId] = mesh;
+                    card.classList.add('active');
+                }
             }
         }
 
@@ -818,6 +962,7 @@
         document.getElementById('rotate-btn').addEventListener('click', function() {
             autoRotate = !autoRotate;
             controls.autoRotate = autoRotate;
+            controls.autoRotateSpeed = 0.5;
             this.textContent = autoRotate ? 'STOP ROTATION' : 'AUTO ROTATE';
         });
 
@@ -827,7 +972,7 @@
                 alert('Dress the mannequin first!');
                 return;
             }
-            alert(`Look saved with ${count} item(s)!`);
+            alert(`Look saved with ${count} Maison Margiela piece(s)!`);
         });
 
         // Animation loop
