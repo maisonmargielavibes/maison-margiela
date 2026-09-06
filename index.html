@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAISON MARGIELA | VIRTUAL MANNEQUIN</title>
+    <title>MAISON MARGIELA | VIRTUAL FITTING ROOM</title>
     <style>
         :root {
             --bg: #0a0a0a;
@@ -90,15 +90,17 @@
             align-items: center;
             padding: 40px;
             position: relative;
+            background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
         }
 
         .mannequin-container {
             position: relative;
-            width: 400px;
-            height: 700px;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            width: 500px;
+            height: 850px;
+            background: radial-gradient(circle at center, #1f1f1f 0%, #0a0a0a 100%);
             border: 1px solid var(--grey);
-            border-radius: 8px;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
         .mannequin-base {
@@ -106,32 +108,47 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .mannequin-base svg {
+        /* Realistic Mannequin Silhouette */
+        .mannequin-figure {
+            width: 350px;
+            height: 800px;
+            position: relative;
+        }
+
+        .mannequin-figure svg {
             width: 100%;
             height: 100%;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
         }
 
         .worn-item {
             position: absolute;
             z-index: 10;
             cursor: move;
-            transition: filter 0.2s;
+            transition: filter 0.2s, transform 0.2s;
+            background: transparent;
         }
 
         .worn-item:hover {
-            filter: brightness(1.2);
+            filter: brightness(1.1) drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            z-index: 20;
         }
 
-        .worn-item svg {
+        .worn-item img {
             width: 100%;
             height: 100%;
+            object-fit: contain;
+            pointer-events: none;
         }
 
         /* PRODUCT PANEL */
         .product-panel {
-            width: 450px;
+            width: 500px;
             background: #0f0f0f;
             border-left: 1px solid var(--grey);
             overflow-y: auto;
@@ -174,7 +191,7 @@
             padding: 30px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 25px;
         }
 
         .product-card {
@@ -189,7 +206,7 @@
         .product-card:hover {
             border-color: var(--accent);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+            box-shadow: 0 15px 40px rgba(255,255,255,0.1);
         }
 
         .product-card:active {
@@ -198,17 +215,19 @@
 
         .product-image {
             width: 100%;
-            height: 180px;
+            height: 220px;
             background: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 15px;
+            overflow: hidden;
         }
 
-        .product-image svg {
-            width: 80%;
-            height: 80%;
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         .product-name {
@@ -241,7 +260,7 @@
             display: flex;
             gap: 15px;
             z-index: 100;
-            background: rgba(10,10,10,0.9);
+            background: rgba(10,10,10,0.95);
             padding: 15px 30px;
             border-radius: 50px;
             border: 1px solid var(--grey);
@@ -249,7 +268,7 @@
         }
 
         .ctrl-btn {
-            padding: 10px 25px;
+            padding: 12px 30px;
             background: transparent;
             border: 1px solid #444;
             color: #aaa;
@@ -277,11 +296,25 @@
             text-transform: uppercase;
             pointer-events: none;
             animation: pulse 2s ease-in-out infinite;
+            z-index: 5;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 0.7; }
+        }
+
+        .remove-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: #444;
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 5;
         }
 
         /* Responsive */
@@ -296,8 +329,12 @@
                 border-top: 1px solid var(--grey);
             }
             .mannequin-container {
-                width: 300px;
-                height: 525px;
+                width: 350px;
+                height: 600px;
+            }
+            .mannequin-figure {
+                width: 250px;
+                height: 570px;
             }
         }
 
@@ -305,7 +342,20 @@
             header { padding: 15px 20px; }
             nav a { margin-left: 15px; font-size: 0.6rem; }
             .product-grid { grid-template-columns: 1fr; }
-            .mannequin-container { width: 250px; height: 437px; }
+            .mannequin-container { width: 280px; height: 480px; }
+            .mannequin-figure { width: 200px; height: 456px; }
+        }
+
+        /* Loading state */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #444;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -324,46 +374,47 @@
         <!-- MANNEQUIN DISPLAY -->
         <div class="mannequin-area">
             <div class="mannequin-container" id="mannequin">
-                <div class="drag-hint">DRAG ITEMS TO DRESS</div>
+                <div class="drag-hint">DRAG ITEMS TO DRESS THE MANNEQUIN</div>
                 
-                <!-- Skeleton Mannequin Base -->
+                <!-- Realistic Mannequin Base -->
                 <div class="mannequin-base">
-                    <svg viewBox="0 0 400 700" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Head -->
-                        <ellipse cx="200" cy="70" rx="45" ry="55" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        <ellipse cx="200" cy="70" rx="35" ry="45" fill="none" stroke="#2a2a2a" stroke-width="1"/>
-                        
-                        <!-- Neck -->
-                        <rect x="185" y="120" width="30" height="30" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        
-                        <!-- Torso -->
-                        <path d="M150,150 L250,150 L240,320 L160,320 Z" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        <path d="M200,150 L200,320" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="5,5"/>
-                        
-                        <!-- Shoulders -->
-                        <ellipse cx="140" cy="160" rx="20" ry="15" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        <ellipse cx="260" cy="160" rx="20" ry="15" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        
-                        <!-- Arms -->
-                        <path d="M140,175 L120,280 L115,350" stroke="#333" stroke-width="20" fill="none" stroke-linecap="round"/>
-                        <path d="M260,175 L280,280 L285,350" stroke="#333" stroke-width="20" fill="none" stroke-linecap="round"/>
-                        
-                        <!-- Hands -->
-                        <ellipse cx="115" cy="360" rx="15" ry="20" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        <ellipse cx="285" cy="360" rx="15" ry="20" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        
-                        <!-- Hips -->
-                        <ellipse cx="200" cy="330" rx="50" ry="20" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        
-                        <!-- Legs -->
-                        <path d="M170,340 L160,500 L155,620" stroke="#333" stroke-width="25" fill="none" stroke-linecap="round"/>
-                        <path d="M230,340 L240,500 L245,620" stroke="#333" stroke-width="25" fill="none" stroke-linecap="round"/>
-                        
-                        <!-- Feet -->
-                        <ellipse cx="155" cy="640" rx="20" ry="30" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                        <ellipse cx="245" cy="640" rx="20" ry="30" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                    </svg>
+                    <div class="mannequin-figure">
+                        <svg viewBox="0 0 350 800" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Head -->
+                            <ellipse cx="175" cy="80" rx="50" ry="60" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            
+                            <!-- Neck -->
+                            <rect x="160" y="135" width="30" height="35" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            
+                            <!-- Torso -->
+                            <path d="M125,170 L225,170 L215,380 L135,380 Z" fill="#252525" stroke="#3a3a3a" stroke-width="2"/>
+                            
+                            <!-- Shoulders -->
+                            <ellipse cx="115" cy="180" rx="25" ry="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            <ellipse cx="235" cy="180" rx="25" ry="18" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            
+                            <!-- Arms -->
+                            <path d="M110,195 L85,320 L80,420" stroke="#3a3a3a" stroke-width="28" fill="none" stroke-linecap="round"/>
+                            <path d="M240,195 L265,320 L270,420" stroke="#3a3a3a" stroke-width="28" fill="none" stroke-linecap="round"/>
+                            
+                            <!-- Hands -->
+                            <ellipse cx="80" cy="435" rx="18" ry="25" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            <ellipse cx="270" cy="435" rx="18" ry="25" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            
+                            <!-- Hips -->
+                            <ellipse cx="175" cy="390" rx="55" ry="25" fill="#252525" stroke="#3a3a3a" stroke-width="2"/>
+                            
+                            <!-- Legs -->
+                            <path d="M145,405 L135,580 L130,720" stroke="#3a3a3a" stroke-width="32" fill="none" stroke-linecap="round"/>
+                            <path d="M205,405 L215,580 L220,720" stroke="#3a3a3a" stroke-width="32" fill="none" stroke-linecap="round"/>
+                            
+                            <!-- Feet -->
+                            <ellipse cx="130" cy="740" rx="25" ry="35" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                            <ellipse cx="220" cy="740" rx="25" ry="35" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+                        </svg>
+                    </div>
                 </div>
+                <div class="remove-hint">DOUBLE-CLICK ITEM TO REMOVE</div>
             </div>
         </div>
 
@@ -377,259 +428,172 @@
 
             <!-- CLOTHING PRODUCTS -->
             <div class="product-grid" id="clothing-grid">
-                <div class="product-card" draggable="true" data-item="coat-artisanal" data-zone="torso">
+                <div class="product-card" draggable="true" data-item="deconstructed-blazer" data-zone="torso">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M70,50 L130,50 L140,100 L150,200 L120,220 L100,150 L80,220 L50,200 L60,100 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2" stroke-dasharray="5,5"/>
-                            <path d="M100,50 L100,150" stroke="#fff" stroke-width="1" stroke-dasharray="3,5"/>
-                            <circle cx="100" cy="80" r="3" fill="#fff"/>
-                            <circle cx="100" cy="110" r="3" fill="#fff"/>
-                            <circle cx="100" cy="140" r="3" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <div class="product-name">ARTISANAL COAT</div>
-                    <div class="product-collection">ARTISANAL LINE</div>
-                    <div class="product-price">€4,890</div>
-                </div>
-
-                <div class="product-card" draggable="true" data-item="blazer-deconstructed" data-zone="torso">
-                    <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M70,50 L130,50 L135,120 L140,180 L110,190 L100,140 L90,190 L60,180 L65,120 Z" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
-                            <path d="M100,50 L100,140" stroke="#fff" stroke-width="1"/>
-                            <path d="M70,50 L60,80" stroke="#fff" stroke-width="1"/>
-                            <path d="M130,50 L140,80" stroke="#fff" stroke-width="1"/>
-                        </svg>
+                        <img src="https://i.pinimg.com/736x/8f/2e/1c/8f2e1c5d5e5f5a5b5c5d5e5f5a5b5c5d.jpg" alt="Deconstructed Blazer" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">DECONSTRUCTED BLAZER</div>
-                    <div class="product-collection">COLLECTION</div>
-                    <div class="product-price">€2,450</div>
+                    <div class="product-collection">ARTISANAL LINE</div>
+                    <div class="product-price">€2,890</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="sweater-oversized" data-zone="torso">
+                <div class="product-card" draggable="true" data-item="oversized-coat" data-zone="torso">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M60,60 L140,60 L145,140 L140,180 L60,180 L55,140 Z" fill="#3a3a3a" stroke="#fff" stroke-width="2"/>
-                            <path d="M60,60 L40,100 L50,140" stroke="#fff" stroke-width="2" fill="none"/>
-                            <path d="M140,60 L160,100 L150,140" stroke="#fff" stroke-width="2" fill="none"/>
-                            <line x1="70" y1="80" x2="130" y2="80" stroke="#555" stroke-width="1"/>
-                            <line x1="70" y1="100" x2="130" y2="100" stroke="#555" stroke-width="1"/>
-                            <line x1="70" y1="120" x2="130" y2="120" stroke="#555" stroke-width="1"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400&h=500&fit=crop" alt="Oversized Coat" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">OVERSIZED SWEATER</div>
-                    <div class="product-collection">RECYCLED</div>
-                    <div class="product-price">€890</div>
+                    <div class="product-name">OVERSIZED COAT</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€4,290</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="shirt-white" data-zone="torso">
+                <div class="product-card" draggable="true" data-item="white-shirt" data-zone="torso">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M75,50 L125,50 L130,120 L130,180 L70,180 L70,120 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
-                            <path d="M100,50 L100,180" stroke="#ccc" stroke-width="1"/>
-                            <circle cx="100" cy="70" r="2" fill="#000"/>
-                            <circle cx="100" cy="90" r="2" fill="#000"/>
-                            <circle cx="100" cy="110" r="2" fill="#000"/>
-                            <circle cx="100" cy="130" r="2" fill="#000"/>
-                            <circle cx="100" cy="150" r="2" fill="#000"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop" alt="White Shirt" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">WHITE COTTON SHIRT</div>
                     <div class="product-collection">ESSENTIALS</div>
                     <div class="product-price">€450</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="pants-wide" data-zone="legs">
+                <div class="product-card" draggable="true" data-item="black-trousers" data-zone="legs">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M70,50 L130,50 L135,120 L140,200 L110,200 L100,120 L90,200 L60,200 L65,120 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                            <path d="M100,50 L100,120" stroke="#fff" stroke-width="1"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop" alt="Black Trousers" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">WIDE-LEG TROUSERS</div>
                     <div class="product-collection">COLLECTION</div>
                     <div class="product-price">€780</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="jeans-replica" data-zone="legs">
+                <div class="product-card" draggable="true" data-item="black-sweater" data-zone="torso">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M70,50 L130,50 L135,120 L140,200 L110,200 L100,120 L90,200 L60,200 L65,120 Z" fill="#4a5a7a" stroke="#fff" stroke-width="2"/>
-                            <path d="M100,50 L100,120" stroke="#fff" stroke-width="1"/>
-                            <path d="M75,70 L85,70 L85,90 L75,90 Z" fill="#3a4a6a" stroke="#fff" stroke-width="1"/>
-                            <path d="M115,70 L125,70 L125,90 L115,90 Z" fill="#3a4a6a" stroke="#fff" stroke-width="1"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=500&fit=crop" alt="Black Sweater" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">REPLICA JEANS</div>
-                    <div class="product-collection">REPLICA</div>
-                    <div class="product-price">€590</div>
+                    <div class="product-name">OVERSIZED SWEATER</div>
+                    <div class="product-collection">RECYCLED</div>
+                    <div class="product-price">€890</div>
+                </div>
+
+                <div class="product-card" draggable="true" data-item="puffer-coat" data-zone="torso">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&h=500&fit=crop" alt="Puffer Coat" onerror="this.style.display='none'">
+                    </div>
+                    <div class="product-name">QUILTED PUFFER COAT</div>
+                    <div class="product-collection">COLLECTION</div>
+                    <div class="product-price">€3,450</div>
                 </div>
             </div>
 
             <!-- SHOES PRODUCTS -->
             <div class="product-grid" id="shoes-grid" style="display:none">
-                <div class="product-card" draggable="true" data-item="tabi-boot" data-zone="feet">
+                <div class="product-card" draggable="true" data-item="tabi-boot-black" data-zone="feet">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 150">
-                            <path d="M50,80 Q60,30 100,30 L100,30 Q140,30 150,80 L150,110 L105,110 L100,95 L95,110 L50,110 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                            <line x1="100" y1="95" x2="100" y2="110" stroke="#fff" stroke-width="2"/>
-                            <path d="M60,110 L140,110 L145,125 L55,125 Z" fill="#2a2a2a" stroke="#fff" stroke-width="1"/>
-                        </svg>
+                        <img src="https://cdn.shopify.com/s/files/1/0550/0985/3599/files/1_101b5d8b-8b0e-4f0e-9b0e-8b0e8b0e8b0e.jpg" alt="Tabi Boot Black" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">TABI ANKLE BOOT</div>
-                    <div class="product-collection">TABI</div>
+                    <div class="product-collection">TABI - BLACK</div>
                     <div class="product-price">€1,290</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="tabi-sneaker" data-zone="feet">
+                <div class="product-card" draggable="true" data-item="tabi-boot-brown" data-zone="feet">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 150">
-                            <path d="M40,70 Q50,30 100,30 L100,30 Q150,30 160,70 L160,90 L105,90 L100,80 L95,90 L40,90 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
-                            <line x1="100" y1="80" x2="100" y2="90" stroke="#000" stroke-width="2"/>
-                            <path d="M50,90 L150,90 L145,105 L55,105 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
-                            <line x1="70" y1="40" x2="90" y2="70" stroke="#000" stroke-width="1"/>
-                            <line x1="85" y1="40" x2="105" y2="70" stroke="#000" stroke-width="1"/>
-                        </svg>
+                        <img src="https://cdn.shopify.com/s/files/1/0550/0985/3599/files/1_101b5d8b-8b0e-4f0e-9b0e-8b0e8b0e8b0e.jpg" alt="Tabi Boot Brown" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">TABI SNEAKER</div>
-                    <div class="product-collection">TABI</div>
-                    <div class="product-price">€690</div>
+                    <div class="product-name">TABI ANKLE BOOT</div>
+                    <div class="product-collection">TABI - BROWN</div>
+                    <div class="product-price">€1,290</div>
                 </div>
 
                 <div class="product-card" draggable="true" data-item="replica-sneaker" data-zone="feet">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 150">
-                            <path d="M40,70 Q50,30 100,30 L100,30 Q150,30 160,70 L160,90 L40,90 Z" fill="#f0f0f0" stroke="#000" stroke-width="2"/>
-                            <path d="M40,90 L160,90 L155,105 L45,105 Z" fill="#e0e0e0" stroke="#000" stroke-width="1"/>
-                            <line x1="70" y1="40" x2="90" y2="70" stroke="#000" stroke-width="1"/>
-                            <line x1="85" y1="40" x2="105" y2="70" stroke="#000" stroke-width="1"/>
-                            <line x1="100" y1="40" x2="120" y2="70" stroke="#000" stroke-width="1"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop" alt="Replica Sneaker" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">REPLICA SNEAKER</div>
-                    <div class="product-collection">REPLICA</div>
+                    <div class="product-collection">REPLICA - BEIGE</div>
                     <div class="product-price">€490</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="german-trainer" data-zone="feet">
+                <div class="product-card" draggable="true" data-item="tabi-silver" data-zone="feet">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 150">
-                            <path d="M40,70 Q50,30 100,30 L100,30 Q150,30 160,70 L160,90 L40,90 Z" fill="#ffffff" stroke="#000" stroke-width="2"/>
-                            <path d="M40,90 L160,90 L155,105 L45,105 Z" fill="#f5f5f5" stroke="#000" stroke-width="1"/>
-                            <rect x="60" y="50" width="30" height="20" fill="#000" opacity="0.1"/>
-                            <rect x="110" y="50" width="30" height="20" fill="#000" opacity="0.1"/>
-                        </svg>
+                        <img src="https://f.hubspotusercontent30.net/hubfs/5348486/2e0a0b0b-0b0b-0b0b-0b0b-0b0b0b0b0b0b.jpg" alt="Tabi Silver" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">GERMAN TRAINER</div>
-                    <div class="product-collection">REPLICA</div>
-                    <div class="product-price">€450</div>
+                    <div class="product-name">TABI MIRROR BOOT</div>
+                    <div class="product-collection">TABI - SILVER</div>
+                    <div class="product-price">€1,590</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="loafer-paint" data-zone="feet">
+                <div class="product-card" draggable="true" data-item="replica-white" data-zone="feet">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 150">
-                            <path d="M50,70 Q60,40 100,40 L100,40 Q140,40 150,70 L150,90 L50,90 Z" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
-                            <path d="M50,90 L150,90 L145,105 L55,105 Z" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
-                            <ellipse cx="100" cy="60" rx="15" ry="8" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=300&fit=crop" alt="Replica White" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">PAINT-SPLATTER LOAFER</div>
-                    <div class="product-collection">ARTISANAL</div>
-                    <div class="product-price">€1,150</div>
+                    <div class="product-name">REPLICA SNEAKER</div>
+                    <div class="product-collection">REPLICA - WHITE</div>
+                    <div class="product-price">€490</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="boot-paint" data-zone="feet">
+                <div class="product-card" draggable="true" data-item="tabi-platform" data-zone="feet">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 150">
-                            <path d="M60,50 L140,50 L145,90 L150,110 L50,110 L55,90 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                            <path d="M60,110 L140,110 L145,125 L55,125 Z" fill="#2a2a2a" stroke="#fff" stroke-width="1"/>
-                            <circle cx="80" cy="70" r="3" fill="#ff0000" opacity="0.7"/>
-                            <circle cx="120" cy="80" r="2" fill="#0000ff" opacity="0.7"/>
-                            <circle cx="100" cy="90" r="2" fill="#ffff00" opacity="0.7"/>
-                        </svg>
+                        <img src="https://cdn.shopify.com/s/files/1/0550/0985/3599/files/1_101b5d8b-8b0e-4f0e-9b0e-8b0e8b0e8b0e.jpg" alt="Tabi Platform" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">PAINTED ANKLE BOOT</div>
-                    <div class="product-collection">ARTISANAL</div>
-                    <div class="product-price">€1,890</div>
+                    <div class="product-name">TABI PLATFORM BOOT</div>
+                    <div class="product-collection">TABI - BLACK</div>
+                    <div class="product-price">€1,490</div>
                 </div>
             </div>
 
             <!-- ACCESSORIES PRODUCTS -->
             <div class="product-grid" id="accessories-grid" style="display:none">
-                <div class="product-card" draggable="true" data-item="bag-shopping" data-zone="hand">
+                <div class="product-card" draggable="true" data-item="japanese-bag" data-zone="hand">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <rect x="60" y="100" width="80" height="100" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                            <path d="M70,100 Q70,70 100,70 Q130,70 130,100" fill="none" stroke="#fff" stroke-width="2"/>
-                            <rect x="70" y="110" width="60" height="5" fill="#2a2a2a"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=500&fit=crop" alt="Japanese Bag" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">SHOPPING BAG</div>
+                    <div class="product-name">JAPANESE BAG</div>
                     <div class="product-collection">ACCESSORIES</div>
                     <div class="product-price">€1,450</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="bag-clutch" data-zone="hand">
+                <div class="product-card" draggable="true" data-item="glam-slam" data-zone="hand">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <rect x="50" y="110" width="100" height="60" rx="5" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
-                            <circle cx="100" cy="140" r="8" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=500&fit=crop" alt="Glam Slam Bag" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">CLUTCH BAG</div>
+                    <div class="product-name">GLAM SLAM BAG</div>
                     <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€890</div>
+                    <div class="product-price">€1,890</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="belt-leather" data-zone="waist">
+                <div class="product-card" draggable="true" data-item="5ac-bag" data-zone="hand">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <rect x="40" y="115" width="120" height="20" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                            <rect x="90" y="110" width="20" height="30" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
-                            <circle cx="100" cy="125" r="3" fill="#fff"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1591561954557-4c36b3e3f695?w=400&h=500&fit=crop" alt="5AC Bag" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">LEATHER BELT</div>
+                    <div class="product-name">5AC BAG</div>
                     <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€350</div>
+                    <div class="product-price">€2,150</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="scarf-silk" data-zone="neck">
+                <div class="product-card" draggable="true" data-item="tote-bag" data-zone="hand">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M70,100 Q100,80 130,100 L140,150 Q100,170 60,150 Z" fill="#3a3a3a" stroke="#fff" stroke-width="2"/>
-                            <path d="M70,100 L60,150" stroke="#fff" stroke-width="1" stroke-dasharray="3,3"/>
-                            <path d="M130,100 L140,150" stroke="#fff" stroke-width="1" stroke-dasharray="3,3"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=500&fit=crop" alt="Tote Bag" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">SILK SCARF</div>
+                    <div class="product-name">VERTICAL TOTE</div>
                     <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€290</div>
+                    <div class="product-price">€1,250</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="gloves-leather" data-zone="hands">
+                <div class="product-card" draggable="true" data-item="leather-gloves" data-zone="hands">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <path d="M70,100 L70,160 L75,170 L80,160 L80,170 L85,160 L85,170 L90,160 L90,100 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                            <path d="M110,100 L110,160 L115,170 L120,160 L120,170 L125,160 L125,170 L130,160 L130,100 Z" fill="#1a1a1a" stroke="#fff" stroke-width="2"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1606012823644-9f6f1a9c5d0e?w=400&h=300&fit=crop" alt="Leather Gloves" onerror="this.style.display='none'">
                     </div>
                     <div class="product-name">LEATHER GLOVES</div>
                     <div class="product-collection">ACCESSORIES</div>
                     <div class="product-price">€420</div>
                 </div>
 
-                <div class="product-card" draggable="true" data-item="hat-wool" data-zone="head">
+                <div class="product-card" draggable="true" data-item="numeric-bracelet" data-zone="hand">
                     <div class="product-image">
-                        <svg viewBox="0 0 200 250">
-                            <ellipse cx="100" cy="130" rx="50" ry="15" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
-                            <path d="M50,130 Q50,90 100,90 Q150,90 150,130" fill="#2a2a2a" stroke="#fff" stroke-width="2"/>
-                            <rect x="60" y="125" width="80" height="10" fill="#1a1a1a"/>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop" alt="Numeric Bracelet" onerror="this.style.display='none'">
                     </div>
-                    <div class="product-name">WOOL FEDORA</div>
+                    <div class="product-name">NUMERIC BRACELET</div>
                     <div class="product-collection">ACCESSORIES</div>
-                    <div class="product-price">€580</div>
+                    <div class="product-price">€350</div>
                 </div>
             </div>
         </div>
@@ -639,6 +603,7 @@
     <div class="controls">
         <button class="ctrl-btn" id="clear-all">CLEAR ALL</button>
         <button class="ctrl-btn" id="save-look">SAVE LOOK</button>
+        <button class="ctrl-btn" id="random-look">RANDOM LOOK</button>
     </div>
 
     <script>
@@ -661,7 +626,6 @@
 
         // Drag and drop functionality
         let draggedItem = null;
-        let offsetX, offsetY;
 
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('dragstart', function(e) {
@@ -689,7 +653,10 @@
             // Create worn item
             const wornDiv = document.createElement('div');
             wornDiv.className = 'worn-item';
-            wornDiv.innerHTML = draggedItem.querySelector('.product-image').innerHTML;
+            
+            const img = draggedItem.querySelector('img').cloneNode();
+            img.onerror = function() { this.style.display = 'none'; };
+            wornDiv.appendChild(img);
             
             // Position based on zone
             const zone = draggedItem.dataset.zone;
@@ -697,43 +664,28 @@
             let height = 150;
 
             if (zone === 'torso') {
-                width = 200;
-                height = 250;
+                width = 280;
+                height = 350;
                 wornDiv.style.left = (x - width/2) + 'px';
                 wornDiv.style.top = (y - height/2) + 'px';
             } else if (zone === 'legs') {
-                width = 160;
-                height = 280;
+                width = 220;
+                height = 380;
                 wornDiv.style.left = (x - width/2) + 'px';
                 wornDiv.style.top = (y - height/3) + 'px';
             } else if (zone === 'feet') {
-                width = 120;
-                height = 90;
+                width = 160;
+                height = 120;
                 wornDiv.style.left = (x - width/2) + 'px';
                 wornDiv.style.top = (y - height/2) + 'px';
             } else if (zone === 'hand') {
-                width = 100;
-                height = 130;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'waist') {
-                width = 180;
-                height = 40;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'neck') {
                 width = 140;
-                height = 100;
+                height = 180;
                 wornDiv.style.left = (x - width/2) + 'px';
                 wornDiv.style.top = (y - height/2) + 'px';
             } else if (zone === 'hands') {
-                width = 160;
-                height = 100;
-                wornDiv.style.left = (x - width/2) + 'px';
-                wornDiv.style.top = (y - height/2) + 'px';
-            } else if (zone === 'head') {
-                width = 140;
-                height = 80;
+                width = 180;
+                height = 120;
                 wornDiv.style.left = (x - width/2) + 'px';
                 wornDiv.style.top = (y - height/2) + 'px';
             }
@@ -777,7 +729,8 @@
             });
 
             // Double-click to remove
-            element.addEventListener('dblclick', function() {
+            element.addEventListener('dblclick', function(e) {
+                e.stopPropagation();
                 element.remove();
             });
         }
@@ -787,9 +740,127 @@
             document.querySelectorAll('.worn-item').forEach(item => item.remove());
         });
 
-        // Save look (placeholder)
+        // Save look
         document.getElementById('save-look').addEventListener('click', function() {
-            alert('Look saved! (In a real implementation, this would save to your account)');
+            const items = document.querySelectorAll('.worn-item').length;
+            if (items === 0) {
+                alert('Add items to the mannequin first!');
+                return;
+            }
+            alert(`Look saved with ${items} item(s)! (In a real implementation, this would save to your account)`);
+        });
+
+        // Random look
+        document.getElementById('random-look').addEventListener('click', function() {
+            const allCards = document.querySelectorAll('.product-card');
+            const randomItems = Array.from(allCards).sort(() => 0.5 - Math.random()).slice(0, 4);
+            
+            randomItems.forEach((card, index) => {
+                setTimeout(() => {
+                    const zone = card.dataset.zone;
+                    const wornDiv = document.createElement('div');
+                    wornDiv.className = 'worn-item';
+                    
+                    const img = card.querySelector('img').cloneNode();
+                    img.onerror = function() { this.style.display = 'none'; };
+                    wornDiv.appendChild(img);
+                    
+                    let width = 150;
+                    let height = 150;
+                    let left, top;
+
+                    if (zone === 'torso') {
+                        width = 280;
+                        height = 350;
+                        left = 110 + Math.random() * 50;
+                        top = 150 + Math.random() * 50;
+                    } else if (zone === 'legs') {
+                        width = 220;
+                        height = 380;
+                        left = 115 + Math.random() * 30;
+                        top = 380;
+                    } else if (zone === 'feet') {
+                        width = 160;
+                        height = 120;
+                        left = 120 + Math.random() * 80;
+                        top = 680;
+                    } else if (zone === 'hand') {
+                        width = 140;
+                        height = 180;
+                        left = 80 + Math.random() * 100;
+                        top = 350 + Math.random() * 100;
+                    } else {
+                        left = 100 + Math.random() * 150;
+                        top = 200 + Math.random() * 200;
+                    }
+
+                    wornDiv.style.width = width + 'px';
+                    wornDiv.style.height = height + 'px';
+                    wornDiv.style.left = left + 'px';
+                    wornDiv.style.top = top + 'px';
+                    
+                    makeDraggable(wornDiv);
+                    mannequin.appendChild(wornDiv);
+                }, index * 200);
+            });
+        });
+
+        // Touch support for mobile
+        let touchItem = null;
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('touchstart', function(e) {
+                touchItem = this;
+            }, {passive: true});
+        });
+
+        mannequin.addEventListener('touchend', function(e) {
+            if (!touchItem) return;
+            
+            const touch = e.changedTouches[0];
+            const rect = mannequin.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            const wornDiv = document.createElement('div');
+            wornDiv.className = 'worn-item';
+            
+            const img = touchItem.querySelector('img').cloneNode();
+            img.onerror = function() { this.style.display = 'none'; };
+            wornDiv.appendChild(img);
+            
+            const zone = touchItem.dataset.zone;
+            let width = 150;
+            let height = 150;
+
+            if (zone === 'torso') {
+                width = 280;
+                height = 350;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'legs') {
+                width = 220;
+                height = 380;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/3) + 'px';
+            } else if (zone === 'feet') {
+                width = 160;
+                height = 120;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            } else if (zone === 'hand') {
+                width = 140;
+                height = 180;
+                wornDiv.style.left = (x - width/2) + 'px';
+                wornDiv.style.top = (y - height/2) + 'px';
+            }
+
+            wornDiv.style.width = width + 'px';
+            wornDiv.style.height = height + 'px';
+            
+            makeDraggable(wornDiv);
+            mannequin.appendChild(wornDiv);
+            touchItem = null;
         });
     </script>
 </body>
