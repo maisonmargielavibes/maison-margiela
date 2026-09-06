@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAISON MARGIELA | 3D VIRTUAL ATELIER</title>
+    <title>MAISON MARGIELA | 3D VIRTUAL FITTING</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: #f8f5f2;
+            background: #f0ebe6;
             color: #1a1a1a;
             overflow: hidden;
             height: 100vh;
@@ -24,9 +24,9 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: rgba(248, 245, 242, 0.95);
+            background: rgba(240, 235, 230, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid #e8e0d8;
+            border-bottom: 1px solid #d8d0c8;
         }
 
         .logo {
@@ -45,11 +45,15 @@
             transform: translateX(-50%);
             width: 50px;
             height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 20%, #fff 20%, #fff 25%, 
-                transparent 25%, transparent 45%, #fff 45%, #fff 50%, 
-                transparent 50%, transparent 70%, #fff 70%, #fff 75%, 
-                transparent 75%, transparent 95%, #fff 95%, #fff 100%);
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 5px,
+                #fff 5px,
+                #fff 10px,
+                transparent 10px,
+                transparent 15px
+            );
         }
 
         nav a {
@@ -59,10 +63,7 @@
             font-size: 0.7rem;
             letter-spacing: 3px;
             text-transform: uppercase;
-            transition: opacity 0.3s;
         }
-
-        nav a:hover { opacity: 0.5; }
 
         .main-container {
             display: flex;
@@ -73,58 +74,37 @@
         #canvas-container {
             flex: 1;
             position: relative;
-            background: linear-gradient(180deg, #f8f5f2 0%, #f0ebe6 100%);
-        }
-
-        .canvas-hint {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            color: #999;
-            text-transform: uppercase;
-            pointer-events: none;
-            background: rgba(248, 245, 242, 0.9);
-            padding: 10px 25px;
-            border-radius: 20px;
-            border: 1px solid #e8e0d8;
+            background: linear-gradient(180deg, #f0ebe6 0%, #e8e0d8 100%);
         }
 
         .product-panel {
-            width: 450px;
-            background: #faf8f5;
-            border-left: 1px solid #e8e0d8;
+            width: 400px;
+            background: #f5f0eb;
+            border-left: 1px solid #d8d0c8;
             overflow-y: auto;
-            max-height: calc(100vh - 80px);
         }
 
         .category-tabs {
             display: flex;
-            border-bottom: 1px solid #e8e0d8;
             position: sticky;
             top: 0;
-            background: #faf8f5;
+            background: #f5f0eb;
             z-index: 50;
+            border-bottom: 1px solid #d8d0c8;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 22px 10px;
+            padding: 20px;
             background: transparent;
             border: none;
-            color: #999;
+            color: #888;
             font-size: 0.65rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s;
             border-bottom: 2px solid transparent;
-            font-family: inherit;
         }
-
-        .tab-btn:hover { color: #1a1a1a; }
 
         .tab-btn.active {
             color: #1a1a1a;
@@ -132,51 +112,40 @@
         }
 
         .product-grid {
-            padding: 25px;
+            padding: 20px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .product-card {
             background: #fff;
-            border: 1px solid #f0ebe6;
-            padding: 12px;
+            border: 1px solid #e8e0d8;
+            padding: 10px;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
         }
 
         .product-card:hover {
             border-color: #1a1a1a;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .product-card.active {
             border-color: #1a1a1a;
-            background: #f5f0eb;
-        }
-
-        .product-card.active::after {
-            content: '✓';
-            position: absolute;
-            top: 8px;
-            right: 10px;
-            font-size: 0.8rem;
-            color: #1a1a1a;
+            background: #ebe6e1;
         }
 
         .product-image {
             width: 100%;
-            height: 200px;
+            height: 180px;
             background: #f8f5f2;
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin-bottom: 12px;
+            justify-content: center;
+            margin-bottom: 10px;
             overflow: hidden;
-            border: 1px solid #f0ebe6;
         }
 
         .product-image img {
@@ -188,23 +157,13 @@
         .product-name {
             font-size: 0.7rem;
             letter-spacing: 1.5px;
-            color: #1a1a1a;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .product-collection {
-            font-size: 0.6rem;
-            color: #888;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
         }
 
         .product-price {
             font-size: 0.75rem;
-            color: #1a1a1a;
-            font-weight: 300;
+            color: #666;
         }
 
         .controls {
@@ -213,61 +172,28 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 12px;
+            gap: 10px;
             z-index: 100;
-            background: rgba(250, 248, 245, 0.95);
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: 1px solid #e8e0d8;
-            backdrop-filter: blur(10px);
+            background: rgba(245, 240, 235, 0.95);
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #d8d0c8;
         }
 
         .ctrl-btn {
-            padding: 10px 22px;
+            padding: 8px 18px;
             background: transparent;
-            border: 1px solid #d8d0c8;
+            border: 1px solid #c8c0b8;
             color: #1a1a1a;
             font-size: 0.65rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 20px;
-            font-family: inherit;
         }
 
         .ctrl-btn:hover {
             background: #1a1a1a;
-            color: #f8f5f2;
-            border-color: #1a1a1a;
-        }
-
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #f8f5f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 50;
-            transition: opacity 0.5s;
-        }
-
-        .loading-text {
-            font-size: 0.7rem;
-            letter-spacing: 5px;
-            color: #999;
-            text-transform: uppercase;
-        }
-
-        @media (max-width: 1024px) {
-            .main-container { flex-direction: column; }
-            .product-panel { width: 100%; max-height: 40vh; border-left: none; border-top: 1px solid #e8e0d8; }
-            header { padding: 20px 25px; }
-            nav a { margin-left: 15px; font-size: 0.6rem; }
+            color: #fff;
         }
     </style>
 </head>
@@ -283,719 +209,476 @@
     </header>
 
     <div class="main-container">
-        <div id="canvas-container">
-            <div class="loading-overlay" id="loading">
-                <div class="loading-text">LOADING ATELIER...</div>
-            </div>
-            <div class="canvas-hint">DRAG TO ROTATE · SCROLL TO ZOOM · CLICK PRODUCTS TO DRESS</div>
-        </div>
+        <div id="canvas-container"></div>
 
         <div class="product-panel">
             <div class="category-tabs">
-                <button class="tab-btn active" data-category="shoes">SHOES</button>
-                <button class="tab-btn" data-category="outerwear">OUTERWEAR</button>
-                <button class="tab-btn" data-category="bags">BAGS</button>
+                <button class="tab-btn active" onclick="showCategory('tops')">TOPS</button>
+                <button class="tab-btn" onclick="showCategory('bottoms')">BOTTOMS</button>
+                <button class="tab-btn" onclick="showCategory('shoes')">SHOES</button>
+                <button class="tab-btn" onclick="showCategory('bags')">BAGS</button>
             </div>
 
-            <div class="product-grid" id="shoes-grid">
-                <div class="product-card" data-item="tabi-boot-black" data-zone="feet" data-color="#0a0a0a" data-type="boot">
+            <div class="product-grid" id="tops">
+                <div class="product-card" onclick="wearItem('blazer-black')">
                     <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/1bc7c7e1f-823a-4211-8e2e-d1ca20fd39997457.png" alt="Tabi Ankle Boot Black" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">TABI ANKLE BOOT</div>
-                    <div class="product-collection">TABI - BLACK LEATHER</div>
-                    <div class="product-price">€1,290</div>
-                </div>
-
-                <div class="product-card" data-item="tabi-boot-patent" data-zone="feet" data-color="#1a1a1a" data-type="boot">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/0bc7c7e1f-823a-4211-8e2e-d1ca20fd39995482.png" alt="Tabi Patent Boot" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">TABI PATENT BOOT</div>
-                    <div class="product-collection">TABI - BLACK PATENT</div>
-                    <div class="product-price">€1,390</div>
-                </div>
-
-                <div class="product-card" data-item="replica-white" data-zone="feet" data-color="#f5f0eb" data-type="sneaker">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/9bc7c7e1f-823a-4211-8e2e-d1ca20fd39999152.png" alt="Replica Sneaker White" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">REPLICA SNEAKER</div>
-                    <div class="product-collection">REPLICA - WHITE/BEIGE</div>
-                    <div class="product-price">€850</div>
-                </div>
-
-                <div class="product-card" data-item="replica-painter" data-zone="feet" data-color="#e8e0d8" data-type="sneaker">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/6bc7c7e1f-823a-4211-8e2e-d1ca20fd39996412.png" alt="Replica Painter" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">REPLICA PAINTER</div>
-                    <div class="product-collection">REPLICA - WHITE/PINK</div>
-                    <div class="product-price">€950</div>
-                </div>
-
-                <div class="product-card" data-item="tabi-flat" data-zone="feet" data-color="#2a2a2a" data-type="flat">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/2bc7c7e1f-823a-4211-8e2e-d1ca20fd39993431.png" alt="Tabi Flat" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">TABI FLAT SHOE</div>
-                    <div class="product-collection">TABI - BLACK</div>
-                    <div class="product-price">€790</div>
-                </div>
-
-                <div class="product-card" data-item="german-trainer" data-zone="feet" data-color="#d4c5b0" data-type="sneaker">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/7bc7c7e1f-823a-4211-8e2e-d1ca20fd39992481.png" alt="German Trainer" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">GERMAN TRAINER</div>
-                    <div class="product-collection">REPLICA - GREY/WHITE</div>
-                    <div class="product-price">€450</div>
-                </div>
-            </div>
-
-            <div class="product-grid" id="outerwear-grid" style="display:none">
-                <div class="product-card" data-item="deconstructed-blazer-black" data-zone="torso" data-color="#1a1a1a" data-type="blazer">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/6bc7c7e1f-823a-4211-8e2e-d1ca20fd39997963.png" alt="Deconstructed Blazer" onerror="this.style.display='none'">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw8b5c5a5e/images/large/S58CT0632P4086T8013.jpg" alt="Blazer" onerror="this.src='https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300'">
                     </div>
                     <div class="product-name">DECONSTRUCTED BLAZER</div>
-                    <div class="product-collection">ARTISANAL - BLACK</div>
                     <div class="product-price">€2,890</div>
                 </div>
-
-                <div class="product-card" data-item="deconstructed-coat-beige" data-zone="torso" data-color="#c4b5a0" data-type="coat">
+                <div class="product-card" onclick="wearItem('sweater-beige')">
                     <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/0bc7c7e1f-823a-4211-8e2e-d1ca20fd39997951.png" alt="Deconstructed Coat" onerror="this.style.display='none'">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw123456789/images/large/S59CT0167P4300T8013.jpg" alt="Sweater" onerror="this.src='https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300'">
                     </div>
-                    <div class="product-name">DECONSTRUCTED COAT</div>
-                    <div class="product-collection">ARTISANAL - BEIGE</div>
-                    <div class="product-price">€4,290</div>
+                    <div class="product-name">OVERSIZED SWEATER</div>
+                    <div class="product-price">€890</div>
                 </div>
-
-                <div class="product-card" data-item="oversized-blazer" data-zone="torso" data-color="#8b2346" data-type="blazer">
+                <div class="product-card" onclick="wearItem('coat-camel')">
                     <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/2bc7c7e1f-823a-4211-8e2e-d1ca20fd39997797.png" alt="Oversized Blazer" onerror="this.style.display='none'">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw987654321/images/large/S51CT0123P4300T8013.jpg" alt="Coat" onerror="this.src='https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=300'">
                     </div>
-                    <div class="product-name">OVERSIZED BLAZER</div>
-                    <div class="product-collection">COLLECTION - BURGUNDY</div>
-                    <div class="product-price">€2,450</div>
-                </div>
-
-                <div class="product-card" data-item="classic-coat" data-zone="torso" data-color="#1a1a1a" data-type="coat">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/5bc7c7e1f-823a-4211-8e2e-d1ca20fd39998737.png" alt="Classic Coat" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">CLASSIC COAT</div>
-                    <div class="product-collection">COLLECTION - BLACK</div>
-                    <div class="product-price">€3,890</div>
+                    <div class="product-name">WOOL COAT</div>
+                    <div class="product-price">€3,290</div>
                 </div>
             </div>
 
-            <div class="product-grid" id="bags-grid" style="display:none">
-                <div class="product-card" data-item="5ac-black" data-zone="hand" data-color="#0a0a0a" data-type="bag">
+            <div class="product-grid" id="bottoms" style="display:none">
+                <div class="product-card" onclick="wearItem('trousers-black')">
                     <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/5bc7c7e1f-823a-4211-8e2e-d1ca20fd39994221.png" alt="5AC Bag Black" onerror="this.style.display='none'">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw111222333/images/large/S51KA0046P4300T8013.jpg" alt="Trousers" onerror="this.src='https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300'">
                     </div>
-                    <div class="product-name">5AC CLASSIQUE</div>
-                    <div class="product-collection">5AC - BLACK LEATHER</div>
+                    <div class="product-name">WIDE TROUSERS</div>
+                    <div class="product-price">€780</div>
+                </div>
+                <div class="product-card" onclick="wearItem('jeans-blue')">
+                    <div class="product-image">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw444555666/images/large/S51LA0023P4300T8013.jpg" alt="Jeans" onerror="this.src='https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300'">
+                    </div>
+                    <div class="product-name">REPLICA JEANS</div>
+                    <div class="product-price">€590</div>
+                </div>
+            </div>
+
+            <div class="product-grid" id="shoes" style="display:none">
+                <div class="product-card" onclick="wearItem('tabi-black')">
+                    <div class="product-image">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw777888999/images/large/S58WU0260P3753T8013.jpg" alt="Tabi" onerror="this.src='https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=300'">
+                    </div>
+                    <div class="product-name">TABI BOOTS</div>
+                    <div class="product-price">€1,290</div>
+                </div>
+                <div class="product-card" onclick="wearItem('replica-white')">
+                    <div class="product-image">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw000111222/images/large/S57WS0236P1895101.jpg" alt="Replica" onerror="this.src='https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300'">
+                    </div>
+                    <div class="product-name">REPLICA SNEAKERS</div>
+                    <div class="product-price">€850</div>
+                </div>
+            </div>
+
+            <div class="product-grid" id="bags" style="display:none">
+                <div class="product-card" onclick="wearItem('bag-5ac')">
+                    <div class="product-image">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw333444555/images/large/SB1WG0086P8838T8013.jpg" alt="5AC Bag" onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300'">
+                    </div>
+                    <div class="product-name">5AC BAG</div>
                     <div class="product-price">€2,150</div>
                 </div>
-
-                <div class="product-card" data-item="5ac-suede" data-zone="hand" data-color="#2a1f1a" data-type="bag">
+                <div class="product-card" onclick="wearItem('bag-glamslam')">
                     <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/4bc7c7e1f-823a-4211-8e2e-d1ca20fd39998685.png" alt="5AC Suede" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">5AC SOFT</div>
-                    <div class="product-collection">5AC - BLACK SUEDE</div>
-                    <div class="product-price">€2,350</div>
-                </div>
-
-                <div class="product-card" data-item="glamslam-black" data-zone="hand" data-color="#1a1a1a" data-type="bag">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw123456789/images/large/SB1WG0019P4300T8013_1.jpg" alt="Glam Slam Black" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=400&fit=crop'">
+                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw666777888/images/large/SB1WG0019P4300T8013.jpg" alt="Glam Slam" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300'">
                     </div>
                     <div class="product-name">GLAM SLAM</div>
-                    <div class="product-collection">GLAM SLAM - BLACK</div>
                     <div class="product-price">€1,890</div>
-                </div>
-
-                <div class="product-card" data-item="5ac-lilac" data-zone="hand" data-color="#d4c5d0" data-type="bag">
-                    <div class="product-image">
-                        <img src="https://image.qwenlm.ai/public_source/fa0ae22e-d246-42de-bdad-91043a2b0b5e/3bc7c7e1f-823a-4211-8e2e-d1ca20fd39993278.png" alt="5AC Lilac" onerror="this.style.display='none'">
-                    </div>
-                    <div class="product-name">5AC CLASSIQUE BABY</div>
-                    <div class="product-collection">5AC - LILAC</div>
-                    <div class="product-price">€1,650</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="controls">
-        <button class="ctrl-btn" id="clear-all">CLEAR ALL</button>
-        <button class="ctrl-btn" id="rotate-btn">AUTO ROTATE</button>
-        <button class="ctrl-btn" id="save-look">SAVE LOOK</button>
+        <button class="ctrl-btn" onclick="clearAll()">CLEAR</button>
+        <button class="ctrl-btn" onclick="toggleRotate()">ROTATE</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script>
-        // Three.js Setup
-        const container = document.getElementById('canvas-container');
+        // Scene setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf8f5f2);
-        scene.fog = new THREE.Fog(0xf8f5f2, 8, 40);
-
-        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(0, 1.6, 5.5);
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        scene.background = new THREE.Color(0xf0ebe6);
+        
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 1.5, 5);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
-        container.appendChild(renderer.domElement);
-
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
         // Controls
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.target.set(0, 1, 0);
         controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.target.set(0, 0.9, 0);
-        controls.minDistance = 3;
-        controls.maxDistance = 9;
-        controls.maxPolarAngle = Math.PI / 2.2;
-
-        // Professional Studio Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
-
-        const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        mainLight.position.set(5, 8, 5);
-        mainLight.castShadow = true;
-        mainLight.shadow.mapSize.width = 2048;
-        mainLight.shadow.mapSize.height = 2048;
-        mainLight.shadow.camera.near = 0.5;
-        mainLight.shadow.camera.far = 20;
-        mainLight.shadow.camera.left = -3;
-        mainLight.shadow.camera.right = 3;
-        mainLight.shadow.camera.top = 3;
-        mainLight.shadow.camera.bottom = -3;
-        scene.add(mainLight);
-
-        const fillLight = new THREE.DirectionalLight(0xf5f0eb, 0.6);
-        fillLight.position.set(-5, 5, -5);
-        scene.add(fillLight);
-
-        const rimLight = new THREE.DirectionalLight(0xffffff, 0.4);
-        rimLight.position.set(0, 6, -8);
-        scene.add(rimLight);
-
-        const topLight = new THREE.DirectionalLight(0xffffff, 0.3);
-        topLight.position.set(0, 10, 0);
-        scene.add(topLight);
-
-        // Floor with subtle gradient
-        const floorGeometry = new THREE.CircleGeometry(6, 64);
-        const floorMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0xe8e0d8, 
-            roughness: 0.9,
-            metalness: 0.05
+        
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(5, 10, 5);
+        dirLight.castShadow = true;
+        scene.add(dirLight);
+        
+        // Human body materials
+        const skinMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xe8ddd4,
+            roughness: 0.7
         });
-        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        
+        // Create 3D Human Figure
+        const human = new THREE.Group();
+        
+        // Torso
+        const torso = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.25, 0.20, 0.7, 32),
+            skinMaterial
+        );
+        torso.position.y = 1.15;
+        torso.castShadow = true;
+        human.add(torso);
+        
+        // Head
+        const head = new THREE.Mesh(
+            new THREE.SphereGeometry(0.14, 32, 32),
+            skinMaterial
+        );
+        head.position.y = 1.75;
+        head.castShadow = true;
+        human.add(head);
+        
+        // Neck
+        const neck = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.08, 0.10, 0.15, 32),
+            skinMaterial
+        );
+        neck.position.y = 1.55;
+        human.add(neck);
+        
+        // Arms
+        function createArm(xPos) {
+            const arm = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.07, 0.06, 0.65, 32),
+                skinMaterial
+            );
+            arm.position.set(xPos, 1.2, 0);
+            arm.castShadow = true;
+            return arm;
+        }
+        
+        const leftArm = createArm(-0.32);
+        const rightArm = createArm(0.32);
+        human.add(leftArm);
+        human.add(rightArm);
+        
+        // Legs
+        function createLeg(xPos) {
+            const leg = new THREE.Group();
+            
+            const thigh = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.11, 0.09, 0.45, 32),
+                skinMaterial
+            );
+            thigh.position.y = 0.65;
+            thigh.castShadow = true;
+            leg.add(thigh);
+            
+            const calf = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.08, 0.07, 0.45, 32),
+                skinMaterial
+            );
+            calf.position.y = -0.25;
+            calf.castShadow = true;
+            leg.add(calf);
+            
+            const foot = new THREE.Mesh(
+                new THREE.BoxGeometry(0.10, 0.06, 0.22),
+                skinMaterial
+            );
+            foot.position.set(0, -0.52, 0.08);
+            foot.castShadow = true;
+            leg.add(foot);
+            
+            leg.position.set(xPos, 0.45, 0);
+            return leg;
+        }
+        
+        const leftLeg = createLeg(-0.12);
+        const rightLeg = createLeg(0.12);
+        human.add(leftLeg);
+        human.add(rightLeg);
+        
+        scene.add(human);
+        
+        // Floor
+        const floor = new THREE.Mesh(
+            new THREE.CircleGeometry(4, 64),
+            new THREE.MeshStandardMaterial({ color: 0xd8d0c8 })
+        );
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
         scene.add(floor);
-
-        // Realistic Human Body Mannequin
-        const mannequin = new THREE.Group();
-        scene.add(mannequin);
-
-        // Skin material - milky white/pale tone
-        const skinMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0xf0ebe6,
-            roughness: 0.6,
-            metalness: 0.0,
-            flatShading: false
-        });
-
-        // Create detailed body parts with proper proportions
-        function createBodyPart(geometry, x, y, z, castShadow = true) {
-            const mesh = new THREE.Mesh(geometry, skinMaterial);
-            mesh.position.set(x, y, z);
-            if (castShadow) mesh.castShadow = true;
-            return mesh;
-        }
-
-        // Head (more realistic shape)
-        const headGroup = new THREE.Group();
-        const headGeo = new THREE.SphereGeometry(0.13, 32, 32);
-        const head = createBodyPart(headGeo, 0, 1.68, 0);
-        head.scale.set(1, 1.15, 1);
-        headGroup.add(head);
         
-        // Neck
-        const neckGeo = new THREE.CylinderGeometry(0.065, 0.075, 0.12, 32);
-        const neck = createBodyPart(neckGeo, 0, 1.56, 0);
-        headGroup.add(neck);
-        mannequin.add(headGroup);
-
-        // Torso (more anatomical)
-        const torsoGroup = new THREE.Group();
-        
-        // Upper torso/chest
-        const chestGeo = new THREE.CylinderGeometry(0.22, 0.20, 0.35, 32);
-        const chest = createBodyPart(chestGeo, 0, 1.35, 0.02);
-        chest.scale.set(1, 1, 0.85);
-        torsoGroup.add(chest);
-        
-        // Waist
-        const waistGeo = new THREE.CylinderGeometry(0.18, 0.20, 0.20, 32);
-        const waist = createBodyPart(waistGeo, 0, 1.08, 0);
-        waist.scale.set(0.9, 1, 0.85);
-        torsoGroup.add(waist);
-        
-        // Hips
-        const hipGeo = new THREE.CylinderGeometry(0.21, 0.19, 0.18, 32);
-        const hips = createBodyPart(hipGeo, 0, 0.90, 0);
-        hip.scale.set(1.1, 1, 0.95);
-        torsoGroup.add(hips);
-        
-        mannequin.add(torsoGroup);
-
-        // Arms
-        function createArm(side) {
-            const armGroup = new THREE.Group();
-            const multiplier = side === 'left' ? -1 : 1;
-            
-            // Shoulder
-            const shoulderGeo = new THREE.SphereGeometry(0.09, 32, 32);
-            const shoulder = createBodyPart(shoulderGeo, multiplier * 0.26, 1.48, 0);
-            armGroup.add(shoulder);
-            
-            // Upper arm
-            const upperArmGeo = new THREE.CylinderGeometry(0.065, 0.06, 0.32, 32);
-            const upperArm = createBodyPart(upperArmGeo, multiplier * 0.27, 1.28, 0);
-            upperArm.rotation.z = multiplier * -0.1;
-            armGroup.add(upperArm);
-            
-            // Elbow
-            const elbowGeo = new THREE.SphereGeometry(0.055, 32, 32);
-            const elbow = createBodyPart(elbowGeo, multiplier * 0.28, 1.10, 0.02);
-            armGroup.add(elbow);
-            
-            // Forearm
-            const forearmGeo = new THREE.CylinderGeometry(0.055, 0.05, 0.32, 32);
-            const forearm = createBodyPart(forearmGeo, multiplier * 0.29, 0.90, 0.03);
-            forearm.rotation.z = multiplier * -0.08;
-            armGroup.add(forearm);
-            
-            // Wrist
-            const wristGeo = new THREE.SphereGeometry(0.05, 32, 32);
-            const wrist = createBodyPart(wristGeo, multiplier * 0.30, 0.72, 0.04);
-            armGroup.add(wrist);
-            
-            // Hand
-            const handGeo = new THREE.BoxGeometry(0.08, 0.12, 0.04);
-            const hand = createBodyPart(handGeo, multiplier * 0.31, 0.62, 0.04);
-            hand.scale.set(1, 1, 0.7);
-            armGroup.add(hand);
-            
-            return armGroup;
-        }
-
-        const leftArm = createArm('left');
-        const rightArm = createArm('right');
-        mannequin.add(leftArm);
-        mannequin.add(rightArm);
-
-        // Legs
-        function createLeg(side) {
-            const legGroup = new THREE.Group();
-            const multiplier = side === 'left' ? -1 : 1;
-            const xPos = multiplier * 0.11;
-            
-            // Upper leg/thigh
-            const thighGeo = new THREE.CylinderGeometry(0.11, 0.095, 0.42, 32);
-            const thigh = createBodyPart(thighGeo, xPos, 0.68, 0);
-            legGroup.add(thigh);
-            
-            // Knee
-            const kneeGeo = new THREE.SphereGeometry(0.085, 32, 32);
-            const knee = createBodyPart(kneeGeo, xPos, 0.46, 0);
-            legGroup.add(knee);
-            
-            // Lower leg/calf
-            const calfGeo = new THREE.CylinderGeometry(0.085, 0.07, 0.42, 32);
-            const calf = createBodyPart(calfGeo, xPos, 0.24, 0);
-            legGroup.add(calf);
-            
-            // Ankle
-            const ankleGeo = new THREE.SphereGeometry(0.065, 32, 32);
-            const ankle = createBodyPart(ankleGeo, xPos, 0.03, 0.02);
-            legGroup.add(ankle);
-            
-            // Foot
-            const footGeo = new THREE.BoxGeometry(0.09, 0.05, 0.22);
-            const foot = createBodyPart(footGeo, xPos, -0.01, 0.08);
-            legGroup.add(foot);
-            
-            return legGroup;
-        }
-
-        const leftLeg = createLeg('left');
-        const rightLeg = createLeg('right');
-        mannequin.add(leftLeg);
-        mannequin.add(rightLeg);
-
-        // Clothing system with realistic meshes
+        // Clothing system
         const clothingGroup = new THREE.Group();
-        mannequin.add(clothingGroup);
-        const wornItems = {};
-
-        // Create realistic clothing meshes
-        function createClothingMesh(itemData) {
-            const { zone, color, type, itemId } = itemData;
-            const material = new THREE.MeshStandardMaterial({ 
-                color: new THREE.Color(color),
-                roughness: type === 'sneaker' || type === 'boot' ? 0.4 : 0.7,
-                metalness: type === 'patent' ? 0.6 : 0.1,
-                side: THREE.DoubleSide
-            });
-
-            let mesh;
-
-            switch(zone) {
-                case 'torso':
-                    if (type === 'blazer') {
-                        // Deconstructed blazer with visible seams
-                        const blazerGroup = new THREE.Group();
-                        
-                        // Main body
-                        const blazerBody = new THREE.Mesh(
-                            new THREE.CylinderGeometry(0.28, 0.25, 0.75, 32),
-                            material
-                        );
-                        blazerBody.position.y = 1.25;
-                        blazerBody.castShadow = true;
-                        blazerGroup.add(blazerBody);
-                        
-                        // Lapels (deconstructed look)
-                        const lapelGeo = new THREE.BoxGeometry(0.08, 0.35, 0.03);
-                        const leftLapel = new THREE.Mesh(lapelGeo, material);
-                        leftLapel.position.set(-0.08, 1.35, 0.22);
-                        leftLapel.rotation.y = 0.3;
-                        leftLapel.castShadow = true;
-                        blazerGroup.add(leftLapel);
-                        
-                        const rightLapel = new THREE.Mesh(lapelGeo, material);
-                        rightLapel.position.set(0.08, 1.35, 0.22);
-                        rightLapel.rotation.y = -0.3;
-                        rightLapel.castShadow = true;
-                        blazerGroup.add(rightLapel);
-                        
-                        // Sleeves
-                        const sleeveGeo = new THREE.CylinderGeometry(0.09, 0.07, 0.55, 32);
-                        const leftSleeve = new THREE.Mesh(sleeveGeo, material);
-                        leftSleeve.position.set(-0.32, 1.25, 0);
-                        leftSleeve.rotation.z = 0.15;
-                        leftSleeve.castShadow = true;
-                        blazerGroup.add(leftSleeve);
-                        
-                        const rightSleeve = new THREE.Mesh(sleeveGeo, material);
-                        rightSleeve.position.set(0.32, 1.25, 0);
-                        rightSleeve.rotation.z = -0.15;
-                        rightSleeve.castShadow = true;
-                        blazerGroup.add(rightSleeve);
-                        
-                        // Visible stitching (Margiela signature)
-                        const stitchMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                        const stitchGeo = new THREE.TorusGeometry(0.26, 0.005, 8, 50);
-                        const stitch1 = new THREE.Mesh(stitchGeo, stitchMaterial);
-                        stitch1.position.y = 1.45;
-                        stitch1.rotation.x = Math.PI / 2;
-                        blazerGroup.add(stitch1);
-                        
-                        mesh = blazerGroup;
-                    } else if (type === 'coat') {
-                        // Oversized coat
-                        const coatGroup = new THREE.Group();
-                        
-                        const coatBody = new THREE.Mesh(
-                            new THREE.CylinderGeometry(0.35, 0.32, 1.1, 32),
-                            material
-                        );
-                        coatBody.position.y = 1.20;
-                        coatBody.castShadow = true;
-                        coatGroup.add(coatBody);
-                        
-                        // Wide sleeves
-                        const coatSleeveGeo = new THREE.CylinderGeometry(0.12, 0.10, 0.65, 32);
-                        const leftCoatSleeve = new THREE.Mesh(coatSleeveGeo, material);
-                        leftCoatSleeve.position.set(-0.38, 1.20, 0);
-                        leftCoatSleeve.rotation.z = 0.2;
-                        leftCoatSleeve.castShadow = true;
-                        coatGroup.add(leftCoatSleeve);
-                        
-                        const rightCoatSleeve = new THREE.Mesh(coatSleeveGeo, material);
-                        rightCoatSleeve.position.set(0.38, 1.20, 0);
-                        rightCoatSleeve.rotation.z = -0.2;
-                        rightCoatSleeve.castShadow = true;
-                        coatGroup.add(rightCoatSleeve);
-                        
-                        // Collar
-                        const collarGeo = new THREE.BoxGeometry(0.25, 0.12, 0.08);
-                        const collar = new THREE.Mesh(collarGeo, material);
-                        collar.position.set(0, 1.65, 0.18);
-                        collar.castShadow = true;
-                        coatGroup.add(collar);
-                        
-                        mesh = coatGroup;
-                    }
-                    break;
-                    
-                case 'feet':
-                    const shoeGroup = new THREE.Group();
-                    
-                    if (type === 'boot' || type === 'flat') {
-                        // Tabi boot/flat with split toe
-                        function createTabiShoe(xPos, yPos) {
-                            const tabiGroup = new THREE.Group();
-                            
-                            // Main boot body
-                            const bootBody = new THREE.Mesh(
-                                new THREE.CylinderGeometry(0.075, 0.08, type === 'boot' ? 0.18 : 0.08, 32),
-                                material
-                            );
-                            bootBody.position.y = type === 'boot' ? 0.09 : 0.04;
-                            bootBody.castShadow = true;
-                            tabiGroup.add(bootBody);
-                            
-                            // Split toe - big toe
-                            const bigToe = new THREE.Mesh(
-                                new THREE.SphereGeometry(0.045, 32, 32),
-                                material
-                            );
-                            bigToe.position.set(xPos > 0 ? 0.025 : -0.025, 0.02, 0.08);
-                            bigToe.scale.set(1, 0.7, 1.3);
-                            bigToe.castShadow = true;
-                            tabiGroup.add(bigToe);
-                            
-                            // Split toe - other toes
-                            const otherToes = new THREE.Mesh(
-                                new THREE.SphereGeometry(0.05, 32, 32),
-                                material
-                            );
-                            otherToes.position.set(xPos > 0 ? -0.025 : 0.025, 0.02, 0.07);
-                            otherToes.scale.set(1.2, 0.65, 1.1);
-                            otherToes.castShadow = true;
-                            tabiGroup.add(otherToes);
-                            
-                            // Heel
-                            if (type === 'boot') {
-                                const heel = new THREE.Mesh(
-                                    new THREE.CylinderGeometry(0.05, 0.055, 0.08, 16),
-                                    material
-                                );
-                                heel.position.y = -0.06;
-                                heel.castShadow = true;
-                                tabiGroup.add(heel);
-                            }
-                            
-                            tabiGroup.position.set(xPos, yPos, 0.08);
-                            return tabiGroup;
-                        }
-                        
-                        shoeGroup.add(createTabiShoe(-0.11, -0.01));
-                        shoeGroup.add(createTabiShoe(0.11, -0.01));
-                    } else if (type === 'sneaker') {
-                        // Replica sneaker
-                        function createSneaker(xPos, yPos) {
-                            const sneakerGroup = new THREE.Group();
-                            
-                            // Main body
-                            const sneakerBody = new THREE.Mesh(
-                                new THREE.BoxGeometry(0.11, 0.06, 0.22),
-                                material
-                            );
-                            sneakerBody.position.y = 0.03;
-                            sneakerBody.castShadow = true;
-                            sneakerGroup.add(sneakerBody);
-                            
-                            // Sole (gum color)
-                            const soleMaterial = new THREE.MeshStandardMaterial({ 
-                                color: 0xc4a574,
-                                roughness: 0.8
-                            });
-                            const sole = new THREE.Mesh(
-                                new THREE.BoxGeometry(0.12, 0.025, 0.23),
-                                soleMaterial
-                            );
-                            sole.position.y = -0.015;
-                            sole.castShadow = true;
-                            sneakerGroup.add(sole);
-                            
-                            // Toe cap
-                            const toeCap = new THREE.Mesh(
-                                new THREE.BoxGeometry(0.11, 0.04, 0.05),
-                                material
-                            );
-                            toeCap.position.set(0, 0.04, 0.09);
-                            toeCap.castShadow = true;
-                            sneakerGroup.add(toeCap);
-                            
-                            sneakerGroup.position.set(xPos, yPos, 0.08);
-                            return sneakerGroup;
-                        }
-                        
-                        shoeGroup.add(createSneaker(-0.11, -0.01));
-                        shoeGroup.add(createSneaker(0.11, -0.01));
-                    }
-                    
-                    mesh = shoeGroup;
-                    break;
-                    
-                case 'hand':
-                    // Bag
-                    if (type === 'bag') {
-                        const bagGroup = new THREE.Group();
-                        
-                        // Main bag body (5AC style)
-                        const bagBody = new THREE.Mesh(
-                            new THREE.BoxGeometry(0.22, 0.18, 0.10),
-                            material
-                        );
-                        bagBody.position.set(-0.38, 0.65, 0.12);
-                        bagBody.rotation.z = 0.2;
-                        bagBody.castShadow = true;
-                        bagGroup.add(bagBody);
-                        
-                        // Handles
-                        const handleGeo = new THREE.TorusGeometry(0.05, 0.01, 8, 32);
-                        const leftHandle = new THREE.Mesh(handleGeo, material);
-                        leftHandle.position.set(-0.32, 0.78, 0.12);
-                        leftHandle.rotation.x = Math.PI / 2;
-                        bagGroup.add(leftHandle);
-                        
-                        const rightHandle = new THREE.Mesh(handleGeo, material);
-                        rightHandle.position.set(-0.22, 0.78, 0.12);
-                        rightHandle.rotation.x = Math.PI / 2;
-                        bagGroup.add(rightHandle);
-                        
-                        // Numeric label (Margiela signature)
-                        const labelGeo = new THREE.BoxGeometry(0.06, 0.03, 0.005);
-                        const labelMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                        const label = new THREE.Mesh(labelGeo, labelMaterial);
-                        label.position.set(-0.27, 0.75, 0.17);
-                        bagGroup.add(label);
-                        
-                        mesh = bagGroup;
-                    }
-                    break;
-            }
-
-            if (mesh) {
-                mesh.userData.itemId = itemId;
-                mesh.userData.zone = zone;
-            }
-            
-            return mesh;
-        }
-
-        function toggleItem(card) {
-            const itemId = card.dataset.item;
-            const zone = card.dataset.zone;
-            const color = card.dataset.color;
-            const type = card.dataset.type;
-
-            if (wornItems[itemId]) {
-                clothingGroup.remove(wornItems[itemId]);
-                delete wornItems[itemId];
-                card.classList.remove('active');
-            } else {
-                // Remove existing item in same zone
-                Object.keys(wornItems).forEach(key => {
-                    if (wornItems[key].userData.zone === zone) {
-                        clothingGroup.remove(wornItems[key]);
-                        delete wornItems[key];
-                        const existingCard = document.querySelector(`[data-item="${key}"]`);
-                        if (existingCard) existingCard.classList.remove('active');
-                    }
-                });
-
-                const mesh = createClothingMesh({ zone, color, type, itemId });
-                if (mesh) {
-                    clothingGroup.add(mesh);
-                    wornItems[itemId] = mesh;
-                    card.classList.add('active');
-                }
-            }
-        }
-
-        // Tab switching
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const category = this.dataset.category;
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.product-grid').forEach(grid => grid.style.display = 'none');
-                document.getElementById(`${category}-grid`).style.display = 'grid';
-            });
-        });
-
-        // Product card click
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('click', () => toggleItem(card));
-        });
-
-        // Controls
-        document.getElementById('clear-all').addEventListener('click', () => {
-            Object.keys(wornItems).forEach(key => {
-                clothingGroup.remove(wornItems[key]);
-                delete wornItems[key];
-            });
-            document.querySelectorAll('.product-card').forEach(c => c.classList.remove('active'));
-        });
-
-        let autoRotate = false;
-        document.getElementById('rotate-btn').addEventListener('click', function() {
-            autoRotate = !autoRotate;
-            controls.autoRotate = autoRotate;
-            controls.autoRotateSpeed = 0.5;
-            this.textContent = autoRotate ? 'STOP ROTATION' : 'AUTO ROTATE';
-        });
-
-        document.getElementById('save-look').addEventListener('click', () => {
-            const count = Object.keys(wornItems).length;
-            if (count === 0) {
-                alert('Dress the mannequin first!');
+        human.add(clothingGroup);
+        const wornClothes = {};
+        
+        // Wear item function
+        function wearItem(itemId) {
+            // Remove existing clothes in same category
+            if (wornClothes[itemId]) {
+                clothingGroup.remove(wornClothes[itemId]);
+                delete wornClothes[itemId];
                 return;
             }
-            alert(`Look saved with ${count} Maison Margiela piece(s)!`);
-        });
-
-        // Animation loop
+            
+            let clothing;
+            
+            if (itemId === 'blazer-black') {
+                clothing = createBlazer(0x1a1a1a);
+            } else if (itemId === 'sweater-beige') {
+                clothing = createSweater(0xc4b5a0);
+            } else if (itemId === 'coat-camel') {
+                clothing = createCoat(0x8b7355);
+            } else if (itemId === 'trousers-black') {
+                clothing = createTrousers(0x1a1a1a);
+            } else if (itemId === 'jeans-blue') {
+                clothing = createTrousers(0x4a5a7a);
+            } else if (itemId === 'tabi-black') {
+                clothing = createTabiBoots(0x0a0a0a);
+            } else if (itemId === 'replica-white') {
+                clothing = createSneakers(0xf5f0eb);
+            } else if (itemId === 'bag-5ac') {
+                clothing = createBag(0x1a1a1a);
+            } else if (itemId === 'bag-glamslam') {
+                clothing = createBag(0x2a1f1a);
+            }
+            
+            if (clothing) {
+                clothingGroup.add(clothing);
+                wornClothes[itemId] = clothing;
+            }
+        }
+        
+        function createBlazer(color) {
+            const group = new THREE.Group();
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            
+            // Body
+            const body = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.30, 0.26, 0.75, 32),
+                material
+            );
+            body.position.y = 1.15;
+            body.castShadow = true;
+            group.add(body);
+            
+            // Sleeves
+            const sleeveGeo = new THREE.CylinderGeometry(0.09, 0.07, 0.60, 32);
+            const leftSleeve = new THREE.Mesh(sleeveGeo, material);
+            leftSleeve.position.set(-0.35, 1.20, 0);
+            leftSleeve.rotation.z = 0.1;
+            leftSleeve.castShadow = true;
+            group.add(leftSleeve);
+            
+            const rightSleeve = new THREE.Mesh(sleeveGeo, material);
+            rightSleeve.position.set(0.35, 1.20, 0);
+            rightSleeve.rotation.z = -0.1;
+            rightSleeve.castShadow = true;
+            group.add(rightSleeve);
+            
+            return group;
+        }
+        
+        function createSweater(color) {
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            const sweater = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.28, 0.24, 0.70, 32),
+                material
+            );
+            sweater.position.y = 1.15;
+            sweater.castShadow = true;
+            return sweater;
+        }
+        
+        function createCoat(color) {
+            const group = new THREE.Group();
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            
+            const coat = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.35, 0.32, 1.0, 32),
+                material
+            );
+            coat.position.y = 1.10;
+            coat.castShadow = true;
+            group.add(coat);
+            
+            return group;
+        }
+        
+        function createTrousers(color) {
+            const group = new THREE.Group();
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            
+            // Waist
+            const waist = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.24, 0.22, 0.20, 32),
+                material
+            );
+            waist.position.y = 0.85;
+            waist.castShadow = true;
+            group.add(waist);
+            
+            // Legs
+            const legGeo = new THREE.CylinderGeometry(0.12, 0.10, 0.90, 32);
+            const leftLeg = new THREE.Mesh(legGeo, material);
+            leftLeg.position.set(-0.12, 0.40, 0);
+            leftLeg.castShadow = true;
+            group.add(leftLeg);
+            
+            const rightLeg = new THREE.Mesh(legGeo, material);
+            rightLeg.position.set(0.12, 0.40, 0);
+            rightLeg.castShadow = true;
+            group.add(rightLeg);
+            
+            return group;
+        }
+        
+        function createTabiBoots(color) {
+            const group = new THREE.Group();
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            
+            function createTabiBoot(xPos) {
+                const boot = new THREE.Group();
+                
+                const bootBody = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.08, 0.09, 0.18, 32),
+                    material
+                );
+                bootBody.position.y = 0.09;
+                bootBody.castShadow = true;
+                boot.add(bootBody);
+                
+                // Split toe
+                const bigToe = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.045, 32, 32),
+                    material
+                );
+                bigToe.position.set(xPos > 0 ? 0.025 : -0.025, 0.02, 0.08);
+                bigToe.scale.set(1, 0.7, 1.3);
+                bigToe.castShadow = true;
+                boot.add(bigToe);
+                
+                const otherToes = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.05, 32, 32),
+                    material
+                );
+                otherToes.position.set(xPos > 0 ? -0.025 : 0.025, 0.02, 0.07);
+                otherToes.scale.set(1.2, 0.65, 1.1);
+                otherToes.castShadow = true;
+                boot.add(otherToes);
+                
+                boot.position.set(xPos, -0.50, 0.08);
+                return boot;
+            }
+            
+            group.add(createTabiBoot(-0.12));
+            group.add(createTabiBoot(0.12));
+            
+            return group;
+        }
+        
+        function createSneakers(color) {
+            const group = new THREE.Group();
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            const soleMaterial = new THREE.MeshStandardMaterial({ color: 0xc4a574 });
+            
+            function createSneaker(xPos) {
+                const sneaker = new THREE.Group();
+                
+                const body = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.12, 0.07, 0.24),
+                    material
+                );
+                body.position.y = 0.035;
+                body.castShadow = true;
+                sneaker.add(body);
+                
+                const sole = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.13, 0.025, 0.25),
+                    soleMaterial
+                );
+                sole.position.y = -0.015;
+                sole.castShadow = true;
+                sneaker.add(sole);
+                
+                sneaker.position.set(xPos, -0.50, 0.08);
+                return sneaker;
+            }
+            
+            group.add(createSneaker(-0.12));
+            group.add(createSneaker(0.12));
+            
+            return group;
+        }
+        
+        function createBag(color) {
+            const material = new THREE.MeshStandardMaterial({ color: color });
+            const bag = new THREE.Mesh(
+                new THREE.BoxGeometry(0.22, 0.18, 0.10),
+                material
+            );
+            bag.position.set(-0.38, 0.65, 0.15);
+            bag.rotation.z = 0.2;
+            bag.castShadow = true;
+            return bag;
+        }
+        
+        function clearAll() {
+            Object.keys(wornClothes).forEach(key => {
+                clothingGroup.remove(wornClothes[key]);
+            });
+            Object.keys(wornClothes).forEach(key => delete wornClothes[key]);
+        }
+        
+        let rotating = false;
+        function toggleRotate() {
+            rotating = !rotating;
+            controls.autoRotate = rotating;
+        }
+        
+        function showCategory(cat) {
+            document.querySelectorAll('.product-grid').forEach(g => g.style.display = 'none');
+            document.getElementById(cat).style.display = 'grid';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // Animation
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
             renderer.render(scene, camera);
         }
-
-        // Handle resize
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-
-        // Hide loading
-        setTimeout(() => {
-            document.getElementById('loading').style.opacity = '0';
-            setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
-        }, 1000);
-
+        
         animate();
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
