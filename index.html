@@ -1,684 +1,1325 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAISON MARGIELA | 3D VIRTUAL FITTING</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: #f0ebe6;
-            color: #1a1a1a;
-            overflow: hidden;
-            height: 100vh;
-        }
+<style>
+/* ================================
+   MM6 / MAISON MARGIELA FITTING ROOM
+   ================================ */
 
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 25px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: rgba(240, 235, 230, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #d8d0c8;
-        }
+.mm-fitting-room {
+  --mm-black:#111;
+  --mm-white:#f7f7f5;
+  --mm-grey:#777;
+  --mm-line:#d9d9d6;
 
-        .logo {
-            font-size: 1.1rem;
-            letter-spacing: 10px;
-            font-weight: 300;
-            color: #1a1a1a;
-            position: relative;
-        }
+  width:100%;
+  min-height:760px;
+  background:#f5f5f2;
+  color:var(--mm-black);
+  font-family:Helvetica Neue, Arial, sans-serif;
+  display:flex;
+  overflow:hidden;
+  border:1px solid #ddd;
+}
 
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 5px,
-                #fff 5px,
-                #fff 10px,
-                transparent 10px,
-                transparent 15px
-            );
-        }
+/* LEFT SIDEBAR */
 
-        nav a {
-            color: #1a1a1a;
-            text-decoration: none;
-            margin-left: 35px;
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
+.mm-sidebar {
+  width:310px;
+  background:#f8f8f6;
+  border-right:1px solid var(--mm-line);
+  padding:28px 24px;
+  box-sizing:border-box;
+  overflow-y:auto;
+  z-index:10;
+}
 
-        .main-container {
-            display: flex;
-            height: 100vh;
-            padding-top: 80px;
-        }
+.mm-logo {
+  font-size:12px;
+  letter-spacing:4px;
+  margin-bottom:7px;
+}
 
-        #canvas-container {
-            flex: 1;
-            position: relative;
-            background: linear-gradient(180deg, #f0ebe6 0%, #e8e0d8 100%);
-        }
+.mm-title {
+  font-size:24px;
+  font-weight:400;
+  letter-spacing:-.5px;
+  margin:0 0 5px;
+}
 
-        .product-panel {
-            width: 400px;
-            background: #f5f0eb;
-            border-left: 1px solid #d8d0c8;
-            overflow-y: auto;
-        }
+.mm-subtitle {
+  font-size:10px;
+  letter-spacing:2px;
+  color:#777;
+  margin-bottom:30px;
+}
 
-        .category-tabs {
-            display: flex;
-            position: sticky;
-            top: 0;
-            background: #f5f0eb;
-            z-index: 50;
-            border-bottom: 1px solid #d8d0c8;
-        }
+.mm-section-title {
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin:25px 0 12px;
+  color:#666;
+}
 
-        .tab-btn {
-            flex: 1;
-            padding: 20px;
-            background: transparent;
-            border: none;
-            color: #888;
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-        }
+.mm-buttons {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
 
-        .tab-btn.active {
-            color: #1a1a1a;
-            border-bottom-color: #1a1a1a;
-        }
+.mm-size {
+  background:white;
+  border:1px solid #d6d6d2;
+  height:38px;
+  cursor:pointer;
+  font-size:11px;
+  transition:.2s;
+}
 
-        .product-grid {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+.mm-size:hover,
+.mm-size.active {
+  background:#111;
+  color:white;
+}
 
-        .product-card {
-            background: #fff;
-            border: 1px solid #e8e0d8;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.mm-slider {
+  width:100%;
+  margin:8px 0 4px;
+  accent-color:#111;
+}
 
-        .product-card:hover {
-            border-color: #1a1a1a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
+.mm-slider-label {
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  color:#666;
+}
 
-        .product-card.active {
-            border-color: #1a1a1a;
-            background: #ebe6e1;
-        }
+/* CLOTHING */
 
-        .product-image {
-            width: 100%;
-            height: 180px;
-            background: #f8f5f2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
+.mm-products {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
 
-        .product-image img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
+.mm-product {
+  background:white;
+  border:1px solid transparent;
+  min-height:110px;
+  cursor:pointer;
+  padding:10px;
+  position:relative;
+  transition:.2s;
+}
 
-        .product-name {
-            font-size: 0.7rem;
-            letter-spacing: 1.5px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
+.mm-product:hover {
+  border-color:#111;
+}
 
-        .product-price {
-            font-size: 0.75rem;
-            color: #666;
-        }
+.mm-product.active {
+  border:1px solid #111;
+}
 
-        .controls {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-            background: rgba(245, 240, 235, 0.95);
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid #d8d0c8;
-        }
+.mm-product-image {
+  height:76px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
 
-        .ctrl-btn {
-            padding: 8px 18px;
-            background: transparent;
-            border: 1px solid #c8c0b8;
-            color: #1a1a1a;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
+.mm-product-image img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
 
-        .ctrl-btn:hover {
-            background: #1a1a1a;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
+.mm-product-name {
+  font-size:9px;
+  letter-spacing:1px;
+  margin-top:7px;
+}
 
-    <header>
-        <div class="logo">MAISON MARGIELA</div>
-        <nav>
-            <a href="#">WOMEN</a>
-            <a href="#">MEN</a>
-            <a href="#">ARTISANAL</a>
-        </nav>
-    </header>
+.mm-product-type {
+  color:#888;
+  font-size:8px;
+  margin-top:3px;
+}
 
-    <div class="main-container">
-        <div id="canvas-container"></div>
+/* ================================
+   FITTING ROOM
+   ================================ */
 
-        <div class="product-panel">
-            <div class="category-tabs">
-                <button class="tab-btn active" onclick="showCategory('tops')">TOPS</button>
-                <button class="tab-btn" onclick="showCategory('bottoms')">BOTTOMS</button>
-                <button class="tab-btn" onclick="showCategory('shoes')">SHOES</button>
-                <button class="tab-btn" onclick="showCategory('bags')">BAGS</button>
-            </div>
+.mm-stage {
+  flex:1;
+  min-width:0;
+  position:relative;
+  background:
+    radial-gradient(circle at 50% 35%, #ffffff 0%, #f4f4f1 48%, #e9e9e5 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
 
-            <div class="product-grid" id="tops">
-                <div class="product-card" onclick="wearItem('blazer-black')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw8b5c5a5e/images/large/S58CT0632P4086T8013.jpg" alt="Blazer" onerror="this.src='https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300'">
-                    </div>
-                    <div class="product-name">DECONSTRUCTED BLAZER</div>
-                    <div class="product-price">€2,890</div>
-                </div>
-                <div class="product-card" onclick="wearItem('sweater-beige')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw123456789/images/large/S59CT0167P4300T8013.jpg" alt="Sweater" onerror="this.src='https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300'">
-                    </div>
-                    <div class="product-name">OVERSIZED SWEATER</div>
-                    <div class="product-price">€890</div>
-                </div>
-                <div class="product-card" onclick="wearItem('coat-camel')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw987654321/images/large/S51CT0123P4300T8013.jpg" alt="Coat" onerror="this.src='https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=300'">
-                    </div>
-                    <div class="product-name">WOOL COAT</div>
-                    <div class="product-price">€3,290</div>
-                </div>
-            </div>
+/* ROOM LINES */
 
-            <div class="product-grid" id="bottoms" style="display:none">
-                <div class="product-card" onclick="wearItem('trousers-black')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw111222333/images/large/S51KA0046P4300T8013.jpg" alt="Trousers" onerror="this.src='https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300'">
-                    </div>
-                    <div class="product-name">WIDE TROUSERS</div>
-                    <div class="product-price">€780</div>
-                </div>
-                <div class="product-card" onclick="wearItem('jeans-blue')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw444555666/images/large/S51LA0023P4300T8013.jpg" alt="Jeans" onerror="this.src='https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300'">
-                    </div>
-                    <div class="product-name">REPLICA JEANS</div>
-                    <div class="product-price">€590</div>
-                </div>
-            </div>
+.mm-stage:before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,
+      transparent 49.8%,
+      rgba(0,0,0,.06) 50%,
+      transparent 50.2%);
+  pointer-events:none;
+}
 
-            <div class="product-grid" id="shoes" style="display:none">
-                <div class="product-card" onclick="wearItem('tabi-black')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw777888999/images/large/S58WU0260P3753T8013.jpg" alt="Tabi" onerror="this.src='https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=300'">
-                    </div>
-                    <div class="product-name">TABI BOOTS</div>
-                    <div class="product-price">€1,290</div>
-                </div>
-                <div class="product-card" onclick="wearItem('replica-white')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw000111222/images/large/S57WS0236P1895101.jpg" alt="Replica" onerror="this.src='https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300'">
-                    </div>
-                    <div class="product-name">REPLICA SNEAKERS</div>
-                    <div class="product-price">€850</div>
-                </div>
-            </div>
+.mm-floor {
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:26%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,.025) 0px,
+      rgba(0,0,0,.025) 1px,
+      transparent 1px,
+      transparent 90px
+    ),
+    linear-gradient(#eeeeeb,#deded9);
+  transform:perspective(500px) rotateX(55deg);
+  transform-origin:bottom;
+}
 
-            <div class="product-grid" id="bags" style="display:none">
-                <div class="product-card" onclick="wearItem('bag-5ac')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw333444555/images/large/SB1WG0086P8838T8013.jpg" alt="5AC Bag" onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300'">
-                    </div>
-                    <div class="product-name">5AC BAG</div>
-                    <div class="product-price">€2,150</div>
-                </div>
-                <div class="product-card" onclick="wearItem('bag-glamslam')">
-                    <div class="product-image">
-                        <img src="https://www.maisonmargiela.com/dw/image/v2/BBHDVLZP_PRD/on/demandware.static/-/Sites-maisonmargiela-master/default/dw666777888/images/large/SB1WG0019P4300T8013.jpg" alt="Glam Slam" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300'">
-                    </div>
-                    <div class="product-name">GLAM SLAM</div>
-                    <div class="product-price">€1,890</div>
-                </div>
-            </div>
+/* TOP INFO */
+
+.mm-top-info {
+  position:absolute;
+  top:25px;
+  left:30px;
+  right:30px;
+  display:flex;
+  justify-content:space-between;
+  z-index:5;
+}
+
+.mm-look-number {
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+.mm-view {
+  font-size:9px;
+  letter-spacing:2px;
+  color:#777;
+}
+
+/* MANNEQUIN */
+
+.mm-mannequin {
+  position:relative;
+  width:330px;
+  height:650px;
+  z-index:3;
+  transform-origin:center bottom;
+  transition:width .5s ease, height .5s ease;
+}
+
+/* HEAD */
+
+.mm-head {
+  position:absolute;
+  top:15px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90px;
+  height:112px;
+  background:
+    radial-gradient(circle at 35% 25%,#f0cdb8,#d6a58d 55%,#b9826c);
+  border-radius:47% 47% 45% 45%;
+  box-shadow:
+    inset -12px -5px 20px rgba(0,0,0,.12),
+    inset 8px 5px 15px rgba(255,255,255,.25);
+}
+
+/* FACE */
+
+.mm-face {
+  position:absolute;
+  top:56px;
+  left:25px;
+  width:40px;
+  height:3px;
+  border-radius:50%;
+  background:rgba(70,40,30,.25);
+}
+
+/* NECK */
+
+.mm-neck {
+  position:absolute;
+  top:108px;
+  left:50%;
+  transform:translateX(-50%);
+  width:48px;
+  height:60px;
+  background:linear-gradient(90deg,#b9826c,#e0b59d,#b9826c);
+  z-index:0;
+}
+
+/* TORSO */
+
+.mm-body {
+  position:absolute;
+  top:145px;
+  left:50%;
+  transform:translateX(-50%);
+  width:150px;
+  height:260px;
+  background:
+    linear-gradient(90deg,#a87966,#e1b39a 45%,#b17e69);
+  clip-path:polygon(
+    19% 0,
+    81% 0,
+    100% 20%,
+    87% 55%,
+    80% 100%,
+    20% 100%,
+    13% 55%,
+    0 20%
+  );
+  box-shadow:inset -15px 0 25px rgba(0,0,0,.12);
+}
+
+/* ARMS */
+
+.mm-arm {
+  position:absolute;
+  top:160px;
+  width:46px;
+  height:245px;
+  background:linear-gradient(90deg,#aa7663,#dfb198,#a97663);
+  border-radius:30px;
+  box-shadow:inset -8px 0 14px rgba(0,0,0,.12);
+}
+
+.mm-arm.left {
+  left:55px;
+  transform:rotate(7deg);
+}
+
+.mm-arm.right {
+  right:55px;
+  transform:rotate(-7deg);
+}
+
+/* HANDS */
+
+.mm-hand {
+  position:absolute;
+  width:42px;
+  height:62px;
+  background:linear-gradient(90deg,#a87561,#ddb097,#a87561);
+  border-radius:40%;
+}
+
+.mm-hand.left {
+  left:40px;
+  bottom:220px;
+}
+
+.mm-hand.right {
+  right:40px;
+  bottom:220px;
+}
+
+/* LEGS */
+
+.mm-leg {
+  position:absolute;
+  top:380px;
+  width:65px;
+  height:250px;
+  background:linear-gradient(90deg,#a87562,#ddb096,#a77563);
+  border-radius:30px 30px 18px 18px;
+}
+
+.mm-leg.left {
+  left:102px;
+}
+
+.mm-leg.right {
+  right:102px;
+}
+
+/* FEET */
+
+.mm-foot {
+  position:absolute;
+  bottom:0;
+  width:74px;
+  height:27px;
+  background:#8e6558;
+  border-radius:60% 40% 20% 20%;
+}
+
+.mm-foot.left {
+  left:92px;
+}
+
+.mm-foot.right {
+  right:92px;
+}
+
+/* ================================
+   CLOTHING OVERLAY
+   ================================ */
+
+.mm-clothes {
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+}
+
+/* TOP */
+
+.garment-top {
+  position:absolute;
+  top:145px;
+  left:50%;
+  transform:translateX(-50%);
+  width:168px;
+  height:255px;
+  background:#eeeae0;
+  clip-path:polygon(
+    15% 0,
+    35% 0,
+    50% 8%,
+    65% 0,
+    85% 0,
+    100% 24%,
+    88% 100%,
+    12% 100%,
+    0 24%
+  );
+  box-shadow:
+    inset 0 0 15px rgba(0,0,0,.1),
+    inset 12px 0 10px rgba(255,255,255,.35);
+}
+
+.garment-top:before {
+  content:"MM6";
+  position:absolute;
+  top:35px;
+  right:20px;
+  font-size:18px;
+  letter-spacing:2px;
+  color:#111;
+}
+
+/* T-SHIRT */
+
+.garment-tshirt {
+  background:#ece9df;
+}
+
+.garment-tshirt:after {
+  content:"ESTABL.";
+  position:absolute;
+  right:13px;
+  bottom:25px;
+  font-size:8px;
+  transform:rotate(0deg);
+}
+
+/* BLACK VEST */
+
+.garment-vest {
+  width:158px;
+  height:250px;
+  background:#151515;
+}
+
+.garment-vest:before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:50%;
+  width:35px;
+  height:75px;
+  transform:translateX(-50%);
+  background:#e1b198;
+  clip-path:polygon(0 0,100% 0,72% 100%,28% 100%);
+}
+
+.garment-vest:after {
+  content:"••••";
+  position:absolute;
+  top:105px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#aaa;
+  font-size:12px;
+  line-height:22px;
+}
+
+/* BLAZER */
+
+.garment-blazer {
+  width:188px;
+  height:270px;
+  background:#292a2c;
+  clip-path:polygon(
+    10% 0,
+    38% 0,
+    50% 12%,
+    62% 0,
+    90% 0,
+    100% 100%,
+    0 100%
+  );
+}
+
+.garment-blazer:before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:50%;
+  width:2px;
+  height:100%;
+  background:#777;
+}
+
+.garment-blazer:after {
+  content:"";
+  position:absolute;
+  inset:10px;
+  border:1px dashed rgba(255,255,255,.35);
+}
+
+/* CARDIGAN */
+
+.garment-cardigan {
+  width:158px;
+  height:260px;
+  background:#17182b;
+  border-radius:25px 25px 8px 8px;
+}
+
+.garment-cardigan:before {
+  content:"MM6";
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  background:white;
+  color:#111;
+  padding:2px 5px;
+  font-size:8px;
+}
+
+.garment-cardigan:after {
+  content:"";
+  position:absolute;
+  top:50px;
+  bottom:0;
+  left:50%;
+  width:2px;
+  background:#555;
+}
+
+/* PANTS */
+
+.garment-pants {
+  position:absolute;
+  top:378px;
+  left:50%;
+  transform:translateX(-50%);
+  width:150px;
+  height:250px;
+  background:#111;
+  clip-path:polygon(
+    8% 0,
+    92% 0,
+    82% 100%,
+    55% 100%,
+    50% 48%,
+    45% 100%,
+    18% 100%
+  );
+}
+
+.garment-jeans {
+  background:#7892a6;
+}
+
+.garment-black {
+  background:#151515;
+}
+
+.garment-wide {
+  width:175px;
+}
+
+/* DRESS */
+
+.garment-dress {
+  position:absolute;
+  top:140px;
+  left:50%;
+  transform:translateX(-50%);
+  width:165px;
+  height:350px;
+  background:
+    linear-gradient(90deg,#1d1d1f,#45454a,#171719);
+  clip-path:polygon(
+    27% 0,
+    73% 0,
+    84% 35%,
+    100% 100%,
+    0 100%,
+    16% 35%
+  );
+  box-shadow:inset -20px 0 25px rgba(0,0,0,.2);
+}
+
+/* SHOES */
+
+.mm-shoe {
+  position:absolute;
+  bottom:2px;
+  width:70px;
+  height:25px;
+  background:#111;
+  border-radius:30px 12px 8px 8px;
+}
+
+.mm-shoe.left {
+  left:94px;
+}
+
+.mm-shoe.right {
+  right:94px;
+}
+
+/* CONTROLS */
+
+.mm-controls {
+  position:absolute;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:7px;
+  z-index:8;
+}
+
+.mm-control {
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:rgba(255,255,255,.8);
+  border:1px solid #ccc;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.mm-control:hover {
+  background:#111;
+  color:white;
+}
+
+/* RIGHT LOOK PANEL */
+
+.mm-look-panel {
+  width:270px;
+  background:#f8f8f6;
+  border-left:1px solid var(--mm-line);
+  padding:28px 24px;
+  box-sizing:border-box;
+}
+
+.mm-look-panel h3 {
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:400;
+  margin:0 0 20px;
+}
+
+.mm-selected {
+  border-top:1px solid #ccc;
+  padding:13px 0;
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+}
+
+.mm-selected span:last-child {
+  color:#888;
+}
+
+.mm-cart {
+  width:100%;
+  border:0;
+  background:#111;
+  color:white;
+  padding:16px;
+  cursor:pointer;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-top:20px;
+}
+
+.mm-cart:hover {
+  background:#333;
+}
+
+/* ROTATION */
+
+.mm-mannequin.rotate {
+  animation:mmRotate .8s ease;
+}
+
+@keyframes mmRotate {
+  0% { transform:rotateY(0deg); }
+  50% { transform:rotateY(90deg); }
+  100% { transform:rotateY(0deg); }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px) {
+  .mm-sidebar {
+    width:230px;
+  }
+
+  .mm-look-panel {
+    width:220px;
+  }
+}
+
+@media(max-width:750px) {
+  .mm-fitting-room {
+    flex-direction:column;
+  }
+
+  .mm-sidebar {
+    width:100%;
+    height:auto;
+    max-height:280px;
+    border-right:0;
+    border-bottom:1px solid #ddd;
+  }
+
+  .mm-look-panel {
+    width:100%;
+    border-left:0;
+    border-top:1px solid #ddd;
+  }
+
+  .mm-stage {
+    min-height:700px;
+  }
+}
+</style>
+
+
+<div class="mm-fitting-room">
+
+  <!-- LEFT -->
+
+  <aside class="mm-sidebar">
+
+    <div class="mm-logo">MAISON MARGIELA</div>
+
+    <h2 class="mm-title">FITTING ROOM</h2>
+
+    <div class="mm-subtitle">
+      DIGITAL GARMENT EXPERIENCE
+    </div>
+
+
+    <!-- SIZE -->
+
+    <div class="mm-section-title">
+      Select size
+    </div>
+
+    <div class="mm-buttons">
+
+      <button class="mm-size" onclick="changeSize('XS',this)">XS</button>
+      <button class="mm-size" onclick="changeSize('S',this)">S</button>
+      <button class="mm-size active" onclick="changeSize('M',this)">M</button>
+      <button class="mm-size" onclick="changeSize('L',this)">L</button>
+      <button class="mm-size" onclick="changeSize('XL',this)">XL</button>
+
+    </div>
+
+
+    <!-- BODY -->
+
+    <div class="mm-section-title">
+      Mannequin
+    </div>
+
+    <div class="mm-slider-label">
+      <span>HEIGHT</span>
+      <span id="heightValue">175 cm</span>
+    </div>
+
+    <input
+      class="mm-slider"
+      type="range"
+      min="155"
+      max="195"
+      value="175"
+      oninput="changeHeight(this.value)"
+    >
+
+
+    <div class="mm-slider-label">
+      <span>FIT</span>
+      <span id="fitValue">100%</span>
+    </div>
+
+    <input
+      class="mm-slider"
+      type="range"
+      min="80"
+      max="120"
+      value="100"
+      oninput="changeFit(this.value)"
+    >
+
+
+    <!-- CLOTHING -->
+
+    <div class="mm-section-title">
+      Tops
+    </div>
+
+    <div class="mm-products">
+
+      <div
+        class="mm-product active"
+        onclick="wearTop('tshirt','MM6 Long Sleeve')"
+      >
+        <div class="mm-product-image">
+          <div style="
+            width:55px;
+            height:65px;
+            background:#e8e5dc;
+            clip-path:polygon(20% 0,80% 0,100% 25%,85% 100%,15% 100%,0 25%);
+          "></div>
         </div>
+
+        <div class="mm-product-name">
+          MM6 LONG SLEEVE
+        </div>
+
+        <div class="mm-product-type">
+          TOP
+        </div>
+      </div>
+
+
+      <div
+        class="mm-product"
+        onclick="wearTop('vest','BLACK VEST')"
+      >
+        <div class="mm-product-image">
+          <div style="
+            width:52px;
+            height:70px;
+            background:#111;
+            clip-path:polygon(25% 0,75% 0,100% 25%,90% 100%,10% 100%,0 25%);
+          "></div>
+        </div>
+
+        <div class="mm-product-name">
+          BLACK VEST
+        </div>
+
+        <div class="mm-product-type">
+          TOP
+        </div>
+      </div>
+
+
+      <div
+        class="mm-product"
+        onclick="wearTop('cardigan','MM6 CARDIGAN')"
+      >
+        <div class="mm-product-image">
+          <div style="
+            width:52px;
+            height:70px;
+            background:#17182b;
+            border-radius:12px;
+          "></div>
+        </div>
+
+        <div class="mm-product-name">
+          MM6 CARDIGAN
+        </div>
+
+        <div class="mm-product-type">
+          KNITWEAR
+        </div>
+      </div>
+
     </div>
 
-    <div class="controls">
-        <button class="ctrl-btn" onclick="clearAll()">CLEAR</button>
-        <button class="ctrl-btn" onclick="toggleRotate()">ROTATE</button>
+
+    <div class="mm-section-title">
+      Outerwear
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script>
-        // Scene setup
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf0ebe6);
-        
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 1.5, 5);
-        
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMap.enabled = true;
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-        
-        // Controls
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.target.set(0, 1, 0);
-        controls.enableDamping = true;
-        
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-        
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        dirLight.position.set(5, 10, 5);
-        dirLight.castShadow = true;
-        scene.add(dirLight);
-        
-        // Human body materials
-        const skinMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0xe8ddd4,
-            roughness: 0.7
-        });
-        
-        // Create 3D Human Figure
-        const human = new THREE.Group();
-        
-        // Torso
-        const torso = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.25, 0.20, 0.7, 32),
-            skinMaterial
-        );
-        torso.position.y = 1.15;
-        torso.castShadow = true;
-        human.add(torso);
-        
-        // Head
-        const head = new THREE.Mesh(
-            new THREE.SphereGeometry(0.14, 32, 32),
-            skinMaterial
-        );
-        head.position.y = 1.75;
-        head.castShadow = true;
-        human.add(head);
-        
-        // Neck
-        const neck = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.08, 0.10, 0.15, 32),
-            skinMaterial
-        );
-        neck.position.y = 1.55;
-        human.add(neck);
-        
-        // Arms
-        function createArm(xPos) {
-            const arm = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.07, 0.06, 0.65, 32),
-                skinMaterial
-            );
-            arm.position.set(xPos, 1.2, 0);
-            arm.castShadow = true;
-            return arm;
-        }
-        
-        const leftArm = createArm(-0.32);
-        const rightArm = createArm(0.32);
-        human.add(leftArm);
-        human.add(rightArm);
-        
-        // Legs
-        function createLeg(xPos) {
-            const leg = new THREE.Group();
-            
-            const thigh = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.11, 0.09, 0.45, 32),
-                skinMaterial
-            );
-            thigh.position.y = 0.65;
-            thigh.castShadow = true;
-            leg.add(thigh);
-            
-            const calf = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.08, 0.07, 0.45, 32),
-                skinMaterial
-            );
-            calf.position.y = -0.25;
-            calf.castShadow = true;
-            leg.add(calf);
-            
-            const foot = new THREE.Mesh(
-                new THREE.BoxGeometry(0.10, 0.06, 0.22),
-                skinMaterial
-            );
-            foot.position.set(0, -0.52, 0.08);
-            foot.castShadow = true;
-            leg.add(foot);
-            
-            leg.position.set(xPos, 0.45, 0);
-            return leg;
-        }
-        
-        const leftLeg = createLeg(-0.12);
-        const rightLeg = createLeg(0.12);
-        human.add(leftLeg);
-        human.add(rightLeg);
-        
-        scene.add(human);
-        
-        // Floor
-        const floor = new THREE.Mesh(
-            new THREE.CircleGeometry(4, 64),
-            new THREE.MeshStandardMaterial({ color: 0xd8d0c8 })
-        );
-        floor.rotation.x = -Math.PI / 2;
-        floor.receiveShadow = true;
-        scene.add(floor);
-        
-        // Clothing system
-        const clothingGroup = new THREE.Group();
-        human.add(clothingGroup);
-        const wornClothes = {};
-        
-        // Wear item function
-        function wearItem(itemId) {
-            // Remove existing clothes in same category
-            if (wornClothes[itemId]) {
-                clothingGroup.remove(wornClothes[itemId]);
-                delete wornClothes[itemId];
-                return;
-            }
-            
-            let clothing;
-            
-            if (itemId === 'blazer-black') {
-                clothing = createBlazer(0x1a1a1a);
-            } else if (itemId === 'sweater-beige') {
-                clothing = createSweater(0xc4b5a0);
-            } else if (itemId === 'coat-camel') {
-                clothing = createCoat(0x8b7355);
-            } else if (itemId === 'trousers-black') {
-                clothing = createTrousers(0x1a1a1a);
-            } else if (itemId === 'jeans-blue') {
-                clothing = createTrousers(0x4a5a7a);
-            } else if (itemId === 'tabi-black') {
-                clothing = createTabiBoots(0x0a0a0a);
-            } else if (itemId === 'replica-white') {
-                clothing = createSneakers(0xf5f0eb);
-            } else if (itemId === 'bag-5ac') {
-                clothing = createBag(0x1a1a1a);
-            } else if (itemId === 'bag-glamslam') {
-                clothing = createBag(0x2a1f1a);
-            }
-            
-            if (clothing) {
-                clothingGroup.add(clothing);
-                wornClothes[itemId] = clothing;
-            }
-        }
-        
-        function createBlazer(color) {
-            const group = new THREE.Group();
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            
-            // Body
-            const body = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.30, 0.26, 0.75, 32),
-                material
-            );
-            body.position.y = 1.15;
-            body.castShadow = true;
-            group.add(body);
-            
-            // Sleeves
-            const sleeveGeo = new THREE.CylinderGeometry(0.09, 0.07, 0.60, 32);
-            const leftSleeve = new THREE.Mesh(sleeveGeo, material);
-            leftSleeve.position.set(-0.35, 1.20, 0);
-            leftSleeve.rotation.z = 0.1;
-            leftSleeve.castShadow = true;
-            group.add(leftSleeve);
-            
-            const rightSleeve = new THREE.Mesh(sleeveGeo, material);
-            rightSleeve.position.set(0.35, 1.20, 0);
-            rightSleeve.rotation.z = -0.1;
-            rightSleeve.castShadow = true;
-            group.add(rightSleeve);
-            
-            return group;
-        }
-        
-        function createSweater(color) {
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            const sweater = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.28, 0.24, 0.70, 32),
-                material
-            );
-            sweater.position.y = 1.15;
-            sweater.castShadow = true;
-            return sweater;
-        }
-        
-        function createCoat(color) {
-            const group = new THREE.Group();
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            
-            const coat = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.35, 0.32, 1.0, 32),
-                material
-            );
-            coat.position.y = 1.10;
-            coat.castShadow = true;
-            group.add(coat);
-            
-            return group;
-        }
-        
-        function createTrousers(color) {
-            const group = new THREE.Group();
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            
-            // Waist
-            const waist = new THREE.Mesh(
-                new THREE.CylinderGeometry(0.24, 0.22, 0.20, 32),
-                material
-            );
-            waist.position.y = 0.85;
-            waist.castShadow = true;
-            group.add(waist);
-            
-            // Legs
-            const legGeo = new THREE.CylinderGeometry(0.12, 0.10, 0.90, 32);
-            const leftLeg = new THREE.Mesh(legGeo, material);
-            leftLeg.position.set(-0.12, 0.40, 0);
-            leftLeg.castShadow = true;
-            group.add(leftLeg);
-            
-            const rightLeg = new THREE.Mesh(legGeo, material);
-            rightLeg.position.set(0.12, 0.40, 0);
-            rightLeg.castShadow = true;
-            group.add(rightLeg);
-            
-            return group;
-        }
-        
-        function createTabiBoots(color) {
-            const group = new THREE.Group();
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            
-            function createTabiBoot(xPos) {
-                const boot = new THREE.Group();
-                
-                const bootBody = new THREE.Mesh(
-                    new THREE.CylinderGeometry(0.08, 0.09, 0.18, 32),
-                    material
-                );
-                bootBody.position.y = 0.09;
-                bootBody.castShadow = true;
-                boot.add(bootBody);
-                
-                // Split toe
-                const bigToe = new THREE.Mesh(
-                    new THREE.SphereGeometry(0.045, 32, 32),
-                    material
-                );
-                bigToe.position.set(xPos > 0 ? 0.025 : -0.025, 0.02, 0.08);
-                bigToe.scale.set(1, 0.7, 1.3);
-                bigToe.castShadow = true;
-                boot.add(bigToe);
-                
-                const otherToes = new THREE.Mesh(
-                    new THREE.SphereGeometry(0.05, 32, 32),
-                    material
-                );
-                otherToes.position.set(xPos > 0 ? -0.025 : 0.025, 0.02, 0.07);
-                otherToes.scale.set(1.2, 0.65, 1.1);
-                otherToes.castShadow = true;
-                boot.add(otherToes);
-                
-                boot.position.set(xPos, -0.50, 0.08);
-                return boot;
-            }
-            
-            group.add(createTabiBoot(-0.12));
-            group.add(createTabiBoot(0.12));
-            
-            return group;
-        }
-        
-        function createSneakers(color) {
-            const group = new THREE.Group();
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            const soleMaterial = new THREE.MeshStandardMaterial({ color: 0xc4a574 });
-            
-            function createSneaker(xPos) {
-                const sneaker = new THREE.Group();
-                
-                const body = new THREE.Mesh(
-                    new THREE.BoxGeometry(0.12, 0.07, 0.24),
-                    material
-                );
-                body.position.y = 0.035;
-                body.castShadow = true;
-                sneaker.add(body);
-                
-                const sole = new THREE.Mesh(
-                    new THREE.BoxGeometry(0.13, 0.025, 0.25),
-                    soleMaterial
-                );
-                sole.position.y = -0.015;
-                sole.castShadow = true;
-                sneaker.add(sole);
-                
-                sneaker.position.set(xPos, -0.50, 0.08);
-                return sneaker;
-            }
-            
-            group.add(createSneaker(-0.12));
-            group.add(createSneaker(0.12));
-            
-            return group;
-        }
-        
-        function createBag(color) {
-            const material = new THREE.MeshStandardMaterial({ color: color });
-            const bag = new THREE.Mesh(
-                new THREE.BoxGeometry(0.22, 0.18, 0.10),
-                material
-            );
-            bag.position.set(-0.38, 0.65, 0.15);
-            bag.rotation.z = 0.2;
-            bag.castShadow = true;
-            return bag;
-        }
-        
-        function clearAll() {
-            Object.keys(wornClothes).forEach(key => {
-                clothingGroup.remove(wornClothes[key]);
-            });
-            Object.keys(wornClothes).forEach(key => delete wornClothes[key]);
-        }
-        
-        let rotating = false;
-        function toggleRotate() {
-            rotating = !rotating;
-            controls.autoRotate = rotating;
-        }
-        
-        function showCategory(cat) {
-            document.querySelectorAll('.product-grid').forEach(g => g.style.display = 'none');
-            document.getElementById(cat).style.display = 'grid';
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        
-        // Animation
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
-        }
-        
-        animate();
-        
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-</body>
-</html>
+    <div class="mm-products">
+
+      <div
+        class="mm-product"
+        onclick="wearTop('blazer','STITCHED BLAZER')"
+      >
+        <div class="mm-product-image">
+          <div style="
+            width:70px;
+            height:70px;
+            background:#292a2c;
+            clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);
+          "></div>
+        </div>
+
+        <div class="mm-product-name">
+          STITCHED BLAZER
+        </div>
+
+        <div class="mm-product-type">
+          OUTERWEAR
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="mm-section-title">
+      Bottoms
+    </div>
+
+    <div class="mm-products">
+
+      <div
+        class="mm-product"
+        onclick="wearBottom('black','BLACK TROUSERS')"
+      >
+        <div class="mm-product-image">
+          <div style="
+            width:48px;
+            height:70px;
+            background:#111;
+            clip-path:polygon(10% 0,90% 0,80% 100%,55% 100%,50% 50%,45% 100%,20% 100%);
+          "></div>
+        </div>
+
+        <div class="mm-product-name">
+          BLACK TROUSERS
+        </div>
+
+        <div class="mm-product-type">
+          BOTTOM
+        </div>
+      </div>
+
+
+      <div
+        class="mm-product"
+        onclick="wearBottom('jeans','CUT DENIM')"
+      >
+        <div class="mm-product-image">
+          <div style="
+            width:48px;
+            height:70px;
+            background:#7892a6;
+            clip-path:polygon(10% 0,90% 0,80% 100%,55% 100%,50% 50%,45% 100%,20% 100%);
+          "></div>
+        </div>
+
+        <div class="mm-product-name">
+          CUT DENIM
+        </div>
+
+        <div class="mm-product-type">
+          DENIM
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- CENTER FITTING ROOM -->
+
+  <main class="mm-stage">
+
+    <div class="mm-top-info">
+
+      <div class="mm-look-number">
+        LOOK 01 / 2026
+      </div>
+
+      <div class="mm-view">
+        VIRTUAL FITTING ROOM
+      </div>
+
+    </div>
+
+
+    <div class="mm-floor"></div>
+
+
+    <div
+      class="mm-mannequin"
+      id="mannequin"
+    >
+
+      <!-- BODY -->
+
+      <div class="mm-head">
+        <div class="mm-face"></div>
+      </div>
+
+      <div class="mm-neck"></div>
+
+      <div class="mm-body"></div>
+
+      <div class="mm-arm left"></div>
+      <div class="mm-arm right"></div>
+
+      <div class="mm-hand left"></div>
+      <div class="mm-hand right"></div>
+
+      <div class="mm-leg left"></div>
+      <div class="mm-leg right"></div>
+
+      <div class="mm-foot left"></div>
+      <div class="mm-foot right"></div>
+
+
+      <!-- CLOTHING -->
+
+      <div
+        class="mm-clothes"
+        id="clothes"
+      >
+
+        <div
+          id="topGarment"
+          class="garment-top garment-tshirt"
+        ></div>
+
+        <div
+          id="bottomGarment"
+          class="garment-pants garment-black"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- CONTROLS -->
+
+    <div class="mm-controls">
+
+      <button
+        class="mm-control"
+        onclick="rotateMannequin()"
+        title="Rotate"
+      >
+        ↻
+      </button>
+
+      <button
+        class="mm-control"
+        onclick="resetLook()"
+        title="Reset"
+      >
+        ↺
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <!-- RIGHT -->
+
+  <aside class="mm-look-panel">
+
+    <h3>
+      YOUR LOOK
+    </h3>
+
+    <div class="mm-selected">
+      <span>SIZE</span>
+      <span id="selectedSize">M</span>
+    </div>
+
+    <div class="mm-selected">
+      <span>TOP</span>
+      <span id="selectedTop">MM6 LONG SLEEVE</span>
+    </div>
+
+    <div class="mm-selected">
+      <span>BOTTOM</span>
+      <span id="selectedBottom">BLACK TROUSERS</span>
+    </div>
+
+    <div class="mm-selected">
+      <span>FIT</span>
+      <span id="selectedFit">100%</span>
+    </div>
+
+    <button
+      class="mm-cart"
+      onclick="addLookToCart()"
+    >
+      ADD LOOK TO CART
+    </button>
+
+  </aside>
+
+</div>
+
+
+<script>
+
+/* ================================
+   FITTING ROOM JAVASCRIPT
+   ================================ */
+
+let currentSize = "M";
+let currentTop = "MM6 LONG SLEEVE";
+let currentBottom = "BLACK TROUSERS";
+
+
+/* SIZE */
+
+function changeSize(size,button){
+
+  currentSize = size;
+
+  document
+    .querySelectorAll(".mm-size")
+    .forEach(el => el.classList.remove("active"));
+
+  button.classList.add("active");
+
+  document.getElementById("selectedSize").innerText = size;
+
+  let mannequin =
+    document.getElementById("mannequin");
+
+  let width = {
+    XS:300,
+    S:315,
+    M:330,
+    L:345,
+    XL:365
+  };
+
+  mannequin.style.width = width[size] + "px";
+
+}
+
+
+/* HEIGHT */
+
+function changeHeight(value){
+
+  document.getElementById("heightValue").innerText =
+    value + " cm";
+
+  let mannequin =
+    document.getElementById("mannequin");
+
+  let scale =
+    value / 175;
+
+  mannequin.style.transform =
+    "scale(" + scale + ")";
+
+}
+
+
+/* BODY FIT */
+
+function changeFit(value){
+
+  document.getElementById("fitValue").innerText =
+    value + "%";
+
+  document.getElementById("selectedFit").innerText =
+    value + "%";
+
+  let mannequin =
+    document.getElementById("mannequin");
+
+  let scaleX =
+    value / 100;
+
+  mannequin.style.transform =
+    "scaleX(" + scaleX + ")";
+
+}
+
+
+/* TOP */
+
+function wearTop(type,name){
+
+  let garment =
+    document.getElementById("topGarment");
+
+  garment.className =
+    "garment-top";
+
+  if(type === "tshirt"){
+    garment.classList.add("garment-tshirt");
+  }
+
+  if(type === "vest"){
+    garment.classList.add("garment-vest");
+  }
+
+  if(type === "cardigan"){
+    garment.classList.add("garment-cardigan");
+  }
+
+  if(type === "blazer"){
+    garment.classList.add("garment-blazer");
+  }
+
+  currentTop = name;
+
+  document.getElementById("selectedTop").innerText =
+    name;
+
+  animateGarment(garment);
+
+}
+
+
+/* BOTTOM */
+
+function wearBottom(type,name){
+
+  let garment =
+    document.getElementById("bottomGarment");
+
+  garment.className =
+    "garment-pants";
+
+  if(type === "black"){
+    garment.classList.add("garment-black");
+  }
+
+  if(type === "jeans"){
+    garment.classList.add("garment-jeans");
+  }
+
+  currentBottom = name;
+
+  document.getElementById("selectedBottom").innerText =
+    name;
+
+  animateGarment(garment);
+
+}
+
+
+/* CLOTHING ANIMATION */
+
+function animateGarment(element){
+
+  element.style.opacity = "0";
+  element.style.transform =
+    "translateX(-50%) scale(.94)";
+
+  setTimeout(function(){
+
+    element.style.transition =
+      "opacity .35s ease, transform .35s ease";
+
+    element.style.opacity = "1";
+
+    element.style.transform =
+      "translateX(-50%) scale(1)";
+
+  },80);
+
+}
+
+
+/* ROTATE */
+
+function rotateMannequin(){
+
+  let mannequin =
+    document.getElementById("mannequin");
+
+  mannequin.classList.remove("rotate");
+
+  void mannequin.offsetWidth;
+
+  mannequin.classList.add("rotate");
+
+}
+
+
+/* RESET */
+
+function resetLook(){
+
+  document.getElementById("topGarment").className =
+    "garment-top garment-tshirt";
+
+  document.getElementById("bottomGarment").className =
+    "garment-pants garment-black";
+
+  currentTop =
+    "MM6 LONG SLEEVE";
+
+  currentBottom =
+    "BLACK TROUSERS";
+
+  document.getElementById("selectedTop").innerText =
+    currentTop;
+
+  document.getElementById("selectedBottom").innerText =
+    currentBottom;
+
+}
+
+
+/* ADD TO CART */
+
+function addLookToCart(){
+
+  alert(
+    "Look added — " +
+    currentTop +
+    " + " +
+    currentBottom +
+    " / Size " +
+    currentSize
+  );
+
+}
+
+</script>
