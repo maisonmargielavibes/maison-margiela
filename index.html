@@ -1,1853 +1,241 @@
-<style>
-/* =========================================================
-   MAISON MARGIELA — VIRTUAL FITTING ROOM
-   REAL STORE MANNEQUIN VERSION
-   ========================================================= */
-
-:root {
-  --mm-bg:#efeee9;
-  --mm-panel:#f7f6f2;
-  --mm-black:#111111;
-  --mm-grey:#777;
-  --mm-line:#d4d2cc;
-}
-
-* {
-  box-sizing:border-box;
-}
-
-.mm-fitting-room {
-  width:100%;
-  height:850px;
-  min-height:700px;
-  display:grid;
-  grid-template-columns:280px 1fr 280px;
-  background:var(--mm-bg);
-  color:var(--mm-black);
-  font-family:Arial, Helvetica, sans-serif;
-  overflow:hidden;
-}
-
-
-/* =========================================================
-   PRODUCT PANEL
-   ========================================================= */
-
-.mm-products-panel {
-  background:#f8f7f3;
-  border-right:1px solid var(--mm-line);
-  overflow-y:auto;
-  padding:28px 20px;
-}
-
-.mm-brand {
-  font-size:11px;
-  letter-spacing:4px;
-  margin-bottom:5px;
-}
-
-.mm-fitting-title {
-  font-size:20px;
-  font-weight:400;
-  margin:0;
-  letter-spacing:-.5px;
-}
-
-.mm-small {
-  font-size:8px;
-  letter-spacing:2px;
-  color:#777;
-  margin-top:7px;
-}
-
-.mm-category {
-  margin-top:28px;
-  font-size:9px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  border-bottom:1px solid #ccc;
-  padding-bottom:9px;
-}
-
-.mm-product-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-  margin-top:10px;
-}
-
-.mm-product {
-  background:#fff;
-  border:1px solid transparent;
-  cursor:pointer;
-  transition:.25s;
-  padding:7px;
-}
-
-.mm-product:hover {
-  border-color:#111;
-}
-
-.mm-product.selected {
-  border-color:#111;
-}
-
-.mm-product-img {
-  height:105px;
-  background:#f2f2ef;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.mm-product-img img {
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-.mm-product-name {
-  font-size:8px;
-  letter-spacing:1px;
-  margin-top:8px;
-  line-height:1.4;
-}
-
-.mm-product-code {
-  font-size:7px;
-  color:#888;
-  margin-top:3px;
-}
-
-
-/* =========================================================
-   CENTER — REAL MANNEQUIN ROOM
-   ========================================================= */
-
-.mm-room {
-  position:relative;
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.35),
-      transparent 20%,
-      transparent 80%,
-      rgba(0,0,0,.04)
-    ),
-    linear-gradient(
-      180deg,
-      #e9e7e1 0%,
-      #e2dfd8 70%,
-      #cbc8c0 100%
-    );
-}
-
-
-/* BACK WALL */
-
-.mm-wall-light {
-  position:absolute;
-  top:0;
-  left:50%;
-  transform:translateX(-50%);
-
-  width:65%;
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,.55),
-      transparent
-    );
-
-  pointer-events:none;
-}
-
-
-/* ARCHITECTURAL LINES */
-
-.mm-room-line-left {
-  position:absolute;
-  left:11%;
-  top:0;
-  width:1px;
-  height:75%;
-  background:rgba(0,0,0,.09);
-}
-
-.mm-room-line-right {
-  position:absolute;
-  right:11%;
-  top:0;
-  width:1px;
-  height:75%;
-  background:rgba(0,0,0,.09);
-}
-
-
-/* FLOOR */
-
-.mm-floor {
-  position:absolute;
-  left:-10%;
-  bottom:-25%;
-  width:120%;
-  height:45%;
-
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(0,0,0,.035) 0,
-      rgba(0,0,0,.035) 1px,
-      transparent 1px,
-      transparent 100px
-    ),
-    linear-gradient(
-      #d3d0c9,
-      #aaa79f
-    );
-
-  transform:
-    perspective(600px)
-    rotateX(62deg);
-
-  transform-origin:center bottom;
-}
-
-
-/* TOP NAV */
-
-.mm-room-header {
-  position:absolute;
-  top:22px;
-  left:25px;
-  right:25px;
-
-  display:flex;
-  justify-content:space-between;
-
-  z-index:20;
-}
-
-.mm-room-header span {
-  font-size:8px;
-  letter-spacing:2px;
-}
-
-.mm-room-view {
-  display:flex;
-  gap:22px;
-}
-
-.mm-room-view button {
-  border:0;
-  background:none;
-  cursor:pointer;
-  font-size:8px;
-  letter-spacing:2px;
-  color:#777;
-}
-
-.mm-room-view button.active {
-  color:#111;
-  border-bottom:1px solid #111;
-  padding-bottom:4px;
-}
-
-
-/* =========================================================
-   MANNEQUIN
-   ========================================================= */
-
-.mm-mannequin-wrap {
-  position:absolute;
-
-  left:50%;
-  bottom:60px;
-
-  transform:translateX(-50%);
-
-  width:310px;
-  height:700px;
-
-  perspective:900px;
-
-  z-index:10;
-}
-
-
-/* SHADOW */
-
-.mm-mannequin-shadow {
-  position:absolute;
-  bottom:3px;
-  left:50%;
-  transform:translateX(-50%);
-
-  width:230px;
-  height:40px;
-
-  background:rgba(0,0,0,.19);
-  filter:blur(17px);
-  border-radius:50%;
-}
-
-
-/* MANNEQUIN */
-
-.mm-mannequin {
-  position:absolute;
-  bottom:20px;
-  left:50%;
-
-  width:270px;
-  height:670px;
-
-  transform:
-    translateX(-50%)
-    scaleX(1);
-
-  transform-origin:center bottom;
-
-  transition:
-    transform .5s ease,
-    width .5s ease;
-}
-
-
-/* HEAD */
-
-.mm-mannequin-head {
-  position:absolute;
-
-  top:5px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:91px;
-  height:115px;
-
-  border-radius:
-    48%
-    48%
-    46%
-    46%;
-
-  background:
-    linear-gradient(
-      100deg,
-      #b8b5ae 0%,
-      #eeeae2 42%,
-      #d5d1c9 70%,
-      #aaa69f 100%
-    );
-
-  box-shadow:
-    inset -14px -10px 22px rgba(0,0,0,.13),
-    inset 10px 8px 20px rgba(255,255,255,.5);
-}
-
-
-/* FACE SEAM */
-
-.mm-mannequin-head:after {
-  content:"";
-
-  position:absolute;
-
-  left:50%;
-  top:5px;
-
-  height:105px;
-  width:1px;
-
-  background:rgba(0,0,0,.09);
-}
-
-
-/* NECK */
-
-.mm-mannequin-neck {
-  position:absolute;
-
-  top:100px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:47px;
-  height:73px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #aaa69f,
-      #e4e0d8 45%,
-      #aaa69f
-    );
-}
-
-
-/* TORSO */
-
-.mm-mannequin-torso {
-  position:absolute;
-
-  top:145px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:158px;
-  height:265px;
-
-  border-radius:
-    48px
-    48px
-    22px
-    22px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #aaa69f 0%,
-      #ddd9d1 27%,
-      #f0ede6 50%,
-      #d4d0c8 72%,
-      #9f9b94 100%
-    );
-
-  box-shadow:
-    inset -18px 0 24px rgba(0,0,0,.12),
-    inset 12px 0 18px rgba(255,255,255,.4);
-}
-
-
-/* WAIST */
-
-.mm-mannequin-waist {
-  position:absolute;
-
-  top:355px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:120px;
-  height:90px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #aaa69f,
-      #dedad2 45%,
-      #aaa69f
-    );
-}
-
-
-/* ARMS */
-
-.mm-mannequin-arm {
-  position:absolute;
-
-  top:160px;
-
-  width:46px;
-  height:255px;
-
-  border-radius:28px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #9f9b94,
-      #dedad3 42%,
-      #aaa69f
-    );
-
-  box-shadow:
-    inset -8px 0 13px rgba(0,0,0,.13);
-}
-
-.mm-mannequin-arm.left {
-  left:28px;
-  transform:rotate(6deg);
-}
-
-.mm-mannequin-arm.right {
-  right:28px;
-  transform:rotate(-6deg);
-}
-
-
-/* HANDS */
-
-.mm-mannequin-hand {
-  position:absolute;
-
-  width:40px;
-  height:60px;
-
-  border-radius:45%;
-
-  background:
-    linear-gradient(
-      90deg,
-      #aaa69f,
-      #ddd9d1,
-      #a39f98
-    );
-}
-
-.mm-mannequin-hand.left {
-  left:16px;
-  top:380px;
-}
-
-.mm-mannequin-hand.right {
-  right:16px;
-  top:380px;
-}
-
-
-/* LEGS */
-
-.mm-mannequin-leg {
-  position:absolute;
-
-  top:415px;
-
-  width:65px;
-  height:230px;
-
-  border-radius:
-    25px
-    25px
-    14px
-    14px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #99958e,
-      #ddd9d1 45%,
-      #aaa69f
-    );
-
-  box-shadow:
-    inset -10px 0 15px rgba(0,0,0,.12);
-}
-
-.mm-mannequin-leg.left {
-  left:72px;
-}
-
-.mm-mannequin-leg.right {
-  right:72px;
-}
-
-
-/* FEET */
-
-.mm-mannequin-foot {
-  position:absolute;
-
-  bottom:0;
-
-  width:78px;
-  height:29px;
-
-  background:
-    linear-gradient(
-      #77736c,
-      #b1ada5
-    );
-
-  border-radius:
-    50%
-    40%
-    15%
-    20%;
-}
-
-.mm-mannequin-foot.left {
-  left:60px;
-}
-
-.mm-mannequin-foot.right {
-  right:60px;
-}
-
-
-/* =========================================================
-   CLOTHES
-   ========================================================= */
-
-.mm-clothing-layer {
-  position:absolute;
-  inset:0;
-  z-index:15;
-
-  pointer-events:none;
-}
-
-
-/* REAL PRODUCT IMAGE */
-
-.mm-worn-top {
-  position:absolute;
-
-  top:138px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:195px;
-  height:275px;
-
-  object-fit:fill;
-
-  display:none;
-
-  filter:
-    drop-shadow(
-      0 8px 9px rgba(0,0,0,.12)
-    );
-
-  z-index:20;
-}
-
-
-/* BLAZER */
-
-.mm-worn-blazer {
-  position:absolute;
-
-  top:135px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:215px;
-  height:285px;
-
-  object-fit:fill;
-
-  display:none;
-
-  filter:
-    drop-shadow(
-      0 10px 10px rgba(0,0,0,.16)
-    );
-
-  z-index:25;
-}
-
-
-/* BOTTOM */
-
-.mm-worn-bottom {
-  position:absolute;
-
-  top:380px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:180px;
-  height:270px;
-
-  object-fit:fill;
-
-  display:none;
-
-  filter:
-    drop-shadow(
-      0 10px 10px rgba(0,0,0,.15)
-    );
-
-  z-index:18;
-}
-
-
-/* =========================================================
-   MANNEQUIN SIZE
-   ========================================================= */
-
-.mm-size-xs {
-  transform:
-    translateX(-50%)
-    scaleX(.87);
-}
-
-.mm-size-s {
-  transform:
-    translateX(-50%)
-    scaleX(.94);
-}
-
-.mm-size-m {
-  transform:
-    translateX(-50%)
-    scaleX(1);
-}
-
-.mm-size-l {
-  transform:
-    translateX(-50%)
-    scaleX(1.07);
-}
-
-.mm-size-xl {
-  transform:
-    translateX(-50%)
-    scaleX(1.14);
-}
-
-
-/* =========================================================
-   RIGHT PANEL
-   ========================================================= */
-
-.mm-look-panel {
-  background:#f8f7f3;
-  border-left:1px solid var(--mm-line);
-  padding:28px 20px;
-  overflow-y:auto;
-}
-
-.mm-look-heading {
-  font-size:10px;
-  letter-spacing:3px;
-  margin-bottom:28px;
-}
-
-.mm-look-item {
-  padding:14px 0;
-  border-top:1px solid #d8d6d0;
-
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.mm-look-thumb {
-  width:55px;
-  height:65px;
-  background:#eee;
-  object-fit:contain;
-}
-
-.mm-look-info {
-  flex:1;
-}
-
-.mm-look-name {
-  font-size:8px;
-  letter-spacing:1px;
-}
-
-.mm-look-type {
-  font-size:7px;
-  color:#888;
-  margin-top:5px;
-}
-
-.mm-size-title {
-  font-size:8px;
-  letter-spacing:2px;
-  margin-top:30px;
-  margin-bottom:10px;
-}
-
-.mm-size-buttons {
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:4px;
-}
-
-.mm-size-button {
-  height:34px;
-  border:1px solid #ccc;
-  background:white;
-  font-size:8px;
-  cursor:pointer;
-}
-
-.mm-size-button.active,
-.mm-size-button:hover {
-  background:#111;
-  color:#fff;
-}
-
-
-/* SLIDER */
-
-.mm-adjust {
-  margin-top:25px;
-}
-
-.mm-adjust-label {
-  display:flex;
-  justify-content:space-between;
-
-  font-size:8px;
-  letter-spacing:1px;
-  color:#666;
-}
-
-.mm-adjust input {
-  width:100%;
-  margin-top:10px;
-  accent-color:#111;
-}
-
-
-/* BUTTON */
-
-.mm-add {
-  width:100%;
-  margin-top:28px;
-
-  background:#111;
-  color:white;
-
-  border:0;
-
-  padding:17px 10px;
-
-  font-size:8px;
-  letter-spacing:2px;
-
-  cursor:pointer;
-
-  transition:.25s;
-}
-
-.mm-add:hover {
-  background:#333;
-}
-
-
-/* =========================================================
-   BOTTOM CONTROLS
-   ========================================================= */
-
-.mm-controls {
-  position:absolute;
-
-  bottom:22px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  display:flex;
-  gap:7px;
-
-  z-index:50;
-}
-
-.mm-control {
-  min-width:70px;
-  height:34px;
-
-  background:rgba(250,249,245,.9);
-
-  border:1px solid #c9c7c0;
-
-  font-size:7px;
-  letter-spacing:1.5px;
-
-  cursor:pointer;
-}
-
-.mm-control:hover {
-  background:#111;
-  color:white;
-}
-
-
-/* =========================================================
-   ROTATION
-   ========================================================= */
-
-.mm-rotate-front {
-  transform:
-    translateX(-50%)
-    rotateY(0deg);
-}
-
-.mm-rotate-side {
-  transform:
-    translateX(-50%)
-    rotateY(90deg);
-}
-
-.mm-rotate-back {
-  transform:
-    translateX(-50%)
-    rotateY(180deg);
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media(max-width:1000px) {
-
-  .mm-fitting-room {
-    grid-template-columns:210px 1fr 210px;
-  }
-
-}
-
-@media(max-width:750px) {
-
-  .mm-fitting-room {
-    height:auto;
-    display:block;
-  }
-
-  .mm-products-panel {
-    height:280px;
-    border-right:0;
-    border-bottom:1px solid #ccc;
-  }
-
-  .mm-room {
-    height:720px;
-  }
-
-  .mm-look-panel {
-    border-left:0;
-    border-top:1px solid #ccc;
-  }
-
-}
-</style>
-
-
-<!-- =====================================================
-     FITTING ROOM
-     ===================================================== -->
-
-<div class="mm-fitting-room">
-
-
-  <!-- ===================================================
-       LEFT — MAISON MARGIELA PRODUCTS
-       =================================================== -->
-
-  <aside class="mm-products-panel">
-
-    <div class="mm-brand">
-      MAISON MARGIELA
-    </div>
-
-    <h1 class="mm-fitting-title">
-      Fitting Room
-    </h1>
-
-    <div class="mm-small">
-      VIRTUAL GARMENT EXPERIENCE
-    </div>
-
-
-    <!-- TOPS -->
-
-    <div class="mm-category">
-      Tops
-    </div>
-
-    <div class="mm-product-grid">
-
-
-      <div
-        class="mm-product selected"
-        onclick="selectTop(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'MM6 Long Sleeve',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela MM6 Long Sleeve"
-          >
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Fashion - Online Store & Virtual Try-On</title>
+  <style>
+    :root {
+      --primary: #111;
+      --accent: #d4af37;
+      --bg: #f9f9f9;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--primary);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Try-On Section */
+    .tryon-section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin-bottom: 3rem;
+    }
+
+    .tryon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .viewport {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background: #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px dashed #ccc;
+    }
+
+    .viewport img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      position: absolute;
+    }
+
+    .viewport #garment-overlay {
+      width: 50%;
+      top: 25%;
+      cursor: move;
+      transition: transform 0.2s ease;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #333;
+    }
+
+    /* Product Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .product-card h3 {
+      margin: 0.8rem 0 0.4rem;
+    }
+
+    .price {
+      color: var(--accent);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .tryon-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>AURA FASHION</h1>
+    <p>Virtual Fitting Room & Catalog</p>
+  </header>
+
+  <div class="container">
+    
+    <!-- Virtual Try-On Feature -->
+    <section class="tryon-section">
+      <h2>Virtual Fitting Room</h2>
+      <div class="tryon-grid">
+        <div class="viewport" id="viewport">
+          <img id="user-model" src="https://via.placeholder.com/300x400?text=Upload+Your+Photo" alt="User Model">
+          <img id="garment-overlay" src="https://via.placeholder.com/200x200/d4af37/ffffff?text=Select+Garment" alt="Garment Overlay" style="display:none;">
         </div>
 
-        <div class="mm-product-name">
-          MM6 LONG SLEEVE
-        </div>
+        <div class="controls">
+          <h3>Step 1: Upload Your Photo</h3>
+          <input type="file" id="upload-user" accept="image/*">
 
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
+          <h3>Step 2: Choose Garment</h3>
+          <p>Click "Try On" on any item below to overlay it onto your photo.</p>
 
+          <h3>Step 3: Adjust Garment Size</h3>
+          <div>
+            <label for="scale">Scale Garment: </label>
+            <input type="range" id="scale" min="0.5" max="1.5" step="0.1" value="1">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Store Catalog -->
+    <h2>Our Collection</h2>
+    <div class="products-grid">
+      
+      <!-- Product 1 -->
+      <div class="product-card">
+        <img src="https://via.placeholder.com/250x300/111111/ffffff?text=Black+Jacket" alt="Black Jacket">
+        <h3>Classic Black Jacket</h3>
+        <p class="price">$120.00</p>
+        <button class="btn" onclick="tryOn('https://via.placeholder.com/200x200/111111/ffffff?text=Black+Jacket')">Try On</button>
       </div>
 
-
-      <div
-        class="mm-product"
-        onclick="selectTop(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'Black Vest',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela black vest"
-          >
-
-        </div>
-
-        <div class="mm-product-name">
-          BLACK VEST
-        </div>
-
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
-
+      <!-- Product 2 -->
+      <div class="product-card">
+        <img src="https://via.placeholder.com/250x300/d4af37/ffffff?text=Gold+Dress" alt="Gold Dress">
+        <h3>Gold Evening Dress</h3>
+        <p class="price">$180.00</p>
+        <button class="btn" onclick="tryOn('https://via.placeholder.com/200x200/d4af37/ffffff?text=Gold+Dress')">Try On</button>
       </div>
 
-
-      <div
-        class="mm-product"
-        onclick="selectTop(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'Tank Top',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela tank top"
-          >
-
-        </div>
-
-        <div class="mm-product-name">
-          TANK TOP
-        </div>
-
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
-
-      </div>
-
-
-      <div
-        class="mm-product"
-        onclick="selectTop(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'MM6 Cardigan',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela MM6 cardigan"
-          >
-
-        </div>
-
-        <div class="mm-product-name">
-          MM6 CARDIGAN
-        </div>
-
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
-
+      <!-- Product 3 -->
+      <div class="product-card">
+        <img src="https://via.placeholder.com/250x300/555555/ffffff?text=Denim+Shirt" alt="Denim Shirt">
+        <h3>Casual Shirt</h3>
+        <p class="price">$65.00</p>
+        <button class="btn" onclick="tryOn('https://via.placeholder.com/200x200/555555/ffffff?text=Denim+Shirt')">Try On</button>
       </div>
 
     </div>
-
-
-    <!-- OUTERWEAR -->
-
-    <div class="mm-category">
-      Outerwear
-    </div>
-
-    <div class="mm-product-grid">
-
-      <div
-        class="mm-product"
-        onclick="selectBlazer(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'Stitched Blazer',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela stitched blazer"
-          >
-
-        </div>
-
-        <div class="mm-product-name">
-          STITCHED BLAZER
-        </div>
-
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- BOTTOMS -->
-
-    <div class="mm-category">
-      Bottoms
-    </div>
-
-    <div class="mm-product-grid">
-
-      <div
-        class="mm-product"
-        onclick="selectBottom(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'Black Trousers',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela black trousers"
-          >
-
-        </div>
-
-        <div class="mm-product-name">
-          BLACK TROUSERS
-        </div>
-
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
-
-      </div>
-
-
-      <div
-        class="mm-product"
-        onclick="selectBottom(
-          'https://YOUR-SHOPIFY-IMAGE-URL.jpg',
-          'Cut Denim',
-          this
-        )"
-      >
-
-        <div class="mm-product-img">
-
-          <img
-            src="https://YOUR-SHOPIFY-IMAGE-URL.jpg"
-            alt="Maison Margiela denim"
-          >
-
-        </div>
-
-        <div class="mm-product-name">
-          CUT DENIM
-        </div>
-
-        <div class="mm-product-code">
-          MAISON MARGIELA
-        </div>
-
-      </div>
-
-    </div>
-
-  </aside>
-
-
-
-  <!-- ===================================================
-       CENTER — MANNEQUIN
-       =================================================== -->
-
-  <main class="mm-room">
-
-    <div class="mm-wall-light"></div>
-
-    <div class="mm-room-line-left"></div>
-    <div class="mm-room-line-right"></div>
-
-    <div class="mm-floor"></div>
-
-
-    <!-- HEADER -->
-
-    <div class="mm-room-header">
-
-      <span>
-        LOOK 01
-      </span>
-
-      <div class="mm-room-view">
-
-        <button
-          class="active"
-          onclick="setView('front',this)"
-        >
-          FRONT
-        </button>
-
-        <button
-          onclick="setView('side',this)"
-        >
-          SIDE
-        </button>
-
-        <button
-          onclick="setView('back',this)"
-        >
-          BACK
-        </button>
-
-      </div>
-
-      <span>
-        MM / PARIS
-      </span>
-
-    </div>
-
-
-
-    <!-- MANNEQUIN -->
-
-    <div class="mm-mannequin-wrap">
-
-      <div class="mm-mannequin-shadow"></div>
-
-
-      <div
-        id="mannequin"
-        class="mm-mannequin mm-size-m"
-      >
-
-
-        <!-- BODY -->
-
-        <div class="mm-mannequin-head"></div>
-
-        <div class="mm-mannequin-neck"></div>
-
-        <div class="mm-mannequin-torso"></div>
-
-        <div class="mm-mannequin-waist"></div>
-
-
-        <div class="mm-mannequin-arm left"></div>
-
-        <div class="mm-mannequin-arm right"></div>
-
-
-        <div class="mm-mannequin-hand left"></div>
-
-        <div class="mm-mannequin-hand right"></div>
-
-
-        <div class="mm-mannequin-leg left"></div>
-
-        <div class="mm-mannequin-leg right"></div>
-
-
-        <div class="mm-mannequin-foot left"></div>
-
-        <div class="mm-mannequin-foot right"></div>
-
-
-        <!-- ACTUAL CLOTHES -->
-
-        <div class="mm-clothing-layer">
-
-          <img
-            id="wornTop"
-            class="mm-worn-top"
-            src=""
-            alt=""
-          >
-
-          <img
-            id="wornBlazer"
-            class="mm-worn-blazer"
-            src=""
-            alt=""
-          >
-
-          <img
-            id="wornBottom"
-            class="mm-worn-bottom"
-            src=""
-            alt=""
-          >
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- CONTROLS -->
-
-    <div class="mm-controls">
-
-      <button
-        class="mm-control"
-        onclick="rotateMannequin()"
-      >
-        ↻ ROTATE
-      </button>
-
-      <button
-        class="mm-control"
-        onclick="zoomMannequin()"
-      >
-        + ZOOM
-      </button>
-
-      <button
-        class="mm-control"
-        onclick="resetMannequin()"
-      >
-        RESET
-      </button>
-
-    </div>
-
-  </main>
-
-
-
-  <!-- ===================================================
-       RIGHT — LOOK
-       =================================================== -->
-
-  <aside class="mm-look-panel">
-
-    <div class="mm-look-heading">
-      YOUR LOOK
-    </div>
-
-
-    <div class="mm-look-item">
-
-      <img
-        id="lookTopImage"
-        class="mm-look-thumb"
-        src=""
-      >
-
-      <div class="mm-look-info">
-
-        <div
-          id="lookTopName"
-          class="mm-look-name"
-        >
-          MM6 LONG SLEEVE
-        </div>
-
-        <div class="mm-look-type">
-          TOP
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="mm-look-item">
-
-      <img
-        id="lookBottomImage"
-        class="mm-look-thumb"
-        src=""
-      >
-
-      <div class="mm-look-info">
-
-        <div
-          id="lookBottomName"
-          class="mm-look-name"
-        >
-          BLACK TROUSERS
-        </div>
-
-        <div class="mm-look-type">
-          BOTTOM
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="mm-look-item">
-
-      <img
-        id="lookBlazerImage"
-        class="mm-look-thumb"
-        src=""
-      >
-
-      <div class="mm-look-info">
-
-        <div
-          id="lookBlazerName"
-          class="mm-look-name"
-        >
-          NO OUTERWEAR
-        </div>
-
-        <div class="mm-look-type">
-          OUTERWEAR
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- SIZE -->
-
-    <div class="mm-size-title">
-      SIZE
-    </div>
-
-    <div class="mm-size-buttons">
-
-      <button
-        class="mm-size-button"
-        onclick="setSize('xs',this)"
-      >
-        XS
-      </button>
-
-      <button
-        class="mm-size-button"
-        onclick="setSize('s',this)"
-      >
-        S
-      </button>
-
-      <button
-        class="mm-size-button active"
-        onclick="setSize('m',this)"
-      >
-        M
-      </button>
-
-      <button
-        class="mm-size-button"
-        onclick="setSize('l',this)"
-      >
-        L
-      </button>
-
-      <button
-        class="mm-size-button"
-        onclick="setSize('xl',this)"
-      >
-        XL
-      </button>
-
-    </div>
-
-
-    <!-- BODY ADJUSTMENT -->
-
-    <div class="mm-adjust">
-
-      <div class="mm-adjust-label">
-
-        <span>
-          MANNEQUIN HEIGHT
-        </span>
-
-        <span id="heightText">
-          175 CM
-        </span>
-
-      </div>
-
-      <input
-        type="range"
-        min="155"
-        max="195"
-        value="175"
-        oninput="adjustHeight(this.value)"
-      >
-
-    </div>
-
-
-    <div class="mm-adjust">
-
-      <div class="mm-adjust-label">
-
-        <span>
-          BODY PROPORTION
-        </span>
-
-        <span id="bodyText">
-          100%
-        </span>
-
-      </div>
-
-      <input
-        type="range"
-        min="85"
-        max="115"
-        value="100"
-        oninput="adjustBody(this.value)"
-      >
-
-    </div>
-
-
-    <button
-      class="mm-add"
-      onclick="addLook()"
-    >
-      ADD LOOK TO CART
-    </button>
-
-  </aside>
-
-</div>
-
-
-
-<script>
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-let selectedTop = "MM6 LONG SLEEVE";
-let selectedBottom = "BLACK TROUSERS";
-let selectedBlazer = "";
-
-let rotation = 0;
-let zoom = 1;
-
-
-/* =========================================================
-   TOP
-   ========================================================= */
-
-function selectTop(image, name, element) {
-
-  document
-    .querySelectorAll(".mm-product")
-    .forEach(function(item) {
-      item.classList.remove("selected");
+  </div>
+
+  <script>
+    // Handle User Photo Upload
+    const uploadUser = document.getElementById('upload-user');
+    const userModel = document.getElementById('user-model');
+    const garmentOverlay = document.getElementById('garment-overlay');
+    const scaleInput = document.getElementById('scale');
+
+    uploadUser.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        userModel.src = URL.createObjectURL(file);
+      }
     });
 
-  element.classList.add("selected");
+    // Handle Selecting Garment for Try-On
+    function tryOn(imageSrc) {
+      garmentOverlay.src = imageSrc;
+      garmentOverlay.style.display = 'block';
+      
+      // Scroll to fitting room
+      document.querySelector('.tryon-section').scrollIntoView({ behavior: 'smooth' });
+    }
 
-  selectedTop = name;
-
-  const wornTop =
-    document.getElementById("wornTop");
-
-  wornTop.src = image;
-  wornTop.style.display = "block";
-
-  document.getElementById("lookTopImage").src =
-    image;
-
-  document.getElementById("lookTopName").innerText =
-    name.toUpperCase();
-
-}
-
-
-/* =========================================================
-   BLAZER
-   ========================================================= */
-
-function selectBlazer(image, name, element) {
-
-  document
-    .querySelectorAll(".mm-product")
-    .forEach(function(item) {
-      item.classList.remove("selected");
+    // Handle Resizing Garment
+    scaleInput.addEventListener('input', function() {
+      const scaleValue = this.value;
+      garmentOverlay.style.transform = `scale(${scaleValue})`;
     });
+  </script>
 
-  element.classList.add("selected");
-
-  selectedBlazer = name;
-
-  const blazer =
-    document.getElementById("wornBlazer");
-
-  blazer.src = image;
-
-  blazer.style.display = "block";
-
-  document.getElementById("lookBlazerImage").src =
-    image;
-
-  document.getElementById("lookBlazerName").innerText =
-    name.toUpperCase();
-
-}
-
-
-/* =========================================================
-   BOTTOM
-   ========================================================= */
-
-function selectBottom(image, name, element) {
-
-  document
-    .querySelectorAll(".mm-product")
-    .forEach(function(item) {
-      item.classList.remove("selected");
-    });
-
-  element.classList.add("selected");
-
-  selectedBottom = name;
-
-  const bottom =
-    document.getElementById("wornBottom");
-
-  bottom.src = image;
-
-  bottom.style.display = "block";
-
-  document.getElementById("lookBottomImage").src =
-    image;
-
-  document.getElementById("lookBottomName").innerText =
-    name.toUpperCase();
-
-}
-
-
-/* =========================================================
-   SIZE
-   ========================================================= */
-
-function setSize(size, button) {
-
-  document
-    .querySelectorAll(".mm-size-button")
-    .forEach(function(item) {
-      item.classList.remove("active");
-    });
-
-  button.classList.add("active");
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  mannequin.className =
-    "mm-mannequin mm-size-" + size;
-
-}
-
-
-/* =========================================================
-   HEIGHT
-   ========================================================= */
-
-function adjustHeight(value) {
-
-  document.getElementById("heightText").innerText =
-    value + " CM";
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  const scale =
-    value / 175;
-
-  mannequin.style.height =
-    (670 * scale) + "px";
-
-}
-
-
-/* =========================================================
-   BODY WIDTH
-   ========================================================= */
-
-function adjustBody(value) {
-
-  document.getElementById("bodyText").innerText =
-    value + "%";
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  mannequin.style.width =
-    (270 * value / 100) + "px";
-
-}
-
-
-/* =========================================================
-   ROTATE
-   ========================================================= */
-
-function rotateMannequin() {
-
-  rotation += 90;
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  mannequin.style.transform =
-    "translateX(-50%) rotateY(" +
-    rotation +
-    "deg)";
-
-}
-
-
-/* =========================================================
-   ZOOM
-   ========================================================= */
-
-function zoomMannequin() {
-
-  zoom += .1;
-
-  if(zoom > 1.5) {
-    zoom = .8;
-  }
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  mannequin.style.scale =
-    zoom;
-
-}
-
-
-/* =========================================================
-   VIEW
-   ========================================================= */
-
-function setView(view, button) {
-
-  document
-    .querySelectorAll(".mm-room-view button")
-    .forEach(function(item) {
-      item.classList.remove("active");
-    });
-
-  button.classList.add("active");
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  if(view === "front") {
-
-    rotation = 0;
-
-  }
-
-  if(view === "side") {
-
-    rotation = 90;
-
-  }
-
-  if(view === "back") {
-
-    rotation = 180;
-
-  }
-
-  mannequin.style.transform =
-    "translateX(-50%) rotateY(" +
-    rotation +
-    "deg)";
-
-}
-
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
-function resetMannequin() {
-
-  rotation = 0;
-  zoom = 1;
-
-  const mannequin =
-    document.getElementById("mannequin");
-
-  mannequin.style.transform =
-    "translateX(-50%)";
-
-  mannequin.style.scale =
-    "1";
-
-}
-
-
-/* =========================================================
-   CART
-   ========================================================= */
-
-function addLook() {
-
-  alert(
-    "Maison Margiela look selected\n\n" +
-    selectedTop +
-    "\n" +
-    selectedBottom +
-    "\n" +
-    (selectedBlazer || "No outerwear")
-  );
-
-}
-
-</script>
+</body>
+</html>
