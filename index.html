@@ -1,241 +1,892 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maison Margiela - Online Store & Virtual Try-On</title>
-  <style>
-    :root {
-      --primary: #000000;
-      --accent: #555555;
-      --bg: #ffffff;
-      --card-bg: #f8f8f8;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg);
-      color: var(--primary);
-    }
+<title>Digital Atelier — Create Your Garment</title>
 
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 1.5rem 2rem;
-      text-align: center;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    header h1 {
-      margin: 0;
-      letter-spacing: 3px;
-    }
+body {
+  background: #f4f3ef;
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
 
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
+/* HEADER */
 
-    /* Try-On Section */
-    .tryon-section {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      margin-bottom: 3rem;
-    }
+header {
+  height: 72px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 35px;
+  background: #f4f3ef;
+}
 
-    .tryon-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-    }
+.logo {
+  font-size: 13px;
+  letter-spacing: 4px;
+  font-weight: 500;
+}
 
-    .viewport {
-      position: relative;
-      width: 100%;
-      height: 400px;
-      background: #eee;
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px dashed #ccc;
-    }
+.header-right {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
 
-    .viewport img {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-      position: absolute;
-    }
+/* MAIN */
 
-    .viewport #garment-overlay {
-      width: 50%;
-      top: 25%;
-      cursor: move;
-      transition: transform 0.2s ease;
-    }
+.atelier {
+  display: grid;
+  grid-template-columns: 280px 1fr 310px;
+  min-height: calc(100vh - 72px);
+}
 
-    .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+/* LEFT */
 
-    .btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
+.controls {
+  border-right: 1px solid #ccc;
+  padding: 35px 28px;
+  overflow-y: auto;
+}
 
-    .btn:hover {
-      background: #333;
-    }
+.step {
+  margin-bottom: 35px;
+}
 
-    /* Product Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
+.step-number {
+  font-size: 9px;
+  color: #777;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
 
-    .product-card {
-      background: var(--card-bg);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-      text-align: center;
-      padding: 1rem;
-    }
+.step-title {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
 
-    .product-card img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
-    .product-card h3 {
-      margin: 0.8rem 0 0.4rem;
-    }
+.option {
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: .25s;
+}
 
-    .price {
-      color: var(--accent);
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
+.option:hover {
+  background: #e8e7e2;
+}
 
-    @media (max-width: 768px) {
-      .tryon-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.option.active {
+  border: 1px solid #111;
+  background: #fff;
+}
+
+/* COLOR */
+
+.colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.color {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  cursor: pointer;
+}
+
+.color.active {
+  outline: 2px solid #111;
+  outline-offset: 3px;
+}
+
+.black { background:#111; }
+.white { background:#fff; }
+.grey { background:#777; }
+.beige { background:#c9bda9; }
+.red { background:#8b1d1d; }
+
+/* CENTER */
+
+.preview {
+  position: relative;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, #fff 0%, #e8e7e2 55%, #d5d4cf 100%);
+}
+
+.preview-label {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.design-number {
+  position: absolute;
+  bottom: 25px;
+  left: 30px;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+/* MANNEQUIN */
+
+.man {
+  position: relative;
+  width: 280px;
+  height: 560px;
+  transform-style: preserve-3d;
+  transition: transform .7s ease;
+}
+
+/* HEAD */
+
+.head {
+  position: absolute;
+  width: 82px;
+  height: 95px;
+  background: #d0c5b8;
+  border-radius: 45% 45% 42% 42%;
+  top: 5px;
+  left: 99px;
+}
+
+/* NECK */
+
+.neck {
+  position: absolute;
+  width: 45px;
+  height: 55px;
+  background: #c8bdb1;
+  top: 82px;
+  left: 117px;
+}
+
+/* BODY */
+
+.body {
+  position: absolute;
+  width: 160px;
+  height: 230px;
+  top: 115px;
+  left: 60px;
+  background: #d2c7bb;
+  clip-path: polygon(
+    20% 0,
+    80% 0,
+    100% 25%,
+    82% 100%,
+    18% 100%,
+    0 25%
+  );
+}
+
+/* GARMENT */
+
+.garment {
+  position: absolute;
+  width: 190px;
+  height: 245px;
+  top: 108px;
+  left: 45px;
+  z-index: 5;
+  background: #111;
+  clip-path: polygon(
+    22% 0,
+    42% 8%,
+    58% 8%,
+    78% 0,
+    100% 23%,
+    84% 100%,
+    16% 100%,
+    0 23%
+  );
+  transition:
+    width .5s,
+    height .5s,
+    left .5s,
+    top .5s,
+    background .4s,
+    border-radius .4s,
+    clip-path .5s;
+}
+
+/* SLEEVES */
+
+.garment::before,
+.garment::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  width: 60px;
+  height: 170px;
+  background: inherit;
+}
+
+.garment::before {
+  left: -35px;
+  transform: rotate(12deg);
+}
+
+.garment::after {
+  right: -35px;
+  transform: rotate(-12deg);
+}
+
+/* DETAILS */
+
+.detail {
+  position: absolute;
+  z-index: 8;
+  display: none;
+}
+
+.detail.seams {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed rgba(255,255,255,.5);
+}
+
+.detail.pocket {
+  display: block;
+  width: 45px;
+  height: 38px;
+  border: 2px solid rgba(255,255,255,.65);
+  left: 22px;
+  bottom: 35px;
+}
+
+.detail.zip {
+  display: block;
+  height: 90%;
+  width: 2px;
+  background: rgba(255,255,255,.7);
+  left: 50%;
+  top: 5%;
+}
+
+/* LEGS */
+
+.leg {
+  position: absolute;
+  width: 58px;
+  height: 215px;
+  top: 335px;
+  background: #bcb1a5;
+}
+
+.leg.left {
+  left: 82px;
+}
+
+.leg.right {
+  right: 82px;
+}
+
+/* CONTROLS */
+
+.preview-controls {
+  position: absolute;
+  right: 30px;
+  bottom: 25px;
+  display: flex;
+  gap: 6px;
+}
+
+.small-btn {
+  background: rgba(255,255,255,.6);
+  border: 1px solid #aaa;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.small-btn:hover {
+  background: white;
+}
+
+/* RIGHT */
+
+.summary {
+  border-left: 1px solid #ccc;
+  padding: 35px 28px;
+  background: #efeee9;
+}
+
+.summary-title {
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-bottom: 35px;
+}
+
+.summary h1 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.summary-sub {
+  color: #777;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 35px;
+}
+
+.line {
+  border-top: 1px solid #ccc;
+  padding: 14px 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.line span:last-child {
+  color: #555;
+}
+
+.save {
+  width: 100%;
+  padding: 16px;
+  margin-top: 25px;
+  background: #111;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: .3s;
+}
+
+.save:hover {
+  background: #333;
+}
+
+.message {
+  margin-top: 18px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #555;
+  display: none;
+}
+
+/* MOBILE */
+
+@media(max-width: 1000px) {
+  .atelier {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .summary {
+    display: none;
+  }
+}
+
+@media(max-width: 700px) {
+  .atelier {
+    display: block;
+  }
+
+  .controls {
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .preview {
+    min-height: 650px;
+  }
+
+  header {
+    padding: 0 18px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>MAISON MARGIELA</h1>
-    <p>Virtual Fitting Room & Catalog</p>
-  </header>
+<header>
+  <div class="logo">DIGITAL ATELIER</div>
+  <div class="header-right">GARMENT 001 — CREATE</div>
+</header>
 
-  <div class="container">
-    
-    <!-- Virtual Try-On Feature -->
-    <section class="tryon-section">
-      <h2>Virtual Fitting Room</h2>
-      <div class="tryon-grid">
-        <div class="viewport" id="viewport">
-          <img id="user-model" src="https://via.placeholder.com/300x400?text=Upload+Your+Photo" alt="User Model">
-          <img id="garment-overlay" src="https://via.placeholder.com/200x200/000000/ffffff?text=Select+Garment" alt="Garment Overlay" style="display:none;">
-        </div>
+<main class="atelier">
 
-        <div class="controls">
-          <h3>Step 1: Upload Your Photo</h3>
-          <input type="file" id="upload-user" accept="image/*">
+<!-- LEFT CONTROLS -->
 
-          <h3>Step 2: Choose Garment</h3>
-          <p>Click "Try On" on any item below to overlay it onto your photo.</p>
+<section class="controls">
 
-          <h3>Step 3: Adjust Garment Size</h3>
-          <div>
-            <label for="scale">Scale Garment: </label>
-            <input type="range" id="scale" min="0.5" max="1.5" step="0.1" value="1">
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="step">
+    <div class="step-number">01</div>
+    <div class="step-title">Garment</div>
 
-    <!-- Store Catalog -->
-    <h2>Our Collection</h2>
-    <div class="products-grid">
-      
-      <!-- Product 1 -->
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250x300/111111/ffffff?text=Black+Jacket" alt="Black Jacket">
-        <h3>Classic Black Jacket</h3>
-        <p class="price">$120.00</p>
-        <button class="btn" onclick="tryOn('https://via.placeholder.com/200x200/111111/ffffff?text=Black+Jacket')">Try On</button>
-      </div>
+    <div class="options">
+      <button class="option active" onclick="setGarment('JACKET', this)">
+        JACKET
+      </button>
 
-      <!-- Product 2 -->
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250x300/333333/ffffff?text=Monochrome+Dress" alt="Monochrome Dress">
-        <h3>Monochrome Dress</h3>
-        <p class="price">$180.00</p>
-        <button class="btn" onclick="tryOn('https://via.placeholder.com/200x200/333333/ffffff?text=Monochrome+Dress')">Try On</button>
-      </div>
+      <button class="option" onclick="setGarment('SHIRT', this)">
+        SHIRT
+      </button>
 
-      <!-- Product 3 -->
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250x300/555555/ffffff?text=Casual+Shirt" alt="Casual Shirt">
-        <h3>Casual Shirt</h3>
-        <p class="price">$65.00</p>
-        <button class="btn" onclick="tryOn('https://via.placeholder.com/200x200/555555/ffffff?text=Casual+Shirt')">Try On</button>
-      </div>
+      <button class="option" onclick="setGarment('HOODIE', this)">
+        HOODIE
+      </button>
+
+      <button class="option" onclick="setGarment('COAT', this)">
+        COAT
+      </button>
+    </div>
+  </div>
+
+
+  <div class="step">
+    <div class="step-number">02</div>
+    <div class="step-title">Silhouette</div>
+
+    <div class="options">
+      <button class="option active" onclick="setSilhouette('OVERSIZED', this)">
+        OVERSIZED
+      </button>
+
+      <button class="option" onclick="setSilhouette('REGULAR', this)">
+        REGULAR
+      </button>
+
+      <button class="option" onclick="setSilhouette('LONG', this)">
+        LONG
+      </button>
+
+      <button class="option" onclick="setSilhouette('ASYMMETRIC', this)">
+        ASYMMETRIC
+      </button>
+    </div>
+  </div>
+
+
+  <div class="step">
+    <div class="step-number">03</div>
+    <div class="step-title">Material</div>
+
+    <div class="options">
+
+      <button class="option active" onclick="setMaterial('WOOL', this)">
+        WOOL
+      </button>
+
+      <button class="option" onclick="setMaterial('COTTON', this)">
+        COTTON
+      </button>
+
+      <button class="option" onclick="setMaterial('DENIM', this)">
+        DENIM
+      </button>
+
+      <button class="option" onclick="setMaterial('LINEN', this)">
+        LINEN
+      </button>
 
     </div>
   </div>
 
-  <script>
-    // Handle User Photo Upload
-    const uploadUser = document.getElementById('upload-user');
-    const userModel = document.getElementById('user-model');
-    const garmentOverlay = document.getElementById('garment-overlay');
-    const scaleInput = document.getElementById('scale');
 
-    uploadUser.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        userModel.src = URL.createObjectURL(file);
-      }
-    });
+  <div class="step">
+    <div class="step-number">04</div>
+    <div class="step-title">Colour</div>
 
-    // Handle Selecting Garment for Try-On
-    function tryOn(imageSrc) {
-      garmentOverlay.src = imageSrc;
-      garmentOverlay.style.display = 'block';
-      
-      // Scroll to fitting room
-      document.querySelector('.tryon-section').scrollIntoView({ behavior: 'smooth' });
-    }
+    <div class="colors">
 
-    // Handle Resizing Garment
-    scaleInput.addEventListener('input', function() {
-      const scaleValue = this.value;
-      garmentOverlay.style.transform = `scale(${scaleValue})`;
-    });
-  </script>
+      <div class="color black active"
+           onclick="setColor('#111', this)"></div>
+
+      <div class="color white"
+           onclick="setColor('#f7f7f4', this)"></div>
+
+      <div class="color grey"
+           onclick="setColor('#777', this)"></div>
+
+      <div class="color beige"
+           onclick="setColor('#c9bda9', this)"></div>
+
+      <div class="color red"
+           onclick="setColor('#8b1d1d', this)"></div>
+
+    </div>
+  </div>
+
+
+  <div class="step">
+    <div class="step-number">05</div>
+    <div class="step-title">Details</div>
+
+    <div class="options">
+
+      <button class="option"
+              onclick="toggleDetail('seams', this)">
+        EXPOSED SEAMS
+      </button>
+
+      <button class="option"
+              onclick="toggleDetail('pocket', this)">
+        PATCH POCKET
+      </button>
+
+      <button class="option"
+              onclick="toggleDetail('zip', this)">
+        ZIPPER
+      </button>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- PREVIEW -->
+
+<section class="preview">
+
+  <div class="preview-label">
+    LIVE GARMENT PREVIEW
+  </div>
+
+  <div class="man" id="man">
+
+    <div class="head"></div>
+    <div class="neck"></div>
+
+    <div class="body"></div>
+
+    <div class="garment" id="garment">
+
+      <div class="detail seams" id="seams"></div>
+      <div class="detail pocket" id="pocket"></div>
+      <div class="detail zip" id="zip"></div>
+
+    </div>
+
+    <div class="leg left"></div>
+    <div class="leg right"></div>
+
+  </div>
+
+  <div class="design-number">
+    DIGITAL ATELIER / <span id="number">001</span>
+  </div>
+
+  <div class="preview-controls">
+
+    <button class="small-btn" onclick="rotateMan()">
+      ROTATE
+    </button>
+
+    <button class="small-btn" onclick="resetDesign()">
+      RESET
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- SUMMARY -->
+
+<section class="summary">
+
+  <div class="summary-title">
+    YOUR GARMENT
+  </div>
+
+  <h1 id="summaryGarment">
+    JACKET
+  </h1>
+
+  <div class="summary-sub">
+    DIGITAL EDITION
+  </div>
+
+  <div class="line">
+    <span>SILHOUETTE</span>
+    <span id="summarySilhouette">OVERSIZED</span>
+  </div>
+
+  <div class="line">
+    <span>MATERIAL</span>
+    <span id="summaryMaterial">WOOL</span>
+  </div>
+
+  <div class="line">
+    <span>COLOUR</span>
+    <span id="summaryColor">BLACK</span>
+  </div>
+
+  <div class="line">
+    <span>DETAILS</span>
+    <span id="summaryDetails">NONE</span>
+  </div>
+
+  <button class="save" onclick="saveDesign()">
+    SAVE DESIGN
+  </button>
+
+  <div class="message" id="message">
+    YOUR GARMENT HAS BEEN CREATED.<br>
+    DESIGN NUMBER <span id="savedNumber"></span>
+  </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+let garmentName = "JACKET";
+let silhouette = "OVERSIZED";
+let material = "WOOL";
+let color = "#111";
+let colorName = "BLACK";
+let rotation = 0;
+
+let details = [];
+
+
+/* GARMENT */
+
+function setGarment(name, button) {
+
+  garmentName = name;
+
+  document.querySelectorAll(".step:nth-child(1) .option")
+    .forEach(b => b.classList.remove("active"));
+
+  button.classList.add("active");
+
+  document.getElementById("summaryGarment").innerText = name;
+
+  updateGarment();
+}
+
+
+/* SILHOUETTE */
+
+function setSilhouette(type, button) {
+
+  silhouette = type;
+
+  document.querySelectorAll(".step:nth-child(2) .option")
+    .forEach(b => b.classList.remove("active"));
+
+  button.classList.add("active");
+
+  document.getElementById("summarySilhouette").innerText = type;
+
+  updateGarment();
+}
+
+
+/* MATERIAL */
+
+function setMaterial(type, button) {
+
+  material = type;
+
+  document.querySelectorAll(".step:nth-child(3) .option")
+    .forEach(b => b.classList.remove("active"));
+
+  button.classList.add("active");
+
+  document.getElementById("summaryMaterial").innerText = type;
+
+  updateGarment();
+}
+
+
+/* COLOR */
+
+function setColor(value, element) {
+
+  color = value;
+
+  document.querySelectorAll(".color")
+    .forEach(c => c.classList.remove("active"));
+
+  element.classList.add("active");
+
+  let names = {
+    "#111": "BLACK",
+    "#f7f7f4": "WHITE",
+    "#777": "GREY",
+    "#c9bda9": "BEIGE",
+    "#8b1d1d": "RED"
+  };
+
+  colorName = names[value];
+
+  document.getElementById("summaryColor").innerText = colorName;
+
+  updateGarment();
+}
+
+
+/* DETAILS */
+
+function toggleDetail(type, button) {
+
+  button.classList.toggle("active");
+
+  const element = document.getElementById(type);
+
+  if(details.includes(type)) {
+
+    details = details.filter(d => d !== type);
+
+    element.style.display = "none";
+
+  } else {
+
+    details.push(type);
+
+    element.style.display = "block";
+  }
+
+  document.getElementById("summaryDetails").innerText =
+    details.length ? details.join(" / ").toUpperCase() : "NONE";
+}
+
+
+/* UPDATE GARMENT */
+
+function updateGarment() {
+
+  const g = document.getElementById("garment");
+
+  g.style.background = color;
+
+  /* silhouette */
+
+  if(silhouette === "OVERSIZED") {
+
+    g.style.width = "210px";
+    g.style.height = "255px";
+    g.style.left = "35px";
+
+  }
+
+  if(silhouette === "REGULAR") {
+
+    g.style.width = "180px";
+    g.style.height = "225px";
+    g.style.left = "50px";
+
+  }
+
+  if(silhouette === "LONG") {
+
+    g.style.width = "195px";
+    g.style.height = "320px";
+    g.style.left = "42px";
+
+  }
+
+  if(silhouette === "ASYMMETRIC") {
+
+    g.style.width = "205px";
+    g.style.height = "270px";
+    g.style.left = "37px";
+
+    g.style.clipPath =
+      "polygon(20% 0,45% 7%,65% 4%,80% 0,100% 20%,82% 100%,10% 85%,0 20%)";
+  }
+
+  /* material texture */
+
+  if(material === "DENIM") {
+
+    g.style.backgroundImage =
+      "repeating-linear-gradient(45deg, rgba(255,255,255,.08) 0px, rgba(255,255,255,.08) 1px, transparent 1px, transparent 5px)";
+
+  } else {
+
+    g.style.backgroundImage = "none";
+  }
+}
+
+
+/* ROTATE */
+
+function rotateMan() {
+
+  rotation += 45;
+
+  document.getElementById("man").style.transform =
+    `rotateY(${rotation}deg)`;
+}
+
+
+/* RESET */
+
+function resetDesign() {
+
+  location.reload();
+}
+
+
+/* SAVE */
+
+function saveDesign() {
+
+  let number =
+    Math.floor(Math.random() * 8999) + 1000;
+
+  document.getElementById("number").innerText = number;
+
+  document.getElementById("savedNumber").innerText = number;
+
+  document.getElementById("message").style.display = "block";
+}
+
+
+/* INITIAL */
+
+updateGarment();
+
+</script>
 
 </body>
 </html>
